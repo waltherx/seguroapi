@@ -34,10 +34,9 @@ app.register_blueprint(enfermedad.EnfermedadApi, url_prefix="/api/enfermedad")
 app.register_blueprint(hospital.HospitalApi, url_prefix="/api/hospital")
 app.register_blueprint(siniestro.SiniestroApi, url_prefix="/api/siniestro")
 app.register_blueprint(persona.PersonaApi, url_prefix="/api/persona")
-
+# Error handlers
+app.register_error_handler(404, page_not_found)
+# inits
+csrf.init_app(app)
 if __name__ == "__main__":
-    # Error handlers
-    app.register_error_handler(404, page_not_found)
-
-    csrf.init_app(app)
     app.run()
