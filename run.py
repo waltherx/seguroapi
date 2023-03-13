@@ -16,10 +16,13 @@ app.config['SECRET_KEY']=config('SECRET_KEY')
 
 #CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 
+@app.route('/v')
+def home():
+    return render_template('home.html')
+
 @app.route('/')
 def index():
     return render_template('login.html')
-    #return redirect(url_for('login'))
 
 def page_not_found(error):
     return "<h1>Pagina no encontrada</h1>", 404
