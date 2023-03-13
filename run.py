@@ -20,6 +20,10 @@ app.config['SECRET_KEY']=config('SECRET_KEY')
 def home():
     return render_template('home.html')
 
+@app.route('/p')
+def pac():
+    return render_template('persona/index.html')
+
 @app.route('/')
 def index():
     return render_template('login.html')
