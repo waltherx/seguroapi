@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_cors import CORS
  
 from route import phone
@@ -13,8 +13,8 @@ app = Flask(__name__)
 #CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 
 @app.route('/')
-def hello():
-    return 'Luismar'
+def index():
+    return redirect(url_for('login'))
 
 def page_not_found(error):
     return "<h1>Pagina no encontrada</h1>", 404
