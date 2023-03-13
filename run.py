@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_wtf.csrf import CSRFProtect
+from decouple import config
 from flask_cors import CORS
  
 from route import phone
@@ -9,12 +11,15 @@ from route import hospital
 from route import siniestro
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
+app.config['SECRET_KEY']=config('SECRET_KEY')
 
 #CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 
 @app.route('/')
 def index():
-    return redirect(url_for('login'))
+    return render_template('login.html')
+    #return redirect(url_for('login'))
 
 def page_not_found(error):
     return "<h1>Pagina no encontrada</h1>", 404
@@ -31,5 +36,5 @@ if __name__ == "__main__":
     
     # Error handlers
     app.register_error_handler(404, page_not_found)
-
+    csrf.init_app(app)
     app.run()
