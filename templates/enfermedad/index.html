@@ -1,0 +1,66 @@
+{% extends 'layout.html' %} {% block body %}
+
+<div class="container">
+  <br />
+  <div class="row justify-content-center">
+    <h2>Enfermedad</h2>
+  </div>
+  <div class="border border-dark p-0">
+    <div class="card-header" style="background-color: #011f4b">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalcreate"
+      >
+        Nueva Enfermedad
+      </button>
+      {% include '/enfermedad/modal/create.html' %}
+    </div>
+    <div class="table-responsive bg-white container pt-2">
+      <table class="table table-sm table-bordered" id="example">
+        <thead>
+          <tr>
+            <th class="text-center">#</th>
+            <th>Nombre</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for enfermedad in enfermedads %}
+          <tr>
+            <td class="text-center">{{loop.index0 + 1}}</td>
+
+            <td>{{enfermedad.nombre}}</td>
+            <td class="text-center">
+              <a
+                class="btn btn-warning btn-sm py-0"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#modaledit{{enfermedad.idenf}}"
+              >
+                <i class="bi bi-pen"></i
+              ></a>
+              |
+              <a
+                onclick="return confirm('Desea borrar la Enfermedad?')"
+                class="btn btn-danger btn-sm py-0"
+                href=""
+              >
+                <i class="far fa-trash-alt"></i
+              ></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br />
+  <br />
+</div>
+
+{% for enfermedad in enfermedads %}
+{% include '/enfermedad/modal/edit.html' %}
+{%endfor %} {% endblock %}
