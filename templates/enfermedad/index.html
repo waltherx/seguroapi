@@ -34,15 +34,77 @@
 
             <td>{{enfermedad.nombre}}</td>
             <td class="text-center">
-              <a
-                class="btn btn-warning btn-sm py-0"
-                href="#"
+              <button
+                type="button"
+                class="btn btn-warning btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#modaledit{{enfermedad.idenf}}"
+                data-bs-target="#modaledit{{enfermedad.id}}"
               >
-                <i class="bi bi-pen"></i
-              ></a>
+                <i class="fa fa-close"></i>
+              </button>
+
+              <div
+                class="modal fade"
+                id="modaledit{{enfermedad.id}}"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modaledit{{enfermedad.id}}"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="background-color: #011f4b; color: white"
+                    >
+                      <button
+                        type="button"
+                        class="close"
+                        data-bs-dismiss="modal"
+                        aria-hidden="true"
+                      >
+                        &times;
+                      </button>
+                      <h4 class="modal-title">Editar Enfermedad</h4>
+                    </div>
+                    <br />
+                    <form method="POST" action="/enfermedad/update/{{enfermedad.id}}">
+                      <div class="modal-body">
+                        <div class="row mt-2">
+                          <div class="col-md">
+                            <label for="Nombre">Nombre</label>
+                          </div>
+                          <div class="col-md d-inline">
+                            <input
+                              class="form-control d-inline"
+                              type="text"
+                              name="nombre"
+                              value="{{enfermedad.nombre}}"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-default"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
               |
+              <!-- Modal 2  -->
+
               <a
                 onclick="return confirm('Desea borrar la Enfermedad?')"
                 class="btn btn-danger btn-sm py-0"
@@ -60,7 +122,4 @@
   <br />
   <br />
 </div>
-
-{% for enfermedad in enfermedads %}
-{% include '/enfermedad/modal/edit.html' %}
-{%endfor %} {% endblock %}
+{% endblock %}

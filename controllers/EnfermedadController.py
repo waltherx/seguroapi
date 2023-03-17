@@ -8,7 +8,6 @@ from flask import (
     request,
     abort,
     flash,
-    jsonify,
 )
 from models.entities.Enfermedad import Enfermedad
 from models.enfermedadModel import EnfermedadModel
@@ -44,19 +43,22 @@ def create():
 
 
 # @login_required
-@enfermedadweb.route("/update/<id>", methods=["PUT"])
-def update():
-    if request.method == "PUT":
-        _idenf = request.form["idenf"]
-        _nombre = request.form["nombre"]
-        enfermedad = Enfermedad(_idenf, _nombre)
-        EnfermedadModel.update_enfermedad(enfermedad)
-        flash("Enfermedad Updated Successfully")
-        return redirect("/enfermedad")
+@enfermedadweb.route("/update/<id>", methods=["GET", "POST"])
+def update(id):
+    if request.method == "POST":
+        _nombre = request.form.get("nombre")
+        try:
+            enfermedad = Enfermedad(id, _nombre)
+            EnfermedadModel.update_enfermedad(enfermedad)
+            flash("Enfermedad Updated Successfully")
+            return redirect("/enfermedad")
+        except Exception as e:
+            flash(e.args[1])
+            return redirect("/enfermedad")
 
-"""
-def delete(enfermedad_id):
-    enfermedad = Enfermedad(enfermedad_id, "Elimina")
+
+@enfermedadweb.route("/update/<id>", methods=["GET", "POST"])
+def delete(id):
+    enfermedad = Enfermedad(id, "Elimina")
     EnfermedadModel.delete(enfermedad)
     return redirect("/enfermedad")
-"""
