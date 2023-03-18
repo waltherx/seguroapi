@@ -3,18 +3,18 @@
 <div class="container">
   <br />
   <div class="row justify-content-center">
-    <h2>Enfermedad</h2>
+    <h2>Administrar Enfermedad</h2>
   </div>
   <div class="border border-dark p-0">
     <div class="card-header" style="background-color: #011f4b">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary btn-sm"
         data-bs-toggle="modal"
         data-bs-target="#modalcreate"
       >
-        Nueva Enfermedad
-      </button>
+      <span class="bi-plus-square-fill"></span>&nbsp;Nueva Enfermedad
+      </button>      
       {% include '/enfermedad/modal/create.html' %}
     </div>
     <div class="table-responsive bg-white container pt-2">
@@ -57,20 +57,23 @@
                       class="modal-header"
                       style="background-color: #011f4b; color: white"
                     >
+                      <h4 class="modal-title">Editar Enfermedad</h4>
                       <button
                         type="button"
                         class="close"
                         data-bs-dismiss="modal"
-                        aria-hidden="true"
+                        aria-label="Close"
                       >
-                        &times;
+                        <span aria-hidden="true">&times;</span>
                       </button>
-                      <h4 class="modal-title">Editar Enfermedad</h4>
                     </div>
                     <br />
-                    <form method="POST" action="/enfermedad/update/{{enfermedad.id}}">
+                    <form
+                      method="POST"
+                      action="/enfermedad/update/{{enfermedad.id}}"
+                    >
                       <div class="modal-body">
-                        <div class="row mt-2">
+                        <div class="row">
                           <div class="col-md">
                             <label for="Nombre">Nombre</label>
                           </div>
@@ -89,12 +92,12 @@
                         <button
                           type="button"
                           class="btn btn-default"
-                          data-dismiss="modal"
+                          data-bs-dismiss="modal"
                         >
-                          Close
+                          Cerrar
                         </button>
                         <button type="submit" class="btn btn-success">
-                          Submit
+                          Actualizar
                         </button>
                       </div>
                     </form>

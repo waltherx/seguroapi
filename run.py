@@ -11,6 +11,7 @@ from routes import hospital
 from routes import siniestro
 
 from controllers.EnfermedadController import enfermedadweb
+from controllers.PersonaController import personaweb
 
 app = Flask(__name__)
 #csrf = CSRFProtect(app)
@@ -40,6 +41,7 @@ def page_not_found(error):
 
 # Blueprints App Web
 app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
+app.register_blueprint(personaweb, url_prefix="/paciente")
 # Blueprints Api Rest
 app.register_blueprint(phone.PhoneApi, url_prefix="/api/phone")
 app.register_blueprint(alergia.AlergiaApi, url_prefix="/api/alergia")

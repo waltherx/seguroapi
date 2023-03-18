@@ -1,6 +1,6 @@
 <form method="POST" action="/enfermedad/create">
   <div class="modal fade" id="modalcreate">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div
           class="modal-header"
@@ -9,18 +9,18 @@
           <h4 class="modal-tittle">Nueva Enfermedad</h4>
           <button
             type="button"
-            class="btn-close"
+            class="close"
             data-bs-dismiss="modal"
-            aria-label="Cerrar"
+            aria-label="Close"
           >
-            <span aria-hidden="true" style="color: white">&times;</span>
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body">
           <div class="row">
             <div class="col-md">
-              <label for="txtNombre">Nombre</label>
+              <label for="Nombre">Nombre</label>
             </div>
             <div class="col-md d-inline">
               <input
@@ -35,9 +35,10 @@
         </div>
 
         <div class="modal-footer">
-          <div class="row p-2">
-            <input class="btn btn-success" type="submit" value="Agregar" />
-          </div>
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+          <button type="submit" class="btn btn-success">Guardar</button>
         </div>
       </div>
     </div>
