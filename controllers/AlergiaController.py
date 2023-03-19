@@ -14,9 +14,7 @@ from models.alergiaModel import AlergiaModel
 
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
-alergiaweb = Blueprint(
-    "alergia_bp", __name__, template_folder="templates/alergia"
-)
+alergiaweb = Blueprint("alergia_bp", __name__, template_folder="templates/alergia")
 
 
 # @login_required
@@ -45,8 +43,8 @@ def create():
 @alergiaweb.route("/update/<id>", methods=["GET", "POST"])
 def update(id):
     if request.method == "POST":
-        _nombre = request.form.get("nombre")        
         try:
+            _nombre = request.form.get("txtNombre")
             alergia = Alergia(id, _nombre)
             print(alergia.to_JSON())
             AlergiaModel.update_alergia(alergia)
@@ -57,8 +55,14 @@ def update(id):
             return redirect("/alergia")
 
 
-@alergiaweb.route("/update/<id>", methods=["GET", "POST"])
+@alergiaweb.route("/delete/<id>", methods=["GET", "POST"])
 def delete(id):
-    alergia = Alergia(id, "Elimina")
-    AlergiaModel.delete_alergia(alergia)
-    return redirect("/alergia")
+    if request.method == "POST":
+        alergia = Alergia(id, "Elimina")
+        try:
+            AlergiaModel.delete_alergia(alergia)
+            flash("Alergia Eliminada Successfully")
+            return redirect("/alergia")
+        except Exception as e:
+            flash(e.args[1])
+            return redirect("/alergia")

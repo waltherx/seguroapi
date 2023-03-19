@@ -14,9 +14,7 @@ from models.personaModel import PersonaModel
 
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
-personaweb = Blueprint(
-    "persona_bp", __name__, template_folder="templates/persona"
-)
+personaweb = Blueprint("persona_bp", __name__, template_folder="templates/persona")
 
 
 # @login_required
@@ -30,12 +28,38 @@ def index():
 @personaweb.route("/create", methods=["POST"])
 def create():
     if request.method == "POST":
-        _nombre = request.form["txtNombre"]
+        _ci = request.form.get("txtCi")
+        _nombre = request.form.get("txtNombre")
+        _apellido = request.form.get("txtApellido")
+        _fecha = request.form.get("txtFecha")
+        _lic = request.form.get("txtLicVe")
+        _foto = request.form.get("txtFoto")
+        _sangre = request.form.get("txtSangre")
+        _hiper = request.form.get("txtHipertencion")
+        _altura = request.form.get("txtAltura")
+        _peso = request.form.get("txtPeso")
+        _direccion = request.form.get("txtDireccion")
         try:
-            persona = Persona(None, _nombre)
-            PersonaModel.add_persona(persona)
-            flash("Persona Agregada successfully")
-            return redirect("/paciente")
+            persona = Persona(
+                _ci,
+                _nombre,
+                _apellido,
+                _fecha,
+                _lic,
+                _foto,
+                _sangre,
+                _hiper,
+                _altura,
+                _peso,
+                _direccion,
+            )
+            affected_rows = PersonaModel.Add_persona(persona)
+            if affected_rows == 1:
+                flash("Persona Agregada!")
+                return redirect("/paciente")
+            else:
+                flash("Persona no Agregada")
+                return redirect("/paciente")
         except Exception as e:
             flash(e.args[1])
             return redirect("/paciente")

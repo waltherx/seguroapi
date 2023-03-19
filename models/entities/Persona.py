@@ -6,7 +6,6 @@ class Persona:
         apellidos=None,
         fechaNac=None,
         licVehicular=None,
-        numSeguro=None,
         foto=None,
         tipoSangre=None,
         hipertencion=None,
@@ -18,8 +17,7 @@ class Persona:
         self.nombres = nombres
         self.apellidos = apellidos
         self.fechaNac = fechaNac
-        self.licVehicular = licVehicular
-        self.numSeguro = numSeguro
+        self.licVehicular = licVehicular        
         self.foto = foto
         self.tipoSangre = tipoSangre
         self.hipertencion = hipertencion

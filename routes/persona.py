@@ -38,7 +38,6 @@ def add_persona():
         apellidos = request.json["apellidos"]
         fechanac = request.json["fechanac"]
         licvehicular = request.json["licvehicular"]
-        numseguro = request.json["numseguro"]
         foto = request.json["foto"]
         tiposangre = request.json["tiposangre"]
         hipertencion = request.json["hipertencion"]
@@ -51,7 +50,6 @@ def add_persona():
             apellidos,
             fechanac,
             licvehicular,
-            numseguro,
             foto,
             tiposangre,
             hipertencion,
@@ -76,7 +74,6 @@ def update_persona(ci):
         apellidos = request.json["apellidos"]
         fechanac = request.json["fechanac"]
         licvehicular = request.json["licvehicular"]
-        numseguro = request.json["numseguro"]
         foto = request.json["foto"]
         tiposangre = request.json["tiposangre"]
         hipertencion = request.json["hipertencion"]
@@ -89,7 +86,6 @@ def update_persona(ci):
             apellidos,
             fechanac,
             licvehicular,
-            numseguro,
             foto,
             tiposangre,
             hipertencion,

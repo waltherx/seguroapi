@@ -84,6 +84,7 @@
                             type="text"
                             class="form-control"
                             id="txtNombre"
+                            name="txtNombre"
                             value="{{alergia.nombre}}"
                             required
                           />
@@ -105,9 +106,7 @@
                   </div>
                 </div>
               </div>
-
               |
-              <!-- Modal 2  -->
               <button
                 type="button"
                 class="btn btn-danger btn-sm"
@@ -116,7 +115,6 @@
               >
                 <i class="bi bi-trash"></i>
               </button>
-
               <div
                 class="modal fade"
                 id="modaldelete{{alergia.id}}"
@@ -140,7 +138,12 @@
                       ></button>
                     </div>
                     <br />
-                    <form action="#" method="post">
+                    <form action="/alergia/delete/{{alergia.id}}" method="post">
+                      <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrf_token() }}"
+                      />
                       <div class="modal-body">
                         <div class="form-group row">
                           <label class="col-sm-12 col-form-label"

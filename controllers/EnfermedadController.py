@@ -30,8 +30,8 @@ def index():
 @enfermedadweb.route("/create", methods=["POST"])
 def create():
     if request.method == "POST":
-        _nombre = request.form["txtNombre"]
         try:
+            _nombre = request.form.get("txtNombre")
             enfermedad = Enfermedad(None, _nombre)
             print(enfermedad.to_JSON())
             EnfermedadModel.add_enfermedad(enfermedad)
@@ -45,9 +45,9 @@ def create():
 # @login_required
 @enfermedadweb.route("/update/<id>", methods=["GET", "POST"])
 def update(id):
-    if request.method == "POST":
-        _nombre = request.form.get("nombre")
+    if request.method == "POST":        
         try:
+            _nombre = request.form.get("txtNombre")
             enfermedad = Enfermedad(id, _nombre)
             EnfermedadModel.update_enfermedad(enfermedad)
             flash("Enfermedad Updated Successfully")

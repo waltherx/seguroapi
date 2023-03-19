@@ -40,7 +40,7 @@ class PersonaModel:
     def get_persona(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular, numseguro, foto, tiposangre, hipertencion, altura, peso, direccion FROM persona WHERE ci = {ci} ORDER BY ci ASC;"
+            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular,  foto, tiposangre, hipertencion, altura, peso, direccion FROM persona WHERE ci = {ci} ORDER BY ci ASC;"
             print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
@@ -72,7 +72,7 @@ class PersonaModel:
     def add_persona(self, persona):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO persona (ci, nombres, apellidos, fechanac, licvehicular, numseguro, foto, tiposangre, hipertencion, altura, peso, direccion) VALUES ({persona.ci},'{persona.nombres}','{persona.apellidos}','{persona.fechaNac}',{persona.licVehicular},{persona.numSeguro},'{persona.foto}','{persona.tipoSangre}','{persona.hipertencion}',{persona.altura},{persona.peso},'{persona.direccion}')"
+            sQuery = f"INSERT INTO persona (ci, nombres, apellidos, fechanac, licvehicular, foto, tiposangre, hipertencion, altura, peso, direccion) VALUES ({persona.ci},'{persona.nombres}','{persona.apellidos}','{persona.fechaNac}',{persona.licVehicular},'{persona.foto}','{persona.tipoSangre}','{persona.hipertencion}',{persona.altura},{persona.peso},'{persona.direccion}')"
             print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
@@ -87,7 +87,7 @@ class PersonaModel:
     def update_persona(self, persona):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE persona SET nombres='{persona.nombres}', apellidos='{persona.apellidos}', fechanac='{persona.fechaNac}', licvehicular={persona.licVehicular}, numseguro={persona.numSeguro}, foto='{persona.foto}', tipoSangre='{persona.tipoSangre}', hipertencion='{persona.hipertencion}', altura='{persona.altura}', peso='{persona.peso}', direccion='{persona.direccion}' WHERE ci = {persona.ci}"
+            sQuery = f"UPDATE persona SET nombres='{persona.nombres}', apellidos='{persona.apellidos}', fechanac='{persona.fechaNac}', licvehicular={persona.licVehicular}, foto='{persona.foto}', tipoSangre='{persona.tipoSangre}', hipertencion='{persona.hipertencion}', altura='{persona.altura}', peso='{persona.peso}', direccion='{persona.direccion}' WHERE ci = {persona.ci}"
 
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

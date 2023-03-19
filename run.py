@@ -27,7 +27,7 @@ def index():
 
 
 def page_not_found(error):
-    return "<h1>Pagina no encontrada</h1>", 404
+    return render_template("404.html"), 404
 
 
 # Blueprints App Web

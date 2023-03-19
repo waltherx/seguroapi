@@ -78,7 +78,7 @@ class AlergiaModel:
     def delete_alergia(self, alergia):
         try:
             connection = get_connection()
-            sQuery = f"DELETE FROM alergia WHERE idenf = {alergia.id}"
+            sQuery = f"DELETE FROM alergia WHERE idale = {alergia.id}"
 
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
