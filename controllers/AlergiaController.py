@@ -45,9 +45,10 @@ def create():
 @alergiaweb.route("/update/<id>", methods=["GET", "POST"])
 def update(id):
     if request.method == "POST":
-        _nombre = request.form.get("nombre")
+        _nombre = request.form.get("nombre")        
         try:
             alergia = Alergia(id, _nombre)
+            print(alergia.to_JSON())
             AlergiaModel.update_alergia(alergia)
             flash("Alergia Updated Successfully")
             return redirect("/alergia")

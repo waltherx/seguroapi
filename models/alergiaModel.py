@@ -63,7 +63,7 @@ class AlergiaModel:
     def update_alergia(self, alergia):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE alergia SET nombre = '{alergia.nombre}' WHERE idenf = {alergia.id}"
+            sQuery = f"UPDATE alergia SET nombre = '{alergia.nombre}' WHERE idale = {alergia.id}"
 
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

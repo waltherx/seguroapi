@@ -10,24 +10,15 @@ from routes import persona
 from routes import hospital
 from routes import siniestro
 
+from controllers.AlergiaController import alergiaweb
 from controllers.EnfermedadController import enfermedadweb
 from controllers.PersonaController import personaweb
 
 app = Flask(__name__)
-#csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
-
+csrf.init_app(app)
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
-
-
-@app.route("/v")
-def home():
-    return render_template("home.html")
-
-
-@app.route("/p")
-def pac():
-    return render_template("persona/index.html")
 
 
 @app.route("/")
@@ -40,8 +31,10 @@ def page_not_found(error):
 
 
 # Blueprints App Web
+app.register_blueprint(alergiaweb, url_prefix="/alergia")
 app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
 app.register_blueprint(personaweb, url_prefix="/paciente")
+
 # Blueprints Api Rest
 app.register_blueprint(phone.PhoneApi, url_prefix="/api/phone")
 app.register_blueprint(alergia.AlergiaApi, url_prefix="/api/alergia")
@@ -52,6 +45,6 @@ app.register_blueprint(persona.PersonaApi, url_prefix="/api/persona")
 # Error handlers
 app.register_error_handler(404, page_not_found)
 # inits
-#csrf.init_app(app)
+
 if __name__ == "__main__":
     app.run()

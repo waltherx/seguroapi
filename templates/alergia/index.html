@@ -3,7 +3,7 @@
 <div class="container">
   <br />
   <div class="row justify-content-center">
-    <h2>Administrar Enfermedad</h2>
+    <h2>Administrar Alergia</h2>
   </div>
   <div class="border border-dark p-0">
     <div class="card-header" style="background-color: #011f4b">
@@ -13,9 +13,9 @@
         data-bs-toggle="modal"
         data-bs-target="#modalcreate"
       >
-        <span class="bi-plus-square-fill"></span>&nbsp;Nueva Enfermedad
+        <span class="bi-plus-square-fill"></span>&nbsp;Nueva Alergia
       </button>
-      {% include '/enfermedad/modal/create.html' %}
+      {% include '/alergia/modal/create.html' %}
     </div>
     <div class="table-responsive bg-white container pt-2">
       <table class="table table-sm table-bordered" id="example">
@@ -28,27 +28,27 @@
         </thead>
 
         <tbody>
-          {% for enfermedad in enfermedads %}
+          {% for alergia in alergias %}
           <tr>
             <td class="text-center">{{loop.index0 + 1}}</td>
 
-            <td>{{enfermedad.nombre}}</td>
+            <td>{{alergia.nombre}}</td>
             <td class="text-center">
               <button
                 type="button"
                 class="btn btn-warning btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#modaledit{{enfermedad.id}}"
+                data-bs-target="#modaledit{{alergia.id}}"
               >
                 <i class="fa fa-close"></i>
               </button>
 
               <div
                 class="modal fade"
-                id="modaledit{{enfermedad.id}}"
+                id="modaledit{{alergia.id}}"
                 tabindex="-1"
                 role="dialog"
-                aria-labelledby="modaledit{{enfermedad.id}}"
+                aria-labelledby="modaledit{{alergia.id}}"
                 aria-hidden="true"
               >
                 <div class="modal-dialog">
@@ -57,7 +57,7 @@
                       class="modal-header"
                       style="background-color: #011f4b; color: white"
                     >
-                      <h4 class="modal-title">Editar Enfermedad</h4>
+                      <h4 class="modal-title">Editar Alergia</h4>
                       <button
                         type="button"
                         class="close"
@@ -68,10 +68,7 @@
                       </button>
                     </div>
                     <br />
-                    <form
-                      method="POST"
-                      action="/enfermedad/update/{{enfermedad.id}}"
-                    >
+                    <form method="POST" action="/alergia/update/{{alergia.id}}">
                       <input
                         type="hidden"
                         name="csrf_token"
@@ -87,7 +84,7 @@
                               class="form-control d-inline"
                               type="text"
                               name="nombre"
-                              value="{{enfermedad.nombre}}"
+                              value="{{alergia.nombre}}"
                               required
                             />
                           </div>
@@ -114,7 +111,7 @@
               <!-- Modal 2  -->
 
               <a
-                onclick="return confirm('Desea borrar la Enfermedad?')"
+                onclick="return confirm('Desea borrar la Alergia?')"
                 class="btn btn-danger btn-sm py-0"
                 href=""
               >
