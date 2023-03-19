@@ -33,14 +33,14 @@
             <td class="text-center">{{loop.index0 + 1}}</td>
 
             <td>{{alergia.nombre}}</td>
-            <td class="text-center">
+            <td>
               <button
                 type="button"
                 class="btn btn-warning btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#modaledit{{alergia.id}}"
               >
-                <i class="fa fa-close"></i>
+                <i class="bi bi-gear"></i>
               </button>
 
               <div
@@ -60,34 +60,96 @@
                       <h4 class="modal-title">Editar Alergia</h4>
                       <button
                         type="button"
-                        class="close"
+                        class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+                      ></button>
                     </div>
                     <br />
-                    <form method="POST" action="/alergia/update/{{alergia.id}}">
-                      <input
-                        type="hidden"
-                        name="csrf_token"
-                        value="{{ csrf_token() }}"
-                      />
+                    <div class="modal-body">
+                      <form
+                        method="POST"
+                        action="/alergia/update/{{alergia.id}}"
+                      >
+                        <input
+                          type="hidden"
+                          name="csrf_token"
+                          value="{{ csrf_token() }}"
+                        />
+                        <div class="mb-3">
+                          <label for="txtNombre" class="col-form-label"
+                            >Nombre:</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="txtNombre"
+                            value="{{alergia.nombre}}"
+                            required
+                          />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-default"
+                            data-bs-dismiss="modal"
+                          >
+                            Cerrar
+                          </button>
+                          <button type="submit" class="btn btn-success">
+                            Actualizar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              |
+              <!-- Modal 2  -->
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#modaldelete{{alergia.id}}"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+
+              <div
+                class="modal fade"
+                id="modaldelete{{alergia.id}}"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="basicModal"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="background-color: #011f4b; color: white"
+                    >
+                      <h4 class="modal-title">Eliminar Alergia</h4>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <br />
+                    <form action="#" method="post">
                       <div class="modal-body">
-                        <div class="row">
-                          <div class="col-md">
-                            <label for="Nombre">Nombre</label>
-                          </div>
-                          <div class="col-md d-inline">
-                            <input
-                              class="form-control d-inline"
-                              type="text"
-                              name="nombre"
-                              value="{{alergia.nombre}}"
-                              required
-                            />
-                          </div>
+                        <div class="form-group row">
+                          <label class="col-sm-12 col-form-label"
+                            >Esta seguro de eliminar
+                            <span style="font-weight: bold; color: red"
+                              >{{alergia.nombre}}</span
+                            >
+                            ?</label
+                          >
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -98,25 +160,14 @@
                         >
                           Cerrar
                         </button>
-                        <button type="submit" class="btn btn-success">
-                          Actualizar
+                        <button type="submit" class="btn btn-danger">
+                          Eliminar
                         </button>
                       </div>
                     </form>
                   </div>
                 </div>
               </div>
-
-              |
-              <!-- Modal 2  -->
-
-              <a
-                onclick="return confirm('Desea borrar la Alergia?')"
-                class="btn btn-danger btn-sm py-0"
-                href=""
-              >
-                <i class="far fa-trash-alt"></i
-              ></a>
             </td>
           </tr>
           {% endfor %}

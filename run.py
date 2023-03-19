@@ -47,4 +47,4 @@ app.register_error_handler(404, page_not_found)
 # inits
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

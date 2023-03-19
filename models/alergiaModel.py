@@ -69,7 +69,6 @@ class AlergiaModel:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
-
             connection.close()
             return affected_rows
         except Exception as ex:
