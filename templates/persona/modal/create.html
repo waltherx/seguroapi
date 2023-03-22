@@ -1,65 +1,80 @@
+{% extends 'layout.html' %} {% block body %}
 <form method="POST" action="/paciente/create">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Email</label>
+      <label for="txtCI">CI</label>
       <input
-        type="email"
+        type="number"
         class="form-control"
-        id="inputEmail4"
-        placeholder="Email"
+        id="txtCI"
+        name="txtCI"        
       />
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="inputPassword4"
-        placeholder="Password"
-      />
-    </div>
+    </div>    
   </div>
   <div class="form-group">
-    <label for="inputAddress">Address</label>
+    <label for="txtNombre">Nombres</label>
     <input
       type="text"
       class="form-control"
-      id="inputAddress"
-      placeholder="1234 Main St"
+      id="txtNombre"
+      name="txtNombre"      
     />
   </div>
   <div class="form-group">
-    <label for="inputAddress2">Address 2</label>
+    <label for="inputAddress">Apellidos</label>
     <input
       type="text"
       class="form-control"
-      id="inputAddress2"
-      placeholder="Apartment, studio, or floor"
+      id="txtApellido"
+      name="txtApellido"      
     />
+  </div>
+  <div class="form-group">
+    <label for="txtFecha">Fecha Nacimiento</label>
+    <input
+      type="date"
+      class="form-control"
+      id="txtFecha"      
+      name="txtFecha"
+    />
+  </div>
+  <div class="form-group">
+    <label for="txtFoto">Foto</label>
+    <input
+      type="file"
+      class="form-control"
+      id="txtFoto"
+      name="txtFoto"
+    />
+  </div>
+  <div class="form-group">
+    <label for="txtDireccion">Direccion</label>
+    <textarea class="form-control" id="txtDireccion" name="txtDireccion" rows="3"></textarea>
   </div>
   <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity" />
+    <div class="form-group col-md-3">
+      <label for="txtSangre">Sangre</label>
+      <input type="text" class="form-control" id="txtSangre" name="txtSangre" />
     </div>
-    <div class="form-group col-md-4">
-      <label for="inputState">State</label>
-      <select id="inputState" class="form-control">
-        <option selected>Choose...</option>
-        <option>...</option>
+    <div class="form-group col-md-3">
+      <label for="txtHipertencion">Hipertencion</label>
+      <select id="txtHipertencion" name="txtHipertencion" class="form-control">
+        <option selected>Seleccion...</option>
+        <option>Si</option>
+        <option>No</option>
       </select>
     </div>
-    <div class="form-group col-md-2">
-      <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip" />
+    <div class="form-group col-md-3">
+      <label for="txtAltura">Altura</label>
+      <input type="number" step="any" class="form-control" id="txtAltura" name="txtAltura" />
+    </div>
+    <div class="form-group col-md-3">
+      <label for="txtPeso">Peso</label>
+      <input type="number" step="any" class="form-control" id="txtPeso" name="txtPeso" />
     </div>
   </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck" />
-      <label class="form-check-label" for="gridCheck"> Check me out </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
+<br>
+  <button type="submit" class="btn btn-primary">Crear</button>
 </form>
+{% endblock %}

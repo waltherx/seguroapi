@@ -8,7 +8,7 @@ class PersonaModel:
         try:
             connection = get_connection()
             personas = []
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular, numseguro, foto, tiposangre, hipertencion, altura, peso, direccion FROM persona ORDER BY ci ASC;"
+            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular, foto, tiposangre, hipertencion, altura, peso, direccion FROM persona ORDER BY ci ASC;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
@@ -26,7 +26,6 @@ class PersonaModel:
                         row[8],
                         row[9],
                         row[10],
-                        row[11],
                     )
                     print(persona.to_JSON())
                     personas.append(persona.to_JSON())

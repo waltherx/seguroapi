@@ -1,0 +1,19 @@
+{% extends 'layout.html' %} {% block body %}
+
+<div class="card">
+    <h5 class="card-title">Informacion Paciente</h5>
+  <div class="card-body">
+    <p><b>CI : </b>{{paciente.ci}}</p>
+    <p><b>Nombre : </b>{{paciente.nombres}}</p>
+    <p><b>Apellidos : </b>{{paciente.apellidos}}</p>    
+    <p><b>Fecha Nacimiento : </b>{{paciente.fechaNac}}</p>
+    <p><b>Direccion : </b>{{paciente.direccion}}</p>
+    <p><b>Tipo De Sangre : </b>{{paciente.tipoSangre}}</p>
+    <p><b>Hipertencion : </b>{{paciente.hipertencion}}</p>
+    <p><b>Altura : </b>{{paciente.altura}}</p>
+    <p><b>Peso : </b>{{paciente.peso}}</p>
+    <a href="/paciente" class="btn btn-primary">Volver</a>
+  </div>
+</div>
+
+{% endblock %}

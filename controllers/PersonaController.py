@@ -24,14 +24,26 @@ def index():
     return render_template("/persona/index.html", personas=personaList)
 
 
+@personaweb.route("/view/<id>", methods=["GET", "POST"])
+def view(id):
+    personaVw = PersonaModel.get_persona(id)
+    return render_template("persona/modal/view.html", paciente=personaVw)
+
+
+@personaweb.route("/createp", methods=["GET"])
+def createp():
+    return render_template("persona/modal/create.html")
+
+
 # @login_required
 @personaweb.route("/create", methods=["POST"])
 def create():
     if request.method == "POST":
-        _ci = request.form.get("txtCi")
+        _ci = request.form.get("txtCI")
         _nombre = request.form.get("txtNombre")
         _apellido = request.form.get("txtApellido")
         _fecha = request.form.get("txtFecha")
+        # tipo = json_args['tipo'] if 'tipo' in request.json else None
         _lic = request.form.get("txtLicVe")
         _foto = request.form.get("txtFoto")
         _sangre = request.form.get("txtSangre")
@@ -45,7 +57,7 @@ def create():
                 _nombre,
                 _apellido,
                 _fecha,
-                _lic,
+                0,
                 _foto,
                 _sangre,
                 _hiper,
@@ -53,7 +65,8 @@ def create():
                 _peso,
                 _direccion,
             )
-            affected_rows = PersonaModel.Add_persona(persona)
+            print(persona.to_JSON())
+            affected_rows = PersonaModel.add_persona(persona)
             if affected_rows == 1:
                 flash("Persona Agregada!")
                 return redirect("/paciente")

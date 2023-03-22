@@ -32,7 +32,6 @@ class Persona:
             "apellidos": self.apellidos,
             "fechaNac": self.fechaNac,
             "licVehicular" : self.licVehicular,
-            "numSeguro" : self.numSeguro,
             "foto": self.foto,
             "tipoSangre": self.tipoSangre,
             "hipertencion": self.hipertencion,
