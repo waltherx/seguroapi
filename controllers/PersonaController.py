@@ -11,8 +11,18 @@ from flask import (
 )
 from models.entities.Persona import Persona
 from models.personaModel import PersonaModel
+import os
+from werkzeug.utils import secure_filename
+from decouple import config
 
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+
+ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 personaweb = Blueprint("persona_bp", __name__, template_folder="templates/persona")
 
@@ -43,14 +53,14 @@ def create():
         _nombre = request.form.get("txtNombre")
         _apellido = request.form.get("txtApellido")
         _fecha = request.form.get("txtFecha")
-        # tipo = json_args['tipo'] if 'tipo' in request.json else None
         _lic = request.form.get("txtLicVe")
-        _foto = request.form.get("txtFoto")
+        _foto = request.files.get("txtFoto")        
         _sangre = request.form.get("txtSangre")
         _hiper = request.form.get("txtHipertencion")
         _altura = request.form.get("txtAltura")
         _peso = request.form.get("txtPeso")
         _direccion = request.form.get("txtDireccion")
+        img_name = secure_filename(_foto.filename)
         try:
             persona = Persona(
                 _ci,
@@ -58,14 +68,16 @@ def create():
                 _apellido,
                 _fecha,
                 0,
-                _foto,
+                img_name,
                 _sangre,
                 _hiper,
                 _altura,
                 _peso,
                 _direccion,
             )
-            print(persona.to_JSON())
+            saved_path = os.path.join(config("UPLOAD_FOLDER"), img_name)
+            _foto.save(saved_path)
+            print(saved_path)
             affected_rows = PersonaModel.add_persona(persona)
             if affected_rows == 1:
                 flash("Persona Agregada!")

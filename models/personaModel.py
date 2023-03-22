@@ -12,7 +12,6 @@ class PersonaModel:
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
-
                 for row in resultset:
                     persona = Persona(
                         row[0],
@@ -27,9 +26,7 @@ class PersonaModel:
                         row[9],
                         row[10],
                     )
-                    print(persona.to_JSON())
                     personas.append(persona.to_JSON())
-
             connection.close()
             return personas
         except Exception as ex:
@@ -72,7 +69,6 @@ class PersonaModel:
         try:
             connection = get_connection()
             sQuery = f"INSERT INTO persona (ci, nombres, apellidos, fechanac, licvehicular, foto, tiposangre, hipertencion, altura, peso, direccion) VALUES ({persona.ci},'{persona.nombres}','{persona.apellidos}','{persona.fechaNac}',{persona.licVehicular},'{persona.foto}','{persona.tipoSangre}','{persona.hipertencion}',{persona.altura},{persona.peso},'{persona.direccion}')"
-            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

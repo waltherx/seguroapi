@@ -1,11 +1,20 @@
 {% extends 'layout.html' %} {% block body %}
 
 <div class="card">
+  <div class="card-header">
     <h5 class="card-title">Informacion Paciente</h5>
+  </div>
+  <img
+    class="mx-auto d-block rounded-circle"
+    src="/static/uploads/{{paciente.foto}}"
+    alt="Cinque Terre"
+    width="200"
+    height="200"
+  />
   <div class="card-body">
     <p><b>CI : </b>{{paciente.ci}}</p>
     <p><b>Nombre : </b>{{paciente.nombres}}</p>
-    <p><b>Apellidos : </b>{{paciente.apellidos}}</p>    
+    <p><b>Apellidos : </b>{{paciente.apellidos}}</p>
     <p><b>Fecha Nacimiento : </b>{{paciente.fechaNac}}</p>
     <p><b>Direccion : </b>{{paciente.direccion}}</p>
     <p><b>Tipo De Sangre : </b>{{paciente.tipoSangre}}</p>
