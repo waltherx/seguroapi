@@ -11,6 +11,7 @@ from flask import (
 )
 from models.entities.Persona import Persona
 from models.personaModel import PersonaModel
+from models.phoneModel import PhoneModel
 import os
 from werkzeug.utils import secure_filename
 from decouple import config
@@ -36,13 +37,22 @@ def index():
 
 @personaweb.route("/view/<id>", methods=["GET", "POST"])
 def view(id):
-    personaVw = PersonaModel.get_persona(id)
-    return render_template("persona/modal/view.html", paciente=personaVw)
+    personaOne = PersonaModel.get_persona(id)
+    phonesList = PhoneModel.get_phone(id)
+    return render_template(
+        "persona/modal/view.html", paciente=personaOne, phones=phonesList
+    )
 
 
 @personaweb.route("/createp", methods=["GET"])
 def createp():
     return render_template("persona/modal/create.html")
+
+
+@personaweb.route("/updatep/<ci>", methods=["GET"])
+def updatep(ci):
+    persona = PersonaModel.get_persona(ci)
+    return render_template("persona/modal/edit.html", paciente=persona)
 
 
 # @login_required
@@ -54,7 +64,7 @@ def create():
         _apellido = request.form.get("txtApellido")
         _fecha = request.form.get("txtFecha")
         _lic = request.form.get("txtLicVe")
-        _foto = request.files.get("txtFoto")        
+        _foto = request.files.get("txtFoto")
         _sangre = request.form.get("txtSangre")
         _hiper = request.form.get("txtHipertencion")
         _altura = request.form.get("txtAltura")
@@ -96,8 +106,8 @@ def update(id):
     if request.method == "POST":
         _nombre = request.form.get("nombre")
         try:
-            enfermedad = Persona(id, _nombre)
-            PersonaModel.update_persona(enfermedad)
+            persona = Persona(id, _nombre)
+            PersonaModel.update_persona(persona)
             flash("Persona Updated Successfully")
             return redirect("/paciente")
         except Exception as e:

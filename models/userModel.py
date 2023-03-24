@@ -1,49 +1,47 @@
 from database.db import get_connection
-from .entities.Phone import Phone
+from .entities.User import User
 
 
-class PhoneModel:
+class UserModel:
     @classmethod
-    def get_phones(self):
+    def get_users(self):
         try:
             connection = get_connection()
-            phones = []
-
+            users = []
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM phone ORDER BY idp ASC")
-                resultset = cursor.fetchall()
-
-                for row in resultset:
-                    phone = Phone(row[0], row[1], row[2])
-                    phones.append(phone.to_JSON())
-
-            connection.close()
-            return phones
-        except Exception as ex:
-            raise Exception(ex)
-
-    @classmethod
-    def get_phone(self, ci):
-        try:
-            connection = get_connection()
-            sQuery = f"SELECT phone.idp, phone.numero, phone.idper FROM persona,phone where phone.idper=persona.ci and persona.ci={ci}"
-            phones = []
-            with connection.cursor() as cursor:
-                cursor.execute(sQuery)
+                cursor.execute("SELECT * FROM usuario")
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    phone = Phone(row[0], row[1], row[2])
-                    phones.append(phone.to_JSON())
+                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+                    users.append(user.to_JSON())
             connection.close()
-            return phones
+            return users
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def add_phone(self, phone):
+    def get_user(self, id):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO phone (idp, numero, idper) VALUES ({phone.id},{phone.numero},{phone.idper})"
+
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM usuario WHERE idu = %s", (id))
+                row = cursor.fetchone()
+                user = None
+                if row != None:
+                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+                    user = user.to_JSON()
+
+            connection.close()
+            return user
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def add_user(self, user):
+        try:
+            connection = get_connection()
+            sQuery = f"INSERT INTO usuario (nameuser, password, email, idrol) VALUES ('{user.nameuser}','{user.password}',{user.email},{user.idrol})"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -53,29 +51,37 @@ class PhoneModel:
         except Exception as ex:
             raise Exception(ex)
 
+
+"""
     @classmethod
-    def update_phone(self, phone):
+    def update_user(self, hospital):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE phone SET numero = {phone.numero} WHERE idp ={phone.idp}"
+            sQuery = f"UPDATE hospital SET nombre='{hospital.nombre}', direccion='{hospital.direccion}', lat={hospital.lat}, longi={hospital.long} WHERE idh = {hospital.id}"
+            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
+
             connection.close()
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def delete_phone(self, phone):
+    def delete_user(self, hospital):
         try:
             connection = get_connection()
+            sQuery = f"DELETE FROM hospital WHERE idh = {hospital.id}"
+
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM phone WHERE idp = %s", (phone.id,))
+                cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
+
             connection.close()
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+"""

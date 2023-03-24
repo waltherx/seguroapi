@@ -31,7 +31,7 @@ class PersonaModel:
             return personas
         except Exception as ex:
             raise Exception(ex)
-
+    
     @classmethod
     def get_persona(self, ci):
         try:

@@ -21,6 +21,11 @@
     <p><b>Hipertencion : </b>{{paciente.hipertencion}}</p>
     <p><b>Altura : </b>{{paciente.altura}}</p>
     <p><b>Peso : </b>{{paciente.peso}}</p>
+    <p><b>Telefonos : </b>
+    {% for phone in phones %}
+        {{ phone.numero }} ,
+      {% endfor %}
+    </p>
     <a href="/paciente" class="btn btn-primary">Volver</a>
   </div>
 </div>

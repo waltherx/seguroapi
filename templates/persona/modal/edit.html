@@ -1,0 +1,89 @@
+{% extends 'layout.html' %} {% block body %}
+<form method="POST" action="/paciente/update" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="txtCI">CI</label>
+      <input
+        type="number"
+        class="form-control"
+        id="txtCI"
+        name="txtCI"
+        value="{{paciente.ci}}"
+        required      
+      />
+    </div>    
+  </div>
+  <div class="form-group">
+    <label for="txtNombre">Nombres</label>
+    <input
+      type="text"
+      class="form-control"
+      id="txtNombre"
+      name="txtNombre"
+      value="{{paciente.nombres}}"
+      required      
+    />
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Apellidos</label>
+    <input
+      type="text"
+      class="form-control"
+      id="txtApellido"
+      name="txtApellido"
+      value="{{paciente.apellidos}}"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <label for="txtFecha">Fecha Nacimiento {{paciente.fechaNac}}</label>
+    <input
+      type="date"
+      class="form-control"
+      id="txtFecha"      
+      name="txtFecha"
+      value="{{paciente.fechaNac}}"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <label for="txtFoto">Foto</label>
+    <input
+      type="file"
+      class="form-control"   
+      id="txtFoto"   
+      name="txtFoto"
+      accept="image/*"
+    />
+  </div>
+  <div class="form-group">
+    <label for="txtDireccion">Direccion</label>
+    <textarea class="form-control" id="txtDireccion" name="txtDireccion" rows="3" value="{{paciente.direccion}}"></textarea>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="txtSangre">Sangre</label>
+      <input type="text" class="form-control" id="txtSangre" name="txtSangre" value="{{paciente.tipoSangre}}"/>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="txtHipertencion">Hipertencion</label>
+      <select id="txtHipertencion" name="txtHipertencion" class="form-control">
+        <option selected>Seleccion...</option>
+        <option>Si</option>
+        <option>No</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="txtAltura">Altura</label>
+      <input type="number" step="any" class="form-control" id="txtAltura" name="txtAltura" value="{{paciente.altura}}"/>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="txtPeso">Peso</label>
+      <input type="number" step="any" class="form-control" id="txtPeso" name="txtPeso" value="{{paciente.peso}}" />
+    </div>
+  </div>
+<br>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>
+{% endblock %}
