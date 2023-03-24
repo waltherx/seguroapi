@@ -41,7 +41,8 @@ class UserModel:
     def add_user(self, user):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO usuario (nameuser, password, email, idrol) VALUES ('{user.nameuser}','{user.password}',{user.email},{user.idrol})"
+            sQuery = f"INSERT INTO usuario (nameuser, password, email, idrol) VALUES ('{user.nameuser}','{user.password}','{user.email}',{user.idrol})"
+            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

@@ -9,33 +9,36 @@ from flask import (
     abort,
     flash,
 )
+
 from models.entities.User import User
 from models.userModel import UserModel
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
-enfermedadweb = Blueprint(
-    "enfermedad_bp", __name__, template_folder="templates/enfermedad"
-)
+usersweb = Blueprint("user_bp", __name__, template_folder="templates/user")
 
 
 # @login_required
-@enfermedadweb.route("/")
+@usersweb.route("/")
 def index():
     userList = UserModel.get_users()
     return render_template("/user/index.html", users=userList)
 
 
 # @login_required
-@enfermedadweb.route("/create", methods=["POST"])
+@usersweb.route("/create", methods=["POST"])
 def create():
     if request.method == "POST":
         try:
             _name = request.form.get("txtNombre")
-            _password = request.form.get("txtPassword")
+            _pass = request.form.get("txtPassword")
+            _password = generate_password_hash(_pass)
             _email = request.form.get("txtEmail")
-            # _rol = request.form.get("txtRol")
-            user = User(None, _name, _password, _email, None, 1)
+            _rol = request.form.get("txtRol")
+            User
+            user = User(None, _name, _password, _email, None, _rol)
+            print(user.to_JSON())
             UserModel.add_user(user)
             flash("User Agregada successfully")
             return redirect("/user")

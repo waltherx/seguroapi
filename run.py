@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
 from decouple import config
 from flask_cors import CORS
+#from flask_session import Session
 
 from routes import phone
 from routes import enfermedad
@@ -13,27 +14,29 @@ from routes import siniestro
 from controllers.AlergiaController import alergiaweb
 from controllers.EnfermedadController import enfermedadweb
 from controllers.PersonaController import personaweb
+from controllers.UserController import usersweb
 
+# CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
 csrf.init_app(app)
-# CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 
+#lasession = Session(app)
+#lasession.init_app(app)
 
 @app.route("/")
 def index():
     return render_template("login.html")
 
-
 def page_not_found(error):
     return render_template("404.html"), 404
-
 
 # Blueprints App Web
 app.register_blueprint(alergiaweb, url_prefix="/alergia")
 app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
 app.register_blueprint(personaweb, url_prefix="/paciente")
+app.register_blueprint(usersweb, url_prefix="/user")
 
 # Blueprints Api Rest
 app.register_blueprint(phone.PhoneApi, url_prefix="/api/phone")
