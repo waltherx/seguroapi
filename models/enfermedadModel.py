@@ -80,12 +80,10 @@ class EnfermedadModel:
         try:
             connection = get_connection()
             sQuery = f"DELETE FROM enfermedad WHERE idenf = {enfermedad.id}"
-
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
-
             connection.close()
             return affected_rows
         except Exception as ex:

@@ -1,12 +1,9 @@
 from flask import Flask
 from flask import Blueprint
 from flask import (
-    config,
     render_template,
     redirect,
-    url_for,
     request,
-    abort,
     flash,
 )
 from models.entities.Enfermedad import Enfermedad
@@ -57,8 +54,14 @@ def update(id):
             return redirect("/enfermedad")
 
 
-@enfermedadweb.route("/update/<id>", methods=["GET", "POST"])
+@enfermedadweb.route("/delete/<id>", methods=["GET", "POST"])
 def delete(id):
-    enfermedad = Enfermedad(id, "Elimina")
-    EnfermedadModel.delete(enfermedad)
-    return redirect("/enfermedad")
+    if request.method == "POST":
+        enfermedad = Enfermedad(id, "Elimina")
+        try:
+            EnfermedadModel.delete_enfermedad(enfermedad)
+            flash("Alergia Eliminada Successfully")
+            return redirect("/enfermedad")
+        except Exception as e:
+            flash(e.args[1])
+            return redirect("/enfermedad")
