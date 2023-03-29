@@ -23,7 +23,6 @@ class UserModel:
     def get_user(self, id):
         try:
             connection = get_connection()
-
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM usuario WHERE idu = %s", (id))
                 row = cursor.fetchone()
@@ -32,6 +31,23 @@ class UserModel:
                     user = User(row[0], row[1], row[2], row[3], row[4], row[5])
                     user = user.to_JSON()
 
+            connection.close()
+            return user
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def get_userbyname(self, nameuser):
+        try:
+            connection = get_connection()
+            sQuery = f"SELECT * FROM usuario WHERE nameuser='{nameuser}'"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                row = cursor.fetchone()
+                user = None
+                if row != None:
+                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+                    user = user.to_JSON()
             connection.close()
             return user
         except Exception as ex:

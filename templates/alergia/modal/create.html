@@ -11,8 +11,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/alergia/create">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <form method="POST" action="/alergia/create">          
           <div class="mb-3">
             <label for="txtNombre" class="col-form-label">Nombre:</label>
             <input type="text" class="form-control" id="txtNombre" name="txtNombre" />

@@ -1,6 +1,5 @@
 {% extends 'layout.html' %} {% block body %}
-<form method="POST" action="/paciente/update" enctype="multipart/form-data">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+<form method="POST" action="/paciente/update" enctype="multipart/form-data">  
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="txtCI">CI</label>

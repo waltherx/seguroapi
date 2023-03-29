@@ -74,12 +74,7 @@
                         <form
                           method="POST"
                           action="/user/update/{{user.id}}"
-                        >                        
-                          <input
-                            type="hidden"
-                            name="csrf_token"
-                            value="{{ csrf_token() }}"
-                          />
+                        >                                                  
                           <div class="mb-3">
                             <label for="txtNombre" class="col-form-label"
                               >>Nombre de Usuario:</label
@@ -168,12 +163,7 @@
                         ></button>
                       </div>
                       <br />
-                      <form action="/user/delete/{{user.id}}" method="post">
-                        <input
-                          type="hidden"
-                          name="csrf_token"
-                          value="{{ csrf_token() }}"
-                        />
+                      <form action="/user/delete/{{user.id}}" method="post">                        
                         <div class="modal-body">
                           <div class="form-group row">
                             <label class="col-sm-12 col-form-label"

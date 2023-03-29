@@ -70,12 +70,7 @@
                       <form
                         method="POST"
                         action="/alergia/update/{{alergia.id}}"
-                      >
-                        <input
-                          type="hidden"
-                          name="csrf_token"
-                          value="{{ csrf_token() }}"
-                        />
+                      >                        
                         <div class="mb-3">
                           <label for="txtNombre" class="col-form-label"
                             >Nombre:</label
@@ -138,12 +133,7 @@
                       ></button>
                     </div>
                     <br />
-                    <form action="/alergia/delete/{{alergia.id}}" method="post">
-                      <input
-                        type="hidden"
-                        name="csrf_token"
-                        value="{{ csrf_token() }}"
-                      />
+                    <form action="/alergia/delete/{{alergia.id}}" method="post">                  
                       <div class="modal-body">
                         <div class="form-group row">
                           <label class="col-sm-12 col-form-label"
