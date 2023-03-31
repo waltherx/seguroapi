@@ -30,7 +30,6 @@ def create():
         try:
             _nombre = request.form.get("txtNombre")
             enfermedad = Enfermedad(None, _nombre)
-            print(enfermedad.to_JSON())
             EnfermedadModel.add_enfermedad(enfermedad)
             flash("Enfermedad Agregada successfully")
             return redirect("/enfermedad")

@@ -1,26 +1,26 @@
-class Documento:
+class Medicamento:
     def __init__(
         self,
         id=None,
-        url=None,
-        tipo=None,
+        nombre=None,
         descripcion=None,
-        fechaSubida=None,
+        cantidad=None,
+        unidad=None,
         ci=None,
     ) -> None:
         self.id = id
-        self.url = url
-        self.tipo = tipo
+        self.nombre = nombre
         self.descripcion = descripcion
-        self.fechaSubida = fechaSubida
+        self.cantidad = cantidad
+        self.unidad = unidad
         self.ci = ci
 
     def to_JSON(self):
         return {
             "id": self.id,
-            "url": self.url,
-            "tipo": self.tipo,
+            "nombre": self.nombre,
             "descripcion": self.descripcion,
-            "fechaSubida": self.fechaSubida,
+            "cantidad": self.cantidad,
+            "unidad": self.unidad,
             "ci": self.ci,
         }

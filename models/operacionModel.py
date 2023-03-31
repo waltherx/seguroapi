@@ -1,50 +1,30 @@
 from database.db import get_connection
-from .entities.Phone import Phone
+from .entities.Operacion import Operacion
 
 
-class PhoneModel:
+class OperacionModel:
     @classmethod
-    def get_phones(self):
+    def get_operacion(self, ci):
         try:
+            sQuery = f"SELECT idop, tipo, fecha, descripcion, ci_persona FROM persona, operacion where persona.ci = operacion.ci_persona and persona.ci = {ci};"
             connection = get_connection()
-            phones = []
-
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM phone ORDER BY idp ASC")
-                resultset = cursor.fetchall()
-
-                for row in resultset:
-                    phone = Phone(row[0], row[1], row[2],row[3])
-                    phones.append(phone.to_JSON())
-
-            connection.close()
-            return phones
-        except Exception as ex:
-            raise Exception(ex)
-
-    @classmethod
-    def get_phone(self, ci):
-        try:
-            connection = get_connection()
-            sQuery = f"SELECT phone.idp, phone.numero,phone.referencia, phone.ci_persona FROM persona,phone where phone.ci_persona=persona.ci and persona.ci={ci}"
-
-            phones = []
+            operacions = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    phone = Phone(row[0], row[1], row[2],row[3])
-                    phones.append(phone.to_JSON())
+                    operacion = Operacion(row[0], row[1], row[2], row[3], row[4])
+                    operacions.append(operacion.to_JSON())
             connection.close()
-            return phones
+            return operacions
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def add_phone(self, phone):
+    def add_operacion(self, operacion):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO phone (idp, numero, ci_persona) VALUES ({phone.id},{phone.numero},{phone.ci})"
+            sQuery = f"INSERT INTO public.operacion (tipo, fecha, descripcion, ci_persona) VALUES('{operacion.tipo}','{operacion.fecha}','{operacion.descripcion}',{operacion.ci})"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -55,27 +35,32 @@ class PhoneModel:
             raise Exception(ex)
 
     @classmethod
-    def update_phone(self, phone):
+    def update_operacion(self, operacion):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE phone SET numero = {phone.numero} WHERE ci_persona ={phone.idp}"
+            sQuery = f"UPDATE vacuna SET nombre='{operacion.nombre}', direccion='{operacion.direccion}', lat={operacion.lat}, longi={operacion.long} WHERE idh = {operacion.id}"
+            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
+
             connection.close()
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def delete_phone(self, phone):
+    def delete_operacion(self, operacion):
         try:
             connection = get_connection()
+            sQuery = f"DELETE FROM vacuna WHERE idh = {operacion.id}"
+
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM phone WHERE ci_persona = %s", (phone.id,))
+                cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
+
             connection.close()
             return affected_rows
         except Exception as ex:

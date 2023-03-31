@@ -6,11 +6,16 @@ from flask import (
     request,
     flash,
 )
-
+import os
+import boto3
 from models.entities.Persona import Persona
 from models.personaModel import PersonaModel
+from models.vacunaModel import VacunaModel
+from models.operacionModel import OperacionModel
+from models.documentoModel import DocumentoModel
+from models.medicamentoModel import MedicamentoModel
+
 from models.phoneModel import PhoneModel
-import os
 from werkzeug.utils import secure_filename
 from decouple import config
 from database.s3_functions import upload_file, show_image
@@ -19,13 +24,16 @@ from database.s3_functions import upload_file, show_image
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
 BUCKET = "bucketeer-d4a26368-c4f6-4ca8-8a04-a86479106124"
-
+KEY_BUCKET = "AKIAVVKH7VVUPMQIKXWX"
+AWS_SECRET_KEY = "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"
 
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 personaweb = Blueprint("persona_bp", __name__, template_folder="templates/persona")
+
 
 # @login_required
 @personaweb.route("/")
@@ -33,22 +41,34 @@ def index():
     personaList = PersonaModel.get_personas()
     return render_template("/persona/index.html", personas=personaList)
 
+
 @personaweb.route("/view/<id>", methods=["GET", "POST"])
 def view(id):
     personaOne = PersonaModel.get_persona(id)
+    vacunaList = VacunaModel.get_vacuna(id)
+    operacionList = OperacionModel.get_operacion(id)
+    medicamentoList = MedicamentoModel.get_medicamento(id)
     phonesList = PhoneModel.get_phone(id)
     return render_template(
-        "persona/modal/view.html", paciente=personaOne, phones=phonesList
+        "persona/modal/view.html",
+        paciente=personaOne,
+        phones=phonesList,
+        vacunas=vacunaList,
+        operaciones=operacionList,
+        medicamentos=medicamentoList
     )
+
 
 @personaweb.route("/createp", methods=["GET"])
 def createp():
     return render_template("persona/modal/create.html")
 
+
 @personaweb.route("/updatep/<ci>", methods=["GET"])
 def updatep(ci):
     persona = PersonaModel.get_persona(ci)
     return render_template("persona/modal/edit.html", paciente=persona)
+
 
 # @login_required
 @personaweb.route("/create", methods=["POST"])
@@ -81,19 +101,27 @@ def create():
 				_direccion,
 			)
 		"""
-        img_name = secure_filename(_foto.filename)
-
+        cwd = os.getcwd()
+        if not os.path.isdir("TEMPDIR"):
+            os.mkdir("TEMPDIR")
         if "txtFoto" not in request.files:
             return "No user_file key in request.files"
             file = request.files["txtFoto"]
             # There is no file selected to upload
         if _foto.filename == "":
             return "Please select a file"
-        # File is selected, upload to S3 and show S3 URL-17.77839882078991, -63.187212203345126
+
         if _foto and allowed_file(_foto.filename):
-            _foto.filename = secure_filename(_foto.filename)
-            output = upload_file(_foto.filename, BUCKET)
-            return str(output)
+            img_name = secure_filename(_foto.filename)
+            filepath = cwd + "\\TEMPDIR\\" + img_name
+            _foto.save(filepath)
+            s3_client = boto3.client(
+                "s3", aws_access_key_id=KEY_BUCKET, aws_secret_access_key=AWS_SECRET_KEY
+            )
+            s3_client.upload_file(filepath, BUCKET, img_name)
+            os.remove(filepath)
+            flash("File Upload Succesful")
+        return redirect("/paciente")
         """affected_rows = PersonaModel.add_persona(persona)
 			if affected_rows == 1:
 				flash("Persona Agregada!")
@@ -104,6 +132,7 @@ def create():
 		except Exception as e:
 			flash(e.args[1])
 			return redirect("/paciente")"""
+
 
 # @login_required
 @personaweb.route("/update/<id>", methods=["GET", "POST"])
@@ -118,6 +147,7 @@ def update(id):
         except Exception as e:
             flash(e.args[1])
             return redirect("/paciente")
+
 
 @personaweb.route("/delete/<id>", methods=["GET", "POST"])
 def delete(id):

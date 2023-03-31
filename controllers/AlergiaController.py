@@ -46,7 +46,6 @@ def update(id):
         try:
             _nombre = request.form.get("txtNombre")
             alergia = Alergia(id, _nombre)
-            print(alergia.to_JSON())
             AlergiaModel.update_alergia(alergia)
             flash("Alergia Updated Successfully")
             return redirect("/alergia")

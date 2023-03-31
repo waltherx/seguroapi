@@ -60,7 +60,6 @@ class HospitalModel:
         try:
             connection = get_connection()
             sQuery = f"UPDATE hospital SET nombre='{hospital.nombre}', direccion='{hospital.direccion}', lat={hospital.lat}, longi={hospital.long} WHERE idh = {hospital.id}"
-            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

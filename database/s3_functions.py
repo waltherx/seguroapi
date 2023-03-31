@@ -15,7 +15,6 @@ def list_files(bucket):
     contents = []
     try:
         for item in s3_client.list_objects(Bucket=bucket)["Contents"]:
-            # print(item)
             contents.append(item)
     except Exception as e:
         pass
@@ -33,9 +32,7 @@ def show_image(bucket):
                 Params={"Bucket": bucket, "Key": item["Key"]},
                 ExpiresIn=100,
             )
-            # print("[DATA] : presigned url = ", presigned_url)
             public_urls.append(presigned_url)
     except Exception as e:
         pass
-    # print("[DATA] : The contents inside show_image = ", public_urls)
     return public_urls

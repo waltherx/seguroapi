@@ -35,7 +35,6 @@ def create():
             _rol = request.form.get("txtRol")
             User
             user = User(None, _name, _password, _email, None, _rol)
-            print(user.to_JSON())
             UserModel.add_user(user)
             flash("User Agregada successfully")
             return redirect("/user")
