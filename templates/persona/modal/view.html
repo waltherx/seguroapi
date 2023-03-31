@@ -109,8 +109,8 @@
               {% for vacuna in vacunas %}
               <tr>
                 <td class="text-center">{{loop.index0 + 1}}</td>
-                <td>{{vacuna.nombre}}</td>
-                <td>{{vacuna.dosis}}</td>
+                <td class="text-center">{{vacuna.nombre}}</td>
+                <td class="text-center">{{vacuna.dosis}}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -137,10 +137,10 @@
             <tbody>
               {% for medicamento in medicamentos %}
               <tr>
-                <td>{{medicamento.nombre}}</td>
-                <td>{{medicamento.descripcion}}</td>
-                <td>{{medicamento.cantidad}}</td>
-                <td>{{medicamento.unidad}}</td>
+                <td class="text-center">{{medicamento.nombre}}</td>
+                <td class="text-center">{{medicamento.descripcion}}</td>
+                <td class="text-center">{{medicamento.cantidad}}</td>
+                <td class="text-center">{{medicamento.unidad}}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -166,9 +166,9 @@
             <tbody>
               {% for operacion in operaciones %}
               <tr>
-                <td>{{operacion.tipo}}</td>
-                <td>{{operacion.fecha}}</td>
-                <td>{{operacion.descripcion}}</td>
+                <td class="text-center">{{operacion.tipo}}</td>
+                <td class="text-center">{{operacion.fecha}}</td>
+                <td class="text-center">{{operacion.descripcion}}</td>
               </tr>
               {% endfor %}
             </tbody>
