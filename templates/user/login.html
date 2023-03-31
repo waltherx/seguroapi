@@ -94,16 +94,16 @@
                       <h5 class="card-title text-center pb-0 fs-4">
                         Ingrese su Cuenta
                       </h5>
-                      <p class="text-center small">Email & Contraseña</p>
+                      <p class="text-center small">Datos Usuario</p>
                     </div>
 
                     <form
                       class="row g-3 needs-validation"
-                      action="/login"
+                      action="/user/login"
                       method="POST"
                     >                      
                       <div class="col-12">
-                        <label for="yourUsername" class="form-label"
+                        <label for="txtNombre" class="form-label"
                           >Username</label
                         >
                         <div class="input-group has-validation">
@@ -112,7 +112,7 @@
                           >
                           <input
                             type="text"
-                            name="username"
+                            name="txtNombre"
                             class="form-control"
                             id="yourUsername"
                             required
@@ -124,12 +124,12 @@
                       </div>
 
                       <div class="col-12">
-                        <label for="yourPassword" class="form-label"
+                        <label for="txtPassword" class="form-label"
                           >Password</label
                         >
                         <input
                           type="password"
-                          name="password"
+                          name="txtPassword"
                           class="form-control"
                           id="yourPassword"
                           required

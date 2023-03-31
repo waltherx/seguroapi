@@ -42,6 +42,62 @@
                 class="btn btn-primary btn-sm"
                 ><i class="bi bi-gear"></i>
               </a>
+              -
+              <button
+                type="button"
+                class="btn btn-info btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#modaldelete{{persona.ci}}"
+              >
+                <i class="bi bi-qr-code"></i>
+              </button>
+
+              <div
+                class="modal fade"
+                id="modaldelete{{persona.ci}}"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="basicModal"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="background-color: #011f4b; color: white"
+                    >
+                      <h4 class="modal-title">
+                        Qr Paciente : {{persona.nombres + persona.apellidos}}
+                      </h4>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <br />
+
+                    <div class="modal-body">
+                      <div class="form-group row">
+                        <img src="{{ qrcode(persona, box_size=8, border=5) }}">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-default"
+                        data-bs-dismiss="modal"
+                      >
+                        Cerrar
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Imprimir
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
           {% endfor %}

@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from decouple import config
+from flask_login import LoginManager
+from flask_qrcode import QRcode
 from flask_cors import CORS
-#from flask_session import Session
+
+# from flask_session import Session
 
 from routes import phone
 from routes import enfermedad
@@ -19,12 +22,22 @@ from controllers.UserController import usersweb
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
-#lasession = Session(app)
-#lasession.init_app(app)
+
+qrcode = QRcode(app)
+
+#login_manager = LoginManager()
+#login_manager.init_app(app)
+
+# lasession = Session(app)
+# lasession.init_app(app)
 
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return render_template("/user/login.html")
+
+@app.route("/home")
+def home():
+    return render_template("/home.html")
 
 def page_not_found(error):
     return render_template("404.html"), 404

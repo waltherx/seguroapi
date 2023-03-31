@@ -1,12 +1,9 @@
 from flask import Flask
 from flask import Blueprint
 from flask import (
-    config,
     render_template,
     redirect,
-    url_for,
     request,
-    abort,
     flash,
 )
 
@@ -14,10 +11,10 @@ from models.entities.User import User
 from models.userModel import UserModel
 from werkzeug.security import generate_password_hash
 
+from werkzeug.security import check_password_hash
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 usersweb = Blueprint("user_bp", __name__, template_folder="templates/user")
-
 
 # @login_required
 @usersweb.route("/")
@@ -45,6 +42,25 @@ def create():
         except Exception as e:
             flash(e.args[1])
             return redirect("/user")
+
+
+@usersweb.route("/login", methods=["POST"])
+def login():
+    _nameuser = request.form.get("txtNombre")
+    _password = request.form.get("txtPassword")
+    _user = UserModel.get_userbyname(_nameuser)
+    if _user:
+        if _nameuser and _password:
+            if check_password_hash(_user["password"], _password):
+                flash("bienvenido")
+                return redirect("/home")
+            else:
+                flash("Nombre de Usuario o contrasenia no coincide")
+                return render_template("/user/login.html")
+        flash("datos vacios")
+        return render_template("/user/login.html")
+    flash("usuario no regristrado")
+    return render_template("/user/login.html")
 
 
 """
