@@ -1,3 +1,5 @@
+import os
+import logging
 from flask import Flask
 from flask import Blueprint
 from flask import (
@@ -6,8 +8,10 @@ from flask import (
     request,
     flash,
 )
-import os
-import boto3
+
+import cloudinary
+from cloudinary import uploader, api
+from cloudinary.utils import cloudinary_url
 from models.entities.Persona import Persona
 from models.personaModel import PersonaModel
 from models.vacunaModel import VacunaModel
@@ -18,14 +22,14 @@ from models.medicamentoModel import MedicamentoModel
 from models.phoneModel import PhoneModel
 from werkzeug.utils import secure_filename
 from decouple import config
-from database.s3_functions import upload_file, show_image
+
 
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
-BUCKET = "bucketeer-d4a26368-c4f6-4ca8-8a04-a86479106124"
-KEY_BUCKET = "AKIAVVKH7VVUPMQIKXWX"
-AWS_SECRET_KEY = "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"
+CLOUD_NAME = "dci37dfd7"
+API_KEY = "452238564435348"
+API_SECRET = "XYjmOpNtc8Pnjdo9DpvTL3xHLjA"
 
 
 def allowed_file(filename):
@@ -55,14 +59,12 @@ def view(id):
         phones=phonesList,
         vacunas=vacunaList,
         operaciones=operacionList,
-        medicamentos=medicamentoList
+        medicamentos=medicamentoList,
     )
-
 
 @personaweb.route("/createp", methods=["GET"])
 def createp():
     return render_template("persona/modal/create.html")
-
 
 @personaweb.route("/updatep/<ci>", methods=["GET"])
 def updatep(ci):
@@ -79,7 +81,7 @@ def create():
         _apellido = request.form.get("txtApellido")
         _fecha = request.form.get("txtFecha")
         _lic = request.form.get("txtLicVe")
-        _foto = request.files.get("txtFoto")
+        # _foto = request.files.get("txtFoto")
         """
 		_sangre = request.form.get("txtSangre")
 		_hiper = request.form.get("txtHipertencion")
@@ -96,31 +98,20 @@ def create():
 				img_name,
 				_sangre,
 				_hiper,
-				_altura,
+			S	_altura,
 				_peso,
 				_direccion,
 			)
-		"""
-        cwd = os.getcwd()
-        if not os.path.isdir("TEMPDIR"):
-            os.mkdir("TEMPDIR")
-        if "txtFoto" not in request.files:
-            return "No user_file key in request.files"
-            file = request.files["txtFoto"]
-            # There is no file selected to upload
-        if _foto.filename == "":
-            return "Please select a file"
+		""" 
+        cloudinary.config(cloud_name=config('CLOUD_NAME'), api_key=config('API_KEY'), api_secret=config('API_SECRET'))        
+        upload_result = None
+        if request.method == "POST":
+            file_to_upload = request.files["txtFoto"]
+        if file_to_upload:
+            upload_result = cloudinary.uploader.upload(file_to_upload)
+            print(upload_result)
+            return redirect("/paciente")
 
-        if _foto and allowed_file(_foto.filename):
-            img_name = secure_filename(_foto.filename)
-            filepath = cwd + "\\TEMPDIR\\" + img_name
-            _foto.save(filepath)
-            s3_client = boto3.client(
-                "s3", aws_access_key_id=KEY_BUCKET, aws_secret_access_key=AWS_SECRET_KEY
-            )
-            s3_client.upload_file(filepath, BUCKET, img_name)
-            os.remove(filepath)
-            flash("File Upload Succesful")
         return redirect("/paciente")
         """affected_rows = PersonaModel.add_persona(persona)
 			if affected_rows == 1:

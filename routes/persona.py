@@ -4,13 +4,18 @@ from flask import Blueprint, jsonify, request
 from models.entities.Persona import Persona
 
 # Models
+from models.phoneModel import PhoneModel
+from models.medicamentoModel import MedicamentoModel
+from models.vacunaModel import VacunaModel
+from models.operacionModel import OperacionModel
+
 from models.personaModel import PersonaModel
 
 PersonaApi = Blueprint("persona_blueprint", __name__)
 
 
 @PersonaApi.route("/")
-def get_enfermedads():
+def get_personas():
     try:
         personas = PersonaModel.get_personas()
         return jsonify(personas)
@@ -19,13 +24,28 @@ def get_enfermedads():
 
 
 @PersonaApi.route("/<ci>")
-def get_enfermedad(ci):
+def get_persona56(ci):
     try:
-        persona = PersonaModel.get_persona(ci)
-        if persona != None:
-            return jsonify(persona)
-        else:
-            return jsonify({}), 404
+        if ci:
+            persona = PersonaModel.get_persona(ci)
+            vacunas = VacunaModel.get_vacuna(ci)
+            operacions = VacunaModel.get_vacuna(ci)
+            medicamentos = VacunaModel.get_vacuna(ci)
+            phones = PhoneModel.get_phone(ci)
+            return (
+                jsonify(
+                    {
+                        "Paciente": persona,
+                        "Vacunas": vacunas,
+                        "Operaciones": operacions,
+                        "Medicamentos": medicamentos,
+                        "Telefonos": phones,
+                        "message": "OK",
+                    }
+                ),
+                200,
+            )
+        return jsonify({"message": "falta el valor CI de Paciente"}), 500
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
@@ -57,9 +77,9 @@ def add_persona():
             peso,
             direccion,
         )
-        affected_rows = PersonaModel.add_persona(persona)
-        if affected_rows == 1:
-            return jsonify({"message": "insert persona"})
+        ci_persona = PersonaModel.add_persona(persona)
+        if ci_persona != 0:
+            return jsonify({"ci": ci_persona, "message": "Paciente agregado"})
         else:
             return jsonify({"message": "Error on insert persona"}), 500
 

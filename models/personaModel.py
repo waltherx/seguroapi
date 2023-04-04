@@ -31,13 +31,13 @@ class PersonaModel:
             return personas
         except Exception as ex:
             raise Exception(ex)
-    
+
     @classmethod
     def get_persona(self, ci):
         try:
             connection = get_connection()
             sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular,  foto, tiposangre, hipertencion, altura, peso, direccion FROM persona WHERE ci = {ci} ORDER BY ci ASC;"
-        
+
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()
@@ -74,7 +74,10 @@ class PersonaModel:
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()
-            return affected_rows
+            if affected_rows == 1:
+                return persona.ci
+            else:
+                return 0
         except Exception as ex:
             raise Exception(ex)
 

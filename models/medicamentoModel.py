@@ -3,12 +3,12 @@ from .entities.Medicamento import Medicamento
 
 
 class MedicamentoModel:
+
     @classmethod
     def get_medicamentos(self):
         try:
             connection = get_connection()
             medicamentos = []
-
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM medicamento")
                 resultset = cursor.fetchall()
@@ -68,7 +68,6 @@ class MedicamentoModel:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
-
             connection.close()
             return affected_rows
         except Exception as ex:
@@ -84,7 +83,6 @@ class MedicamentoModel:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
-
             connection.close()
             return affected_rows
         except Exception as ex:
