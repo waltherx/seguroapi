@@ -18,8 +18,8 @@ from models.vacunaModel import VacunaModel
 from models.operacionModel import OperacionModel
 from models.documentoModel import DocumentoModel
 from models.medicamentoModel import MedicamentoModel
-
 from models.phoneModel import PhoneModel
+
 from werkzeug.utils import secure_filename
 from decouple import config
 
@@ -27,24 +27,17 @@ from decouple import config
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
-CLOUD_NAME = "dci37dfd7"
-API_KEY = "452238564435348"
-API_SECRET = "XYjmOpNtc8Pnjdo9DpvTL3xHLjA"
-
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
 personaweb = Blueprint("persona_bp", __name__, template_folder="templates/persona")
-
 
 # @login_required
 @personaweb.route("/")
 def index():
     personaList = PersonaModel.get_personas()
     return render_template("/persona/index.html", personas=personaList)
-
 
 @personaweb.route("/view/<id>", methods=["GET", "POST"])
 def view(id):
