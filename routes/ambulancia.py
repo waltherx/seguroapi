@@ -26,16 +26,20 @@ def get_ambulancias():
 def get_ambulanciaxId(id):
     try:
         if id:
-            chofer = ChoferModel.get_chofer(id)
+            chofers = ChoferModel.get_chofer(id)
+            paramedicos = ParamedicoModel.get_paramedicos(id)
+            ambulancia = AmbulanciaModel.get_ambulanciaId(id)
             return (
                 jsonify(
                     {
-                        "chofere": chofer,
+                        "ambulancia": ambulancia,
+                        "choferes": chofers,
+                        "Paramedicos": paramedicos,
                         "message": "OK",
                     }
                 ),
                 200,
             )
-        return jsonify({"message": "falta el valor ID chofer"}), 500
+        return jsonify({"message": "falta el valor ID ambulancia"}), 500
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
