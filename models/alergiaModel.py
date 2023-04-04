@@ -8,15 +8,12 @@ class AlergiaModel:
         try:
             connection = get_connection()
             alergias = []
-
             with connection.cursor() as cursor:
                 cursor.execute("SELECT idale, nombre FROM alergia ORDER BY idale ASC")
                 resultset = cursor.fetchall()
-
                 for row in resultset:
                     alergia = Alergia(row[0], row[1])
                     alergias.append(alergia.to_JSON())
-
             connection.close()
             return alergias
         except Exception as ex:

@@ -13,6 +13,7 @@ from routes import persona
 from routes import hospital
 from routes import siniestro
 from routes import ambulancia
+from routes import chofer
 from routes import user
 
 from controllers.AlergiaController import alergiaweb
@@ -58,6 +59,7 @@ app.register_blueprint(hospital.HospitalApi, url_prefix="/api/hospital")
 app.register_blueprint(siniestro.SiniestroApi, url_prefix="/api/siniestro")
 app.register_blueprint(persona.PersonaApi, url_prefix="/api/paciente")
 app.register_blueprint(ambulancia.AmbulanciaApi, url_prefix="/api/ambulancia")
+app.register_blueprint(chofer.ChoferApi, url_prefix="/api/chofer")
 # Error handlers
 app.register_error_handler(404, page_not_found)
 # inits
