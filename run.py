@@ -22,6 +22,7 @@ from controllers.PersonaController import personaweb
 from controllers.UserController import usersweb
 from controllers.ParamedicoController import paramedicoweb
 from controllers.ChoferControlller import chofersweb
+from controllers.AmbulanciaController import ambulanciaweb
 
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
@@ -52,6 +53,7 @@ app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
 app.register_blueprint(personaweb, url_prefix="/paciente")
 app.register_blueprint(chofersweb, url_prefix="/chofer")
 app.register_blueprint(paramedicoweb, url_prefix="/paramedico")
+app.register_blueprint(ambulanciaweb, url_prefix="/ambulancia")
 app.register_blueprint(usersweb, url_prefix="/user")
 
 # Blueprints Api Rest

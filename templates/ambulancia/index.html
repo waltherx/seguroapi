@@ -1,12 +1,196 @@
-{% extends 'layout.html' %} {% block _js %}
-<script src=""></script>
-{% endblock %} {% block body %}
-
-<div class="container">
-  <div class="row justify-content-center">
-    <h2>Ver Ambulancias</h2>
-  </div>
-  <div id="map"></div>
-</div>
-
-{% endblock %}
+{% include 'head.html'   %}
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  </head>
+  <body>
+    {% include 'logo.html' %}
+    {% include 'sidebar.html' %}
+    <main id="main" class="main">
+      <section class="section dashboard">
+        <div class="row">
+          <!-- Left side columns -->
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="row justify-content-center">
+                <h2>Ver Ambulancias</h2>
+              </div>
+              <div class="border border-dark p-0">
+              <div id='map' style='width: 100%; height: 500px;'></div>
+              </br>
+              <div class="table-responsive bg-white container pt-2">
+                <table class="table table-sm table-bordered" id="example">
+                  <thead>
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th>Placa</th> 
+                      <th>Modelo</th>
+                      <th>Marca</th>
+                      <th>Anio</th>
+                      <th>Capacidad</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+          
+                  <tbody>
+                    {% for ambulacia in ambulancias %}
+                    <tr>
+                      <td class="text-center">{{loop.index0 + 1}}</td>
+                      <td>{{ambulacia.placa}}</td>
+                      <td>{{ambulacia.modelo}}</td>
+                      <td>{{ambulacia.marca}}</td>
+                      <td>{{ambulacia.anio}}</td>
+                      <td>{{ambulacia.capacidad}}</td>
+                      <td>
+                        <button
+                          type="button"
+                          class="btn btn-warning btn-sm"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaledit{{ambulacia.id}}"
+                        >
+                          <i class="bi bi-gear"></i>
+                        </button>
+          
+                        <div
+                          class="modal fade"
+                          id="modaledit{{ambulacia.id}}"
+                          tabindex="-1"
+                          role="dialog"
+                          aria-labelledby="modaledit{{ambulacia.id}}"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div
+                                class="modal-header"
+                                style="background-color: #011f4b; color: white"
+                              >
+                                <h4 class="modal-title">Editar Ambulacia</h4>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <br />
+                              <div class="modal-body">
+                                <form
+                                  method="POST"
+                                  action="#"
+                                >                        
+                                  <div class="mb-3">
+                                    <label for="txtNombre" class="col-form-label"
+                                      >Modelo:</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      id="txtNombre"
+                                      name="txtNombre"
+                                      value="{{ambulacia.modelo}}"
+                                      required
+                                    />
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-default"
+                                      data-bs-dismiss="modal"
+                                    >
+                                      Cerrar
+                                    </button>
+                                    <button type="submit" class="btn btn-success">
+                                      Actualizar
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        |
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaldelete{{ambulacia.id}}"
+                        >
+                          <i class="bi bi-trash"></i>
+                        </button>
+                        <div
+                          class="modal fade"
+                          id="modaldelete{{ambulacia.id}}"
+                          tabindex="-1"
+                          role="dialog"
+                          aria-labelledby="basicModal"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div
+                                class="modal-header"
+                                style="background-color: #011f4b; color: white"
+                              >
+                                <h4 class="modal-title">Eliminar Ambulacia</h4>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <br />
+                              <form action="#" method="post">                  
+                                <div class="modal-body">
+                                  <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label"
+                                      >Esta seguro de eliminar
+                                      <span style="font-weight: bold; color: red"
+                                        >{{ambulacia.placa}}</span
+                                      >
+                                      ?</label
+                                    >
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    data-bs-dismiss="modal"
+                                  >
+                                    Cerrar
+                                  </button>
+                                  <button type="submit" class="btn btn-danger">
+                                    Eliminar
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
+          </div>
+          <!-- End Left side columns -->
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+    {% include 'credits.html'   %}
+    <script>
+      mapboxgl.accessToken = '{{ACCESS_KEY}}';
+	    var map = new mapboxgl.Map({
+	      container: 'map',
+	      style: 'mapbox://styles/mapbox/streets-v9',        
+        center: [ -63.180813,-17.778941],
+        zoom:15
+	    }); 
+    </script>
+    {% include 'footer.html'   %}
