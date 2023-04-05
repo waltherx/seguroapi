@@ -3,6 +3,25 @@ from .entities.Paramedico import Paramedico
 
 
 class ParamedicoModel:
+    
+    @classmethod
+    def get_paramedicosA(self):
+        try:
+            sQuery = f"SELECT * FROM public.paramedico;"
+            connection = get_connection()
+            paramedicos = []
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                resultset = cursor.fetchall()
+                for row in resultset:
+                    paramedico = Paramedico(row[0], row[1], row[2])
+                    paramedicos.append(paramedico.to_JSON())
+                connection.close()
+            return paramedicos
+        except Exception as ex:
+            raise Exception(ex)
+
+    
     @classmethod
     def get_paramedico(self, id):
         try:

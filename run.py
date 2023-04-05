@@ -20,6 +20,8 @@ from controllers.AlergiaController import alergiaweb
 from controllers.EnfermedadController import enfermedadweb
 from controllers.PersonaController import personaweb
 from controllers.UserController import usersweb
+from controllers.ParamedicoController import paramedicoweb
+from controllers.ChoferControlller import chofersweb
 
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
@@ -48,6 +50,8 @@ def page_not_found(error):
 app.register_blueprint(alergiaweb, url_prefix="/alergia")
 app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
 app.register_blueprint(personaweb, url_prefix="/paciente")
+app.register_blueprint(chofersweb, url_prefix="/chofer")
+app.register_blueprint(paramedicoweb, url_prefix="/paramedico")
 app.register_blueprint(usersweb, url_prefix="/user")
 
 # Blueprints Api Rest

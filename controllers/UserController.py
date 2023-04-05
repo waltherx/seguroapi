@@ -12,9 +12,11 @@ from models.userModel import UserModel
 from werkzeug.security import generate_password_hash
 
 from werkzeug.security import check_password_hash
+
 # from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 usersweb = Blueprint("user_bp", __name__, template_folder="templates/user")
+
 
 # @login_required
 @usersweb.route("/")
@@ -52,7 +54,7 @@ def login():
         if _nameuser and _password:
             if check_password_hash(_user["password"], _password):
                 flash("bienvenido")
-                return redirect("/home")
+                return render_template("/home.html",user_nombre=_nameuser)
             else:
                 flash("Nombre de Usuario o contrasenia no coincide")
                 return render_template("/user/login.html")

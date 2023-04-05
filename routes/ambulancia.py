@@ -12,7 +12,6 @@ from models.ambulanciaModel import AmbulanciaModel
 
 AmbulanciaApi = Blueprint("ambulancia_blueprint", __name__)
 
-
 @AmbulanciaApi.route("/")
 def get_ambulancias():
     try:
