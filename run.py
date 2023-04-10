@@ -6,6 +6,8 @@ from flask_cors import CORS
 
 # from flask_session import Session
 
+from models.userModel import UserModel
+
 from routes import phone
 from routes import enfermedad
 from routes import alergia
@@ -14,7 +16,7 @@ from routes import hospital
 from routes import siniestro
 from routes import ambulancia
 from routes import chofer
-from routes import user
+from routes import user 
 
 from controllers.AlergiaController import alergiaweb
 from controllers.EnfermedadController import enfermedadweb
@@ -23,6 +25,7 @@ from controllers.UserController import usersweb
 from controllers.ParamedicoController import paramedicoweb
 from controllers.ChoferControlller import chofersweb
 from controllers.AmbulanciaController import ambulanciaweb
+from controllers.DocumentoController import documentoWeb
 
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
@@ -30,11 +33,12 @@ app.config["SECRET_KEY"] = config("SECRET_KEY")
 
 qrcode = QRcode(app)
 
-#login_manager = LoginManager()
-#login_manager.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
-# lasession = Session(app)
-# lasession.init_app(app)
+@login_manager.user_loader
+def load_user(user_id):
+    return UserModel.get_user(user_id)
 
 @app.route("/")
 def index():
@@ -55,6 +59,7 @@ app.register_blueprint(chofersweb, url_prefix="/chofer")
 app.register_blueprint(paramedicoweb, url_prefix="/paramedico")
 app.register_blueprint(ambulanciaweb, url_prefix="/ambulancia")
 app.register_blueprint(usersweb, url_prefix="/user")
+app.register_blueprint(documentoWeb, url_prefix="/documento")
 
 # Blueprints Api Rest
 app.register_blueprint(user.UserApi, url_prefix="/api/user")

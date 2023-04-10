@@ -182,6 +182,20 @@
         aria-labelledby="contact-tab"
       >
         proximanente
+
+        <div class="card-header" style="background-color: #011f4b">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#modalcreate"
+          >
+            <span class="bi-plus-square-fill"></span>&nbsp;Nueva Alergia
+          </button>
+          {% include '/documento/create.html' %}
+        </div>
+
+
       </div>
     </div>
   </div>

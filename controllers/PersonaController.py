@@ -96,7 +96,7 @@ def create():
 				_direccion,
 			)
 		""" 
-        cloudinary.config(cloud_name=config('CLOUD_NAME'), api_key=config('API_KEY'), api_secret=config('API_SECRET'))        
+        cloudinary.config(cloud_name=config('CLOUD_NAME'), api_key=config('API_KEY'), api_secret=config('API_SECRET'))
         upload_result = None
         if request.method == "POST":
             file_to_upload = request.files["txtFoto"]

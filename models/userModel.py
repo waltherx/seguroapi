@@ -12,7 +12,7 @@ class UserModel:
                 cursor.execute("SELECT * FROM usuario")
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+                    user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
                     users.append(user.to_JSON())
             connection.close()
             return users
@@ -28,7 +28,7 @@ class UserModel:
                 row = cursor.fetchone()
                 user = None
                 if row != None:
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+                    user = User(row[0], row[1], row[2], row[3], row[4], row[5],row[6])
                     user = user.to_JSON()
 
             connection.close()
@@ -46,7 +46,7 @@ class UserModel:
                 row = cursor.fetchone()
                 user = None
                 if row != None:
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+                    user = User(row[0], row[1], row[2], row[3], row[4], row[5],row[6])
                     user = user.to_JSON()
             connection.close()
             return user
