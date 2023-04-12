@@ -90,7 +90,7 @@ app.register_blueprint(ambulanciaweb, url_prefix="/ambulancia")
 app.register_blueprint(usersweb, url_prefix="/user")
 app.register_blueprint(documentoWeb, url_prefix="/documento")
 
-# Blueprints Api Rest
+# Blueprints Api Rest fun
 app.register_blueprint(user.UserApi, url_prefix="/api/user")
 app.register_blueprint(phone.PhoneApi, url_prefix="/api/phone")
 app.register_blueprint(alergia.AlergiaApi, url_prefix="/api/alergia")
