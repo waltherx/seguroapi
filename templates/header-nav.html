@@ -14,7 +14,7 @@
             class="rounded-circle"
           />
           <span class="d-none d-md-block dropdown-toggle ps-2"
-            >{{user_nombre}}</span
+            >{{current_user.nameuser}}</span
           > </a
         ><!-- End Profile Iamge Icon -->
 
@@ -22,14 +22,14 @@
           class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile"
         >
           <li class="dropdown-header">
-            <h6>Usuario1</h6>
+            <h6>{{current_user.email}}</h6>
           </li>
           <li>
             <hr class="dropdown-divider" />
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="">
+            <a class="dropdown-item d-flex align-items-center" href="/user/view">
               <i class="bi bi-person"></i>
               <span>Perfil</span>
             </a>
@@ -47,21 +47,15 @@
           <li>
             <hr class="dropdown-divider" />
           </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="">
-              <i class="bi bi-question-circle"></i>
-              <span>Ayuda</span>
-            </a>
-          </li>
+        
           <li>
             <hr class="dropdown-divider" />
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
+            <a class="dropdown-item d-flex align-items-center" href="{{ url_for('logout')}}">
               <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
+              <span>Salir</span>
             </a>
           </li>
         </ul>

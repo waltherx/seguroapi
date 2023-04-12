@@ -181,8 +181,6 @@
         role="tabpanel"
         aria-labelledby="contact-tab"
       >
-        proximanente
-
         <div class="card-header" style="background-color: #011f4b">
           <button
             type="button"
@@ -193,9 +191,31 @@
             <span class="bi-plus-square-fill"></span>&nbsp;Nueva Alergia
           </button>
           {% include '/documento/create.html' %}
+
+          <div class="table-responsive bg-white container pt-2">
+            <table class="table table-sm table-bordered" id="example">
+              <thead>
+                <tr>
+                  <th class="text-center">Tipo</th>
+                  <th class="text-center">Fecha</th>
+                  <th class="text-center">documento</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for doc in documentos %}
+                <tr>
+                  <td class="text-center">{{doc.tipo}}</td>
+                  <td class="text-center">{{doc.fecha}}</td>
+                  <td class="text-center">
+                    <img src="https://res.cloudinary.com/dci37dfd7/image/upload/c_thumb,w_200,g_face/v1680995661/doc/{{doc.nombre}}" alt="" />
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
-
-
       </div>
     </div>
   </div>

@@ -28,7 +28,7 @@ def get_siniestro(id):
 
 
 @SiniestroApi.route("/add", methods=["POST"])
-def add_hospital():
+def add_siniestro():
     try:
         id = None
         descripccion = request.json["descripcion"]

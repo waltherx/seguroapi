@@ -1,0 +1,8 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="card-body">
+  <p><b>ID User : </b>{{current_user.id}}</p>
+  <p><b>Nombre de Usuario : </b>{{current_user.nameuser}}</p>
+  <p><b>Email : </b>{{current_user.email}}</p>
+  <p><b>Rol : </b>{{current_user.idrol}}</p>
+</div>
+{% endblock %}

@@ -19,6 +19,7 @@ from models.operacionModel import OperacionModel
 from models.documentoModel import DocumentoModel
 from models.medicamentoModel import MedicamentoModel
 from models.phoneModel import PhoneModel
+from models.documentoModel import DocumentoModel
 
 from werkzeug.utils import secure_filename
 from decouple import config
@@ -46,6 +47,8 @@ def view(id):
     operacionList = OperacionModel.get_operacion(id)
     medicamentoList = MedicamentoModel.get_medicamento(id)
     phonesList = PhoneModel.get_phone(id)
+    docList = DocumentoModel.get_documentos(id)
+    print(docList)
     return render_template(
         "persona/modal/view.html",
         paciente=personaOne,
@@ -53,6 +56,7 @@ def view(id):
         vacunas=vacunaList,
         operaciones=operacionList,
         medicamentos=medicamentoList,
+        documentos=docList
     )
 
 @personaweb.route("/createp", methods=["GET"])

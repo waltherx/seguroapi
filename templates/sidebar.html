@@ -7,7 +7,7 @@
         <span>Paciente</span>
       </a>
     </li>
-
+    {% if current_user.idrol==1 %}
     <li class="nav-item">
       <a
         class="nav-link collapsed"
@@ -38,7 +38,7 @@
         </li>
       </ul>
     </li>
-
+    {% endif %}
     <li class="nav-item">
       <a
         class="nav-link collapsed"
@@ -55,7 +55,9 @@
         data-bs-parent="#sidebar-nav"
       >
         <li>
-          <a href="/ambulancia"> <i class="bi bi-circle"></i><span>Ambulancia</span> </a>
+          <a href="/ambulancia">
+            <i class="bi bi-circle"></i><span>Ambulancia</span>
+          </a>
         </li>
         <li>
           <a href="/chofer">

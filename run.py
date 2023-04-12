@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from decouple import config
-from flask_login import LoginManager
 from flask_qrcode import QRcode
 from flask_cors import CORS
+
+from flask_login import LoginManager, login_user,logout_user,login_required,current_user
 
 # from flask_session import Session
 
@@ -16,7 +17,9 @@ from routes import hospital
 from routes import siniestro
 from routes import ambulancia
 from routes import chofer
-from routes import user 
+from routes import user
+
+from models.entities.User import User
 
 from controllers.AlergiaController import alergiaweb
 from controllers.EnfermedadController import enfermedadweb
@@ -32,17 +35,40 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
 
 qrcode = QRcode(app)
+login_manager_app = LoginManager(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+@app.route("/logout")
+def logout():
+    logout_user()
+    flash("Usuario Salio", "success")
+    return redirect("/login")
 
-@login_manager.user_loader
-def load_user(user_id):
-    return UserModel.get_user(user_id)
-
-@app.route("/")
-def index():
+@app.route("/login", methods=["GET","POST"])
+def login():
+    if request.method == "POST":
+        _nameuser = request.form.get("txtNombre")
+        _password = request.form.get("txtPassword")
+        _user = User(None, _nameuser, _password, None, None, None, None)
+        if _user:
+            if _nameuser and _password:
+                user_loged = UserModel.login(_user)
+                if user_loged != None:
+                    login_user(user_loged)
+                    print(current_user)
+                    flash("bienvenido", "success")
+                    return render_template("/home.html")
+                else:
+                    flash("Nombre de Usuario o contrasenia no coincide")
+                    return render_template("/user/login.html")
+            flash("datos vacios")
+            return render_template("/user/login.html")
+        flash("usuario no regristrado")
+        return render_template("/user/login.html")
     return render_template("/user/login.html")
+
+@login_manager_app.user_loader
+def load_user(user_id):    
+    return UserModel.get_user(user_id)
 
 @app.route("/home")
 def home():
@@ -50,6 +76,9 @@ def home():
 
 def page_not_found(error):
     return render_template("404.html"), 404
+
+def page_not_authorized(error):
+    return redirect(url_for("login"))
 
 # Blueprints App Web
 app.register_blueprint(alergiaweb, url_prefix="/alergia")
@@ -72,6 +101,7 @@ app.register_blueprint(persona.PersonaApi, url_prefix="/api/paciente")
 app.register_blueprint(ambulancia.AmbulanciaApi, url_prefix="/api/ambulancia")
 app.register_blueprint(chofer.ChoferApi, url_prefix="/api/chofer")
 # Error handlers
+app.register_error_handler(401, page_not_authorized)
 app.register_error_handler(404, page_not_found)
 # inits
 

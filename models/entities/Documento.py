@@ -2,6 +2,7 @@ class Documento:
     def __init__(
         self,
         id=None,
+        nombre=None,
         url=None,
         tipo=None,
         descripcion=None,
@@ -9,6 +10,7 @@ class Documento:
         ci=None,
     ) -> None:
         self.id = id
+        self.nombre = nombre
         self.url = url
         self.tipo = tipo
         self.descripcion = descripcion
@@ -18,6 +20,7 @@ class Documento:
     def to_JSON(self):
         return {
             "id": self.id,
+            "nombre":self.nombre,
             "url": self.url,
             "tipo": self.tipo,
             "descripcion": self.descripcion,

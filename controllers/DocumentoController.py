@@ -5,6 +5,13 @@ from decouple import config
 from models.entities.Documento import Documento
 from models.documentoModel import DocumentoModel
 
+from models.personaModel import PersonaModel
+from models.vacunaModel import VacunaModel
+from models.operacionModel import OperacionModel
+from models.documentoModel import DocumentoModel
+from models.medicamentoModel import MedicamentoModel
+from models.phoneModel import PhoneModel
+
 import datetime, time
 from werkzeug.utils import secure_filename
 import cloudinary
@@ -15,7 +22,12 @@ documentoWeb = Blueprint(
     "documento_bp", __name__, template_folder="templates/documento"
 )
 
-@documentoWeb.route("/create/<ci>", methods=["GET", "POST"])
+@documentoWeb.route("/<ci>",methods=["GET"])
+def get_docs(ci):
+    pass
+
+
+@documentoWeb.route("/create/<ci>", methods=["POST"])
 def add_document(ci):
     if request.method == "POST":
         _tipo = request.args.get("txtTipo")
@@ -40,8 +52,22 @@ def add_document(ci):
             )
             _url = upload_result["secure_url"]
             _docu = Documento(None, _url, _tipo, _descripcion, ci)
-            flash("Documento subido.." + fileName)            
+            flash("Documento subido.." + fileName)
             print(_docu.to_JSON())
             print(upload_result)
-            return redirect("/")
+            personaOne = PersonaModel.get_persona(id)
+            vacunaList = VacunaModel.get_vacuna(id)
+            operacionList = OperacionModel.get_operacion(id)
+            medicamentoList = MedicamentoModel.get_medicamento(id)
+            phonesList = PhoneModel.get_phone(id)
+            docList = DocumentoModel.get_documentos(id)
+            return render_template(
+                "persona/modal/view.html",
+                paciente=personaOne,
+                phones=phonesList,
+                vacunas=vacunaList,
+                operaciones=operacionList,
+                medicamentos=medicamentoList,
+                documentos=docList
+            )
     return redirect("/enfermedad")

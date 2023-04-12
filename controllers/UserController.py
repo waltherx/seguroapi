@@ -44,24 +44,9 @@ def create():
             flash(e.args[1])
             return redirect("/user")
 
-
-@usersweb.route("/login", methods=["POST"])
-def login():
-    _nameuser = request.form.get("txtNombre")
-    _password = request.form.get("txtPassword")
-    _user = UserModel.get_userbyname(_nameuser)
-    if _user:
-        if _nameuser and _password:
-            if check_password_hash(_user["password"], _password):
-                flash("bienvenido")
-                return render_template("/home.html",user_nombre=_nameuser)
-            else:
-                flash("Nombre de Usuario o contrasenia no coincide")
-                return render_template("/user/login.html")
-        flash("datos vacios")
-        return render_template("/user/login.html")
-    flash("usuario no regristrado")
-    return render_template("/user/login.html")
+@usersweb.route("/view", methods=["GET"])
+def view():
+    return render_template('user/view.html')
 
 
 """
