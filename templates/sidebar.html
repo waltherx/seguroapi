@@ -1,13 +1,14 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
+    {% if current_user.idrol==1 %}
     <li class="nav-item">
       <a class="nav-link" href="/paciente">
         <i class="bi bi-person-square"></i>
         <span>Paciente</span>
       </a>
     </li>
-    {% if current_user.idrol==1 %}
+
     <li class="nav-item">
       <a
         class="nav-link collapsed"
@@ -38,7 +39,7 @@
         </li>
       </ul>
     </li>
-    {% endif %}
+
     <li class="nav-item">
       <a
         class="nav-link collapsed"
@@ -95,6 +96,82 @@
         </li>
       </ul>
     </li>
+    {% elif current_user.idrol == 2 or current_user.idrol == 4 %}
+    <li class="nav-item">
+      <a class="nav-link" href="/paciente">
+        <i class="bi bi-person-square"></i>
+        <span>Paciente</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link collapsed"
+        data-bs-target="#forms-nava"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-journal-text"></i><span>Administrar</span
+        ><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul
+        id="forms-nava"
+        class="nav-content collapse"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href=""> <i class="bi bi-circle"></i><span>Hospital</span> </a>
+        </li>
+        <li>
+          <a href="/enfermedad">
+            <i class="bi bi-circle"></i><span>Enfermedad</span>
+          </a>
+        </li>
+        <li>
+          <a href="/alergia">
+            <i class="bi bi-circle"></i><span>Alergia</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link collapsed"
+        data-bs-target="#forms-navc"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-hospital"></i><span>Emergencias</span
+        ><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul
+        id="forms-navc"
+        class="nav-content collapse"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href="/ambulancia">
+            <i class="bi bi-circle"></i><span>Ambulancia</span>
+          </a>
+        </li>
+        <li>
+          <a href="/chofer">
+            <i class="bi bi-circle"></i><span>Chofer</span>
+          </a>
+        </li>
+        <li>
+          <a href="/paramedico">
+            <i class="bi bi-circle"></i><span>Paramedico</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    {% else %}
+    <span>----</span>
+    {% endif %}
   </ul>
 </aside>
+
+
 <!-- End Sidebar-->

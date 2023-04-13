@@ -40,6 +40,7 @@ qrcode = QRcode(app)
 login_manager_app = LoginManager(app)
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     flash("Usuario Salio", "success")

@@ -9,8 +9,19 @@ from models.tokenModel import TokenModel
 TokenApi = Blueprint("token_blueprint", __name__)
 
 
+@TokenApi.route("/<id>", methods=["GET"])
+def get_token(id):
+    try:
+        _token = TokenModel.get_token(id)
+        if _token != None:
+            return jsonify({"tokens": _token})
+        return jsonify({"message": "no hay tokens"})
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
 @TokenApi.route("/add", methods=["POST"])
-def add_alergia():
+def add_token():
     try:
         id = None
         _token = request.json["token"]

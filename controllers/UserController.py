@@ -31,15 +31,15 @@ def create():
             _password = generate_password_hash(_pass)
             _email = request.form.get("txtEmail")
             _rol = request.form.get("txtRol")
-            user = User(None, _name, _password, _email, None,None, _rol)
+            user = User(None, _name, _password, _email, None, None, _rol)
             ok = UserModel.add_user(user)
-            if ok:                
-                flash("User Agregado Correctamente")                                
+            if ok:
+                flash("User Agregado Correctamente")
             else:
                 flash("User no Agregado")
             return redirect("/user")
         except Exception as e:
-            flash(e.args[1])            
+            flash(e.args[1])
             return redirect("/user")
 
 

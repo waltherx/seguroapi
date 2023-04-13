@@ -7,7 +7,7 @@ class TokenModel:
     def get_token(self, id):
         try:
             connection = get_connection()
-            sQuey = f"SELECT t.idt, t.user_id, t.token, t.created_at, t.updated_at FROM public.tokens t, public.usuario u where u.idu = t.user_id and t.user_id = {id};"
+            sQuey = f"SELECT t.idt, t.user_id, t.token, t.created_at, t.updated_at FROM public.tokens t, public.usuario u where t.user_id = u.idu and u.idu  = {id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuey)
                 row = cursor.fetchone()
