@@ -18,6 +18,8 @@ from routes import siniestro
 from routes import ambulancia
 from routes import chofer
 from routes import user
+from routes import documento
+from routes import token
 
 from models.entities.User import User
 
@@ -100,10 +102,12 @@ app.register_blueprint(siniestro.SiniestroApi, url_prefix="/api/siniestro")
 app.register_blueprint(persona.PersonaApi, url_prefix="/api/paciente")
 app.register_blueprint(ambulancia.AmbulanciaApi, url_prefix="/api/ambulancia")
 app.register_blueprint(chofer.ChoferApi, url_prefix="/api/chofer")
+app.register_blueprint(documento.DocumentoApi, url_prefix="/api/doc")
+app.register_blueprint(token.TokenApi, url_prefix="/api/token")
 # Error handlers
 app.register_error_handler(401, page_not_authorized)
 app.register_error_handler(404, page_not_found)
 # inits
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
