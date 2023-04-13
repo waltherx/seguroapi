@@ -95,10 +95,7 @@
                         Ingrese su Cuenta
                       </h5>
                       <p class="text-center small">Datos Usuario</p>
-                    </div>
-                    {% if current_user.is_authenticated %}
-                    {{                      
-                      redirect(url_for('home'))}} {% else %}
+                    </div>                    
                     <form
                       class="row g-3 needs-validation"
                       action="{{ url_for('login')}}"
@@ -146,8 +143,7 @@
                           Login
                         </button>
                       </div>
-                    </form>
-                    {% endif %}
+                    </form>                    
                   </div>
                 </div>
 
