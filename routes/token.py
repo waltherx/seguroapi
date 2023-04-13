@@ -16,10 +16,10 @@ def add_alergia():
         _token = request.json["token"]
         _user_name = request.json["user_id"]
         token = Token(id, _user_name, _token, None, None)
-        affected_rows = TokenModel.add_token(token)
+        res_token = TokenModel.add_token(token)
 
-        if affected_rows == 1:
-            return jsonify({"message": "Token insert!"}), 201
+        if res_token != None:
+            return jsonify({"id_token": res_token, "message": "token insertado!"}), 201
         else:
             return jsonify({"message": "Error on insert"})
     except Exception as ex:
