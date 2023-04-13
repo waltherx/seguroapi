@@ -1,4 +1,4 @@
-from flask import Flask
+from flask_login import login_required
 from flask import Blueprint
 from flask import (
     render_template,
@@ -10,9 +10,8 @@ from models.paramedicoModel import ParamedicoModel
 
 paramedicoweb = Blueprint("paramedico_bp", __name__, template_folder="templates/paramedico")
 
-
-# @login_required
 @paramedicoweb.route("/")
+@login_required
 def index():
     pList = ParamedicoModel.get_paramedicosA()
     return render_template("/paramedico/index.html", paramedicos=pList)

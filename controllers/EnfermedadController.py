@@ -1,4 +1,4 @@
-from flask import Flask
+from flask_login import login_required
 from flask import Blueprint
 from flask import (
     render_template,
@@ -14,15 +14,15 @@ enfermedadweb = Blueprint(
 )
 
 
-# @login_required
 @enfermedadweb.route("/")
+@login_required
 def index():
     enfermedadList = EnfermedadModel.get_enfermedads()
     return render_template("/enfermedad/index.html", enfermedads=enfermedadList)
 
 
-# @login_required
 @enfermedadweb.route("/create", methods=["POST"])
+@login_required
 def create():
     if request.method == "POST":
         try:
@@ -36,10 +36,10 @@ def create():
             return redirect("/enfermedad")
 
 
-# @login_required
 @enfermedadweb.route("/update/<id>", methods=["GET", "POST"])
+@login_required
 def update(id):
-    if request.method == "POST":        
+    if request.method == "POST":
         try:
             _nombre = request.form.get("txtNombre")
             enfermedad = Enfermedad(id, _nombre)
@@ -52,6 +52,7 @@ def update(id):
 
 
 @enfermedadweb.route("/delete/<id>", methods=["GET", "POST"])
+@login_required
 def delete(id):
     if request.method == "POST":
         enfermedad = Enfermedad(id, "Elimina")

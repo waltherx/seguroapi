@@ -1,4 +1,4 @@
-from flask import Flask
+from flask_login import login_required
 from flask import Blueprint
 from flask import (
     config,
@@ -41,6 +41,7 @@ def create():
 
 # @login_required
 @alergiaweb.route("/update/<id>", methods=["GET", "POST"])
+@login_required
 def update(id):
     if request.method == "POST":
         try:
@@ -55,6 +56,7 @@ def update(id):
 
 
 @alergiaweb.route("/delete/<id>", methods=["GET", "POST"])
+@login_required
 def delete(id):
     if request.method == "POST":
         alergia = Alergia(id, "Elimina")
