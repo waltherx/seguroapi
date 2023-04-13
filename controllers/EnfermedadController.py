@@ -9,8 +9,6 @@ from flask import (
 from models.entities.Enfermedad import Enfermedad
 from models.enfermedadModel import EnfermedadModel
 
-# from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
 enfermedadweb = Blueprint(
     "enfermedad_bp", __name__, template_folder="templates/enfermedad"
 )

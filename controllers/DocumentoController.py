@@ -35,7 +35,6 @@ def add_document(ci):
         timeFormat = _fecha.strftime("%d/%m/%Y %H:%M:%S")
         _feha = timeFormat
         _documento = request.files["txtDoc"]
-        print(_documento)
         _nameDoc = _documento.filename
         _descripcion = request.args.get("txtDescrip")
         cloudinary.config(
@@ -53,8 +52,6 @@ def add_document(ci):
             _url = upload_result["secure_url"]
             _docu = Documento(None, _url, _tipo, _descripcion, ci)
             flash("Documento subido.." + fileName)
-            print(_docu.to_JSON())
-            print(upload_result)
             personaOne = PersonaModel.get_persona(id)
             vacunaList = VacunaModel.get_vacuna(id)
             operacionList = OperacionModel.get_operacion(id)

@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask
+from flask_login import login_required
 from flask import Blueprint
 from flask import (
     render_template,
@@ -34,13 +34,15 @@ def allowed_file(filename):
 
 personaweb = Blueprint("persona_bp", __name__, template_folder="templates/persona")
 
-# @login_required
+
 @personaweb.route("/")
+@login_required
 def index():
     personaList = PersonaModel.get_personas()
     return render_template("/persona/index.html", personas=personaList)
 
 @personaweb.route("/view/<id>", methods=["GET", "POST"])
+@login_required
 def view(id):
     personaOne = PersonaModel.get_persona(id)
     vacunaList = VacunaModel.get_vacuna(id)
@@ -48,7 +50,6 @@ def view(id):
     medicamentoList = MedicamentoModel.get_medicamento(id)
     phonesList = PhoneModel.get_phone(id)
     docList = DocumentoModel.get_documentos(id)
-    print(docList)
     return render_template(
         "persona/modal/view.html",
         paciente=personaOne,
@@ -60,10 +61,12 @@ def view(id):
     )
 
 @personaweb.route("/createp", methods=["GET"])
+@login_required
 def createp():
     return render_template("persona/modal/create.html")
 
 @personaweb.route("/updatep/<ci>", methods=["GET"])
+@login_required
 def updatep(ci):
     persona = PersonaModel.get_persona(ci)
     return render_template("persona/modal/edit.html", paciente=persona)
@@ -71,6 +74,7 @@ def updatep(ci):
 
 # @login_required
 @personaweb.route("/create", methods=["POST"])
+@login_required
 def create():
     if request.method == "POST":
         _ci = request.form.get("txtCI")
@@ -106,7 +110,6 @@ def create():
             file_to_upload = request.files["txtFoto"]
         if file_to_upload:
             upload_result = cloudinary.uploader.upload(file_to_upload)
-            print(upload_result)
             return redirect("/paciente")
 
         return redirect("/paciente")
@@ -121,9 +124,8 @@ def create():
 			flash(e.args[1])
 			return redirect("/paciente")"""
 
-
-# @login_required
 @personaweb.route("/update/<id>", methods=["GET", "POST"])
+@login_required
 def update(id):
     if request.method == "POST":
         _nombre = request.form.get("nombre")
@@ -138,6 +140,7 @@ def update(id):
 
 
 @personaweb.route("/delete/<id>", methods=["GET", "POST"])
+@login_required
 def delete(id):
     enfermedad = Persona(id, "Elimina")
     PersonaModel.delete_persona(enfermedad)

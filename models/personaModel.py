@@ -37,7 +37,6 @@ class PersonaModel:
         try:
             connection = get_connection()
             sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular,  foto, tiposangre, hipertencion, altura, peso, direccion FROM persona WHERE ci = {ci} ORDER BY ci ASC;"
-            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()

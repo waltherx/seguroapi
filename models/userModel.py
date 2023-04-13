@@ -47,22 +47,16 @@ class UserModel:
 
     @classmethod
     def get_user(self, id):
-        try:
-            connection = get_connection()
-            with connection.cursor() as cursor:
-                sQuey = f"SELECT p.idu, p.nameuser, p.password, p.email, p.estado, p.token, r.idrol ,r.nombre  FROM public.usuario p,public.rol r where p.idrol  = r.idrol and p.idu = {id};"
-                cursor.execute(sQuey)
-                row = cursor.fetchone()
-                user = None
-                _rol = None
-                if row != None:
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-                    user = user.to_JSON()
-            connection.close()
-            print(user)
-            return user
-        except Exception as ex:
-            raise Exception(ex)
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sQuey = f"SELECT p.idu, p.nameuser, p.password, p.email, p.estado, p.token, r.idrol ,r.nombre  FROM public.usuario p,public.rol r where p.idrol  = r.idrol and p.idu = {id};"
+            cursor.execute(sQuey)
+            row = cursor.fetchone()
+            user = None
+            if row != None:
+                user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+        connection.close()
+        return user
 
     @classmethod
     def get_userbyname(self, nameuser):
@@ -109,17 +103,19 @@ class UserModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
-        
+
     @classmethod
     def update_user_token(self, user):
-            try:
-                conneection = get_connection()            
-                sQuery = f"UPDATE public.usuario SET token='{user.token}' WHERE idu={user.id};"
-                with conneection.cursor() as cursor:
-                    cursor.execute(sQuery)
-                    affected_rows = cursor.rowcount
-                    conneection.commit()
-                conneection.close()
-                return affected_rows
-            except Exception as ex:
-                raise Exception(ex)
+        try:
+            conneection = get_connection()
+            sQuery = (
+                f"UPDATE public.usuario SET token='{user.token}' WHERE idu={user.id};"
+            )
+            with conneection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                conneection.commit()
+            conneection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)

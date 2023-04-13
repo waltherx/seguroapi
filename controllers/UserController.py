@@ -1,4 +1,4 @@
-from flask import Flask
+from flask_login import login_required
 from flask import Blueprint
 from flask import (
     render_template,
@@ -11,22 +11,18 @@ from models.entities.User import User
 from models.userModel import UserModel
 from werkzeug.security import generate_password_hash
 
-from werkzeug.security import check_password_hash
-
-# from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
 usersweb = Blueprint("user_bp", __name__, template_folder="templates/user")
 
 
-# @login_required
 @usersweb.route("/")
+@login_required
 def index():
     userList = UserModel.get_users()
     return render_template("/user/index.html", users=userList)
 
 
-# @login_required
 @usersweb.route("/create", methods=["POST"])
+@login_required
 def create():
     if request.method == "POST":
         try:
@@ -44,9 +40,11 @@ def create():
             flash(e.args[1])
             return redirect("/user")
 
+
 @usersweb.route("/view", methods=["GET"])
+@login_required
 def view():
-    return render_template('user/view.html')
+    return render_template("user/view.html")
 
 
 """

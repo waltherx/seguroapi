@@ -27,4 +27,6 @@ class User(UserMixin):
 	@classmethod
 	def verificar_password(self, encriptado, password):
 		return check_password_hash(encriptado, password)
-  
+
+	def __repr__(self):
+		return f'User(\'{self.id}\', {self.nameuser})'

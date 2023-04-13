@@ -31,7 +31,6 @@ class TokenModel:
                 connection.commit()
                 id_token = None
                 if row != None:
-                    print([0])
                     id_token = row[0]                    
                 connection.close()
                 return id_token

@@ -6,8 +6,7 @@ class DocumentoModel:
     @classmethod
     def get_documentos(self, ci):
         try:
-            sQuery = f"SELECT iddoc,nombre, url, tipo, fecha,ci_persona FROM public.documento, public.persona where persona.ci=documento.ci_persona and documento.ci_persona = {ci};"
-            
+            sQuery = f"SELECT iddoc,nombre, url, tipo, fecha,ci_persona FROM public.documento, public.persona where persona.ci=documento.ci_persona and documento.ci_persona = {ci};"            
             connection = get_connection()
             documentos = []
             with connection.cursor() as cursor:
@@ -17,7 +16,6 @@ class DocumentoModel:
                     documento = Documento(
                         row[0], row[1], row[2], row[3], None, row[4], row[5]
                     )
-                    print(documento.to_JSON())
                     documentos.append(documento.to_JSON())
             connection.close()            
             return documentos
@@ -43,7 +41,6 @@ class DocumentoModel:
         try:
             connection = get_connection()
             sQuery = f"UPDATE vacuna SET nombre='{documento.nombre}', direccion='{documento.direccion}', lat={documento.lat}, longi={documento.long} WHERE idh = {documento.id}"
-            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

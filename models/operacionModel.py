@@ -39,7 +39,6 @@ class OperacionModel:
         try:
             connection = get_connection()
             sQuery = f"UPDATE vacuna SET nombre='{operacion.nombre}', direccion='{operacion.direccion}', lat={operacion.lat}, longi={operacion.long} WHERE idh = {operacion.id}"
-            print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

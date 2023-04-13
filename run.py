@@ -52,11 +52,10 @@ def login():
         _password = request.form.get("txtPassword")
         _user = User(None, _nameuser, _password, None, None, None, None)
         if _user:
-            if _nameuser and _password:
-                user_loged = UserModel.login(_user)
+            if _nameuser and _password:                
+                user_loged = UserModel.login(_user)                
                 if user_loged != None:
                     login_user(user_loged)
-                    print(current_user)
                     flash("bienvenido", "success")
                     return render_template("/home.html")
                 else:
@@ -69,12 +68,20 @@ def login():
     return render_template("/user/login.html")
 
 @login_manager_app.user_loader
-def load_user(user_id):    
-    return UserModel.get_user(user_id)
+def load_user(user_id):
+    user =  UserModel.get_user(user_id)
+    print("o aqui")
+    print(user)
+    return user
 
 @app.route("/home")
+@login_required
 def home():
     return render_template("/home.html")
+
+@app.route("/")
+def home1():
+    return render_template("/user/login.html")
 
 def page_not_found(error):
     return render_template("404.html"), 404

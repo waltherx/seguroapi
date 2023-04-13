@@ -1,4 +1,4 @@
-from flask import Flask
+from flask_login import login_required
 from flask import Blueprint
 from flask import (
     render_template,
@@ -10,10 +10,8 @@ from models.ambulanciaModel import AmbulanciaModel
 
 ambulanciaweb = Blueprint("ambulancia_bp", __name__, template_folder="templates/ambulancia")
 
-
-
-# @login_required
 @ambulanciaweb.route("/")
+@login_required
 def index():
     _ia=config('MAPBOX_KEY')
     mapbox_url = 'mapbox://styles/carlps/cj6qydf6v3xju2rpqsre0immg'
