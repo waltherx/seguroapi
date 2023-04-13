@@ -12,9 +12,9 @@ TokenApi = Blueprint("token_blueprint", __name__)
 @TokenApi.route("/<id>", methods=["GET"])
 def get_token(id):
     try:
-        _token = TokenModel.get_token(id)
-        if _token != None:
-            return jsonify({"tokens": _token})
+        _tokens = TokenModel.get_token(id)
+        if _tokens != None:
+            return jsonify({"tokens": _tokens})
         return jsonify({"message": "no hay tokens"})
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

@@ -8,15 +8,15 @@ class TokenModel:
         try:
             connection = get_connection()
             sQuey = f"SELECT t.idt, t.user_id, t.token, t.created_at, t.updated_at FROM public.tokens t, public.usuario u where t.user_id = u.idu and u.idu  = {id};"
+            tokens = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuey)
-                row = cursor.fetchone()
-                token = None
-                if row != None:
+                resultset = cursor.fetchall()
+                for row in resultset:
                     token = Token(row[0], row[1], row[2], row[3], row[4])
-                    token = token.to_JSON()
+                    tokens.append(token.to_JSON())                
             connection.close()
-            return token
+            return tokens
         except Exception as ex:
             raise Exception(ex)
 
