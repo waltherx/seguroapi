@@ -8,7 +8,7 @@ from flask import (
 from models.entities.Hospital import Hospital
 from models.hospitalModel import HospitalModel
 
-hospitalweb = Blueprint("chofer_bp", __name__, template_folder="templates/hospital")
+hospitalweb = Blueprint("hospital_bp", __name__, template_folder="templates/hospital")
 
 @hospitalweb.route("/")
 @login_required

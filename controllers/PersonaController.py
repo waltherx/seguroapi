@@ -51,7 +51,7 @@ def view(id):
     phonesList = PhoneModel.get_phone(id)
     docList = DocumentoModel.get_documentos(id)
     return render_template(
-        "persona/modal/view.html",
+        "persona/modal/view2.html",
         paciente=personaOne,
         phones=phonesList,
         vacunas=vacunaList,

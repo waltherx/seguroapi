@@ -3,7 +3,13 @@ from decouple import config
 from flask_qrcode import QRcode
 from flask_cors import CORS
 
-from flask_login import LoginManager, login_user,logout_user,login_required,current_user
+from flask_login import (
+    LoginManager,
+    login_user,
+    logout_user,
+    login_required,
+    current_user,
+)
 
 # from flask_session import Session
 
@@ -31,6 +37,8 @@ from controllers.ParamedicoController import paramedicoweb
 from controllers.ChoferControlller import chofersweb
 from controllers.AmbulanciaController import ambulanciaweb
 from controllers.DocumentoController import documentoWeb
+from controllers.HospitalController import hospitalweb
+
 
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
@@ -39,6 +47,7 @@ app.config["SECRET_KEY"] = config("SECRET_KEY")
 qrcode = QRcode(app)
 login_manager_app = LoginManager(app)
 
+
 @app.route("/logout")
 @login_required
 def logout():
@@ -46,34 +55,38 @@ def logout():
     flash("Usuario Salio", "success")
     return redirect("/login")
 
-@app.route("/login", methods=["GET","POST"])
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        _nameuser = request.form.get("txtNombre")
-        _password = request.form.get("txtPassword")
-        _user = User(None, _nameuser, _password, None, None, None, None)
-        if _user:
-            if _nameuser and _password:                
-                user_loged = UserModel.login(_user)                
-                if user_loged != None:
-                    login_user(user_loged)
-                    flash("bienvenido", "success")
-                    return render_template("/home.html")
-                else:
-                    flash("Nombre de Usuario o contrasenia no coincide")
-                    return render_template("/user/login.html")
-            flash("datos vacios")
+    if current_user.is_authenticated:
+        return render_template("/home.html")
+    else:
+        if request.method == "POST":
+            _nameuser = request.form.get("txtNombre")
+            _password = request.form.get("txtPassword")
+            _user = User(None, _nameuser, _password, None, None, None, None)
+            if _user:
+                if _nameuser and _password:
+                    user_loged = UserModel.login(_user)
+                    if user_loged != None:
+                        login_user(user_loged)
+                        flash("bienvenido", "success")
+                        return render_template("/home.html")
+                    else:
+                        flash("Nombre de Usuario o contrasenia no coincide")
+                        return render_template("/user/login.html")
+                flash("datos vacios")
+                return render_template("/user/login.html")
+            flash("usuario no regristrado")
             return render_template("/user/login.html")
-        flash("usuario no regristrado")
-        return render_template("/user/login.html")
     return render_template("/user/login.html")
+
 
 @login_manager_app.user_loader
 def load_user(user_id):
-    user =  UserModel.get_user(user_id)
-    print("o aqui")
-    print(user)
+    user = UserModel.get_user(user_id)
     return user
+
 
 @app.route("/home")
 @login_required
@@ -81,14 +94,18 @@ def home():
     return render_template("/home.html")
 
 @app.route("/")
+@login_required
 def home1():
-    return render_template("/user/login.html")
+    return render_template("/home.html")
+
 
 def page_not_found(error):
     return render_template("404.html"), 404
 
+
 def page_not_authorized(error):
     return redirect(url_for("login"))
+
 
 # Blueprints App Web
 app.register_blueprint(alergiaweb, url_prefix="/alergia")
@@ -99,6 +116,7 @@ app.register_blueprint(paramedicoweb, url_prefix="/paramedico")
 app.register_blueprint(ambulanciaweb, url_prefix="/ambulancia")
 app.register_blueprint(usersweb, url_prefix="/user")
 app.register_blueprint(documentoWeb, url_prefix="/documento")
+app.register_blueprint(hospitalweb, url_prefix="/hospital")
 
 # Blueprints Api Rest fun
 app.register_blueprint(user.UserApi, url_prefix="/api/user")
