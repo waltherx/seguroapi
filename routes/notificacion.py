@@ -22,6 +22,20 @@ def get_notifs(id):
             )
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+    
+@NotificacionApi.route("/des/<id>")
+def get_notifdes(id):
+    try:
+        notifs = NotificacionModel.get_notifdes(id)
+        if notifs != None:
+            return jsonify({"Notificaciones": notifs}), 200
+        else:
+            return (
+                jsonify({"message": "nose encontro notificaciones con este id :" + id}),
+                404,
+            )
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500        
 
 
 @NotificacionApi.route("/add", methods=["POST"])

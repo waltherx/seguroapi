@@ -33,3 +33,21 @@ class NotificacionModel:
             return notifs
         except Exception as ex:
             raise Exception(ex)
+
+
+    @classmethod
+    def get_notifdes(self, id):
+        try:
+            connection = get_connection()
+            sQuey = f"SELECT idnoti, titulo, descripcion, fecha_creacion, fecha_envio, user_destino, user_remitente, leido FROM public.notificacion where user_destino = {id} and leido = false;"
+            notifs = []
+            with connection.cursor() as cursor:
+                cursor.execute(sQuey)
+                resultset = cursor.fetchall()
+                for row in resultset:
+                    noti = Notificacion(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+                    notifs.append(noti.to_JSON())
+            connection.close()
+            return notifs
+        except Exception as ex:
+            raise Exception(ex)
