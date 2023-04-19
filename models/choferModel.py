@@ -7,13 +7,13 @@ class ChoferModel:
     def get_chofer(self, id):
         try:
             connection = get_connection()
-            sQuey = f"SELECT idch, licencia, categoria, estado, id_ambulancia FROM public.chofer where idch = {id};"
+            sQuey = f"SELECT idch, licencia, categoria, estado, id_ambulancia,user_id FROM public.chofer where idch = {id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuey)
                 row = cursor.fetchone()
                 chofer = None
                 if row != None:
-                    chofer = Chofer(row[0], row[1], row[2], row[3], row[4])
+                    chofer = Chofer(row[0], row[1], row[2], row[3], row[4],row[5])
                     chofer = chofer.to_JSON()
             connection.close()
             return chofer
@@ -23,14 +23,14 @@ class ChoferModel:
     @classmethod
     def get_chofersxId(self, id):
         try:
-            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia FROM public.chofer, public.ambulancia  where chofer.id_ambulancia = ambulancia.idam  and chofer.id_ambulancia =  {id};"
+            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, user_id FROM public.chofer, public.ambulancia  where chofer.id_ambulancia = ambulancia.idam  and chofer.id_ambulancia =  {id};"
             connection = get_connection()
             chofers = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    chofer = Chofer(row[0], row[1], row[2], row[3], row[4])
+                    chofer = Chofer(row[0], row[1], row[2], row[3], row[4],row[5])
                     chofers.append(chofer.to_JSON())
                 connection.close()
             return chofers
@@ -40,14 +40,14 @@ class ChoferModel:
     @classmethod
     def get_chofers(self):
         try:
-            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia FROM chofer"
+            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, user_id FROM chofer"
             connection = get_connection()
             chofers = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    chofer = Chofer(row[0], row[1], row[2], row[3], row[4])
+                    chofer = Chofer(row[0], row[1], row[2], row[3], row[4],row[5])
                     chofers.append(chofer.to_JSON())
                 connection.close()
             return chofers

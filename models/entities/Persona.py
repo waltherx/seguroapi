@@ -12,6 +12,7 @@ class Persona:
         altura=None,
         peso=None,
         direccion=None,
+        user_id=None,
     ) -> None:
         self.ci = ci
         self.nombres = nombres
@@ -24,6 +25,7 @@ class Persona:
         self.altura = altura
         self.peso = peso
         self.direccion = direccion
+        self.user_id = user_id
 
     def to_JSON(self):
         return {
@@ -38,4 +40,5 @@ class Persona:
             "altura": self.altura,
             "peso": self.peso,
             "direccion": self.direccion,
+            "user_id": self.user_id,
         }

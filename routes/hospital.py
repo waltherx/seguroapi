@@ -2,9 +2,11 @@ from flask import Blueprint, jsonify, request
 
 # Entities
 from models.entities.Hospital import Hospital
+from models.entities.Medico import Medico
 
 # Models
 from models.hospitalModel import HospitalModel
+from models.medicoModel import MedicoModel
 
 HospitalApi = Blueprint("hospital_blueprint", __name__)
 
@@ -22,8 +24,12 @@ def get_hospitals():
 def get_hospital(id):
     try:
         hospital = HospitalModel.get_hospital(id)
+        medicos = MedicoModel.get_medicosXhospital(id)
         if hospital != None:
-            return jsonify(hospital)
+            return (
+                jsonify({"hospital": hospital, "medicos": medicos, "message": "ok"}),
+                200,
+            )
         else:
             return jsonify({}), 404
     except Exception as ex:
