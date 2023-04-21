@@ -2,28 +2,25 @@ class Emergencia:
     def __init__(
         self,
         id=None,
-        titulo=None,
-        fecha_creacion=None,
-        fecha_envio=None,
-        user_destino=None,
-        user_remitente=None,
-        leido=None,
+        fecha=None,
+        descripcion=None,
+        estado=None,
+        ambulancia_id=None,
+        hospital_id=None,
     ) -> None:
         self.id = id
-        self.titulo = titulo
-        self.fecha_creacion = fecha_creacion
-        self.fecha_envio = fecha_envio
-        self.user_destino = user_destino
-        self.user_remitente = user_remitente
-        self.leido = leido
+        self.fecha = fecha
+        self.descripcion = descripcion
+        self.estado = estado
+        self.ambulancia_id = ambulancia_id
+        self.hospital_id = hospital_id
 
     def to_JSON(self):
         return {
             "id": self.id,
-            "titulo":self.titulo,
-            "fecha_creacion": self.fecha_creacion,
-            "fecha_envio": self.fecha_envio,
-            "user_destino": self.user_destino,
-            "user_remitente": self.user_remitente,
-            "leido": self.leido,
+            "fecha": self.fecha,
+            "descripcion": self.descripcion,
+            "estado": self.estado,
+            "ambulancia_id": self.ambulancia_id,
+            "hospital_id": self.hospital_id,
         }

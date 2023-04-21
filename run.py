@@ -29,6 +29,7 @@ from routes import token
 from routes import notificacion
 from routes import paramedico
 from routes import medico
+from routes import emergencia
 
 
 from models.entities.User import User
@@ -137,6 +138,7 @@ app.register_blueprint(token.TokenApi, url_prefix="/api/token")
 app.register_blueprint(notificacion.NotificacionApi, url_prefix="/api/notificacion")
 app.register_blueprint(paramedico.ParamedicoApi, url_prefix="/api/paramedico")
 app.register_blueprint(medico.MedicoApi, url_prefix="/api/medico")
+app.register_blueprint(emergencia.EmergenciaApi, url_prefix="/api/emergencia")
 # Error handlers
 app.register_error_handler(401, page_not_authorized)
 app.register_error_handler(404, page_not_found)

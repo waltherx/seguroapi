@@ -9,6 +9,7 @@ class Ambulancia:
         capacidad=None,
         lat=None,
         long=None,
+        estado=None,
     ) -> None:
         self.id = id
         self.modelo = modelo
@@ -18,6 +19,7 @@ class Ambulancia:
         self.capacidad = capacidad
         self.lat = lat
         self.long = long
+        self.estado = estado
 
     def to_JSON(self):
         return {
@@ -29,4 +31,5 @@ class Ambulancia:
             "capacidad": self.capacidad,
             "lat": self.lat,
             "long": self.long,
+            "estado": self.estado,
         }

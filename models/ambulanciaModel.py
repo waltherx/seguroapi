@@ -12,7 +12,7 @@ class AmbulanciaModel:
                 resultset = cursor.fetchall()
                 for row in resultset:
                     ambulancia = Ambulancia(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]
                     )
                     ambulancias.append(ambulancia.to_JSON())
             connection.close()
@@ -30,7 +30,7 @@ class AmbulanciaModel:
                 ambulancia = None
                 if row != None:
                     ambulancia = Ambulancia(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8]
                     )
                     ambulancia = ambulancia.to_JSON()
             connection.close()
