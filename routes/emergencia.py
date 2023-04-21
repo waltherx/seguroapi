@@ -27,14 +27,13 @@ def get_docs(id):
 @EmergenciaApi.route("/add", methods=["POST"])
 def add_emergencia():
     if request.method == "POST":        
-            _fecha = request.json["fecha"]
             _descripcion = request.json["descripcion"]
             _estado = request.json["estado"]
             _hospital_id = request.json["hospital_id"]
             _ambulancia_id = request.json["ambulancia_id"]
             emergencia = None
             emergencia = Emergencia(
-                None, _fecha, _descripcion, _estado, _ambulancia_id, _hospital_id
+                None, None, _descripcion, _estado, _ambulancia_id, _hospital_id
             )
             if EmergenciaModel.add_emergencia(emergencia) == 1:
                 return jsonify({"message": "se agrego emergencia"}), 200
