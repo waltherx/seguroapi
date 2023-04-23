@@ -35,7 +35,7 @@ def get_paramed_xci(ci):
         return jsonify({"message": "falta el valor ID Paramedico"}), 500
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
-    pass
+    
 
 
 @ParamedicoApi.route("/view/<id>", methods=["GET"])
