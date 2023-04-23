@@ -1,13 +1,13 @@
 class Siniestro:
     def __init__(
-        self, id=None, descripccion=None, fecha=None, lat=None, long=None, idper=None
+        self, id=None, descripccion=None, fecha=None, lat=None, long=None, paciente_id=None
     ) -> None:
         self.id = id
         self.descripccion = descripccion
         self.fecha = fecha
         self.lat = lat
         self.long = long
-        self.idper = idper
+        self.paciente_id = paciente_id
 
     def to_JSON(self):
         return {
@@ -16,5 +16,5 @@ class Siniestro:
             "fecha": self.fecha,
             "lat": self.lat,
             "long": self.long,
-            "idper": self.idper,
+            "paciente_id": self.paciente_id,
         }

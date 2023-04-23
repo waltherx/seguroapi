@@ -1,4 +1,5 @@
 from database.db import get_connection
+from .entities.Persona import Persona
 from .entities.Chofer import Chofer
 
 class ChoferModel:

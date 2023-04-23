@@ -5,27 +5,19 @@ class Persona:
         nombres=None,
         apellidos=None,
         fechaNac=None,
-        licVehicular=None,
-        foto=None,
-        tipoSangre=None,
-        hipertencion=None,
-        altura=None,
-        peso=None,
+        foto_url=None,
+        foto_name=None,
         direccion=None,
-        user_id=None,
+        estado_civil=None,
     ) -> None:
         self.ci = ci
         self.nombres = nombres
         self.apellidos = apellidos
         self.fechaNac = fechaNac
-        self.licVehicular = licVehicular        
-        self.foto = foto
-        self.tipoSangre = tipoSangre
-        self.hipertencion = hipertencion
-        self.altura = altura
-        self.peso = peso
+        self.foto_url = foto_url
+        self.foto_name = foto_name
         self.direccion = direccion
-        self.user_id = user_id
+        self.estado_civil = estado_civil
 
     def to_JSON(self):
         return {
@@ -33,12 +25,8 @@ class Persona:
             "nombres": self.nombres,
             "apellidos": self.apellidos,
             "fechaNac": self.fechaNac,
-            "licVehicular" : self.licVehicular,
-            "foto": self.foto,
-            "tipoSangre": self.tipoSangre,
-            "hipertencion": self.hipertencion,
-            "altura": self.altura,
-            "peso": self.peso,
+            "foto_url" : self.foto_url,
+            "foto_name": self.foto_name,            
             "direccion": self.direccion,
-            "user_id": self.user_id,
+            "estado_civil": self.estado_civil,
         }

@@ -7,7 +7,7 @@ class Documento:
         tipo=None,
         descripcion=None,
         fechaSubida=None,
-        ci=None,
+        paciente_id=None,
     ) -> None:
         self.id = id
         self.nombre = nombre
@@ -15,7 +15,7 @@ class Documento:
         self.tipo = tipo
         self.descripcion = descripcion
         self.fechaSubida = fechaSubida
-        self.ci = ci
+        self.paciente_id = paciente_id
 
     def to_JSON(self):
         return {
@@ -25,5 +25,5 @@ class Documento:
             "tipo": self.tipo,
             "descripcion": self.descripcion,
             "fechaSubida": self.fechaSubida,
-            "ci": self.ci,
+            "paciente_id": self.paciente_id,
         }

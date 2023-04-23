@@ -4,18 +4,17 @@ class Paramedico:
         id=None,
         especialidad=None,
         id_ambulancia=None,
-        user_id=None,
+        ci_persona=None,
     ) -> None:
         self.id = id
         self.especialidad = especialidad
         self.id_ambulancia = id_ambulancia
-        self.user_id = user_id
+        self.ci_persona = ci_persona
 
     def to_JSON(self):
         return {
             "id": self.id,
-            #"licencia_medica": self.licencia_medica,
             "especialidad": self.especialidad,
             "id_ambulancia": self.id_ambulancia,
-            "user_id": self.user_id,
+            "ci_persona": self.ci_persona
         }

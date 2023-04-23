@@ -9,10 +9,12 @@ class AlergiaModel:
             connection = get_connection()
             alergias = []
             with connection.cursor() as cursor:
-                cursor.execute("SELECT idale, nombre FROM alergia ORDER BY idale ASC")
+                cursor.execute(
+                    "SELECT idale, nombre, descripcion, gravedad, reaccion, paciente_id FROM public.alergia ORDER BY idale ASC"
+                )
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    alergia = Alergia(row[0], row[1])
+                    alergia = Alergia(row[0], row[1], row[2], row[3], row[4], row[5])
                     alergias.append(alergia.to_JSON())
             connection.close()
             return alergias
@@ -26,15 +28,14 @@ class AlergiaModel:
 
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT idale, nombre FROM alergia WHERE idale = %s", (id,)
+                    "SELECT idale, nombre, descripcion, gravedad, reaccion, paciente_id FROM alergia WHERE idale = %s",
+                    (id,),
                 )
                 row = cursor.fetchone()
-
                 alergia = None
                 if row != None:
-                    alergia = Alergia(row[0], row[1])
+                    alergia = Alergia(row[0], row[1], row[2], row[3], row[4], row[5])
                     alergia = alergia.to_JSON()
-
             connection.close()
             return alergia
         except Exception as ex:
@@ -43,14 +44,12 @@ class AlergiaModel:
     @classmethod
     def add_alergia(self, alergia):
         try:
-            connection = get_connection()
-            sQuery = f"INSERT INTO alergia (nombre) VALUES ('{alergia.nombre}')"
-
+            connection = get_connection()            
+            sQuery = f"INSERT INTO public.alergia (nombre, descripcion, gravedad, reaccion, paciente_id) VALUES('{alergia.nombre}', '{alergia.descripcion}', '{alergia.gravedad}', '{alergia.reaccion}', {alergia.paciente_id});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
-
             connection.close()
             return affected_rows
         except Exception as ex:
@@ -60,7 +59,7 @@ class AlergiaModel:
     def update_alergia(self, alergia):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE alergia SET nombre = '{alergia.nombre}' WHERE idale = {alergia.id}"
+            sQuery = f"UPDATE public.alergia SET nombre='{alergia.nombre}', descripcion='{alergia.descripcion}', gravedad='{alergia.gravedad}', reaccion='{alergia.reaccion}' WHERE idale={alergia.id});"
 
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

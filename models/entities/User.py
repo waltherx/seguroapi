@@ -12,6 +12,7 @@ class User(UserMixin):
 		self.estado = estado
 		self.token = token
 		self.idrol = idrol
+		self.ci_persona = None
 
 	def to_JSON(self):
 		return {
@@ -22,6 +23,7 @@ class User(UserMixin):
 			"estado": self.estado,
    			"token": self.token,
 			"idrol": self.idrol,
+   			"ci_persona": self.ci_persona
 		}
   
 	@classmethod

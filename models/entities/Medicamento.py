@@ -6,14 +6,14 @@ class Medicamento:
         descripcion=None,
         cantidad=None,
         unidad=None,
-        ci=None,
+        paciente_id=None,
     ) -> None:
         self.id = id
         self.nombre = nombre
         self.descripcion = descripcion
         self.cantidad = cantidad
         self.unidad = unidad
-        self.ci = ci
+        self.paciente_id = paciente_id
 
     def to_JSON(self):
         return {
@@ -22,5 +22,5 @@ class Medicamento:
             "descripcion": self.descripcion,
             "cantidad": self.cantidad,
             "unidad": self.unidad,
-            "ci": self.ci,
+            "paciente_id": self.paciente_id,
         }

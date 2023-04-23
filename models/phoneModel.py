@@ -10,11 +10,13 @@ class PhoneModel:
             phones = []
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM phone ORDER BY idp ASC")
+                cursor.execute(
+                    "SELECT idp, numero, referencia, ci_persona FROM public.phone ORDER BY idp ASC"
+                )
                 resultset = cursor.fetchall()
 
                 for row in resultset:
-                    phone = Phone(row[0], row[1], row[2],row[3])
+                    phone = Phone(row[0], row[1], row[2], row[3])
                     phones.append(phone.to_JSON())
 
             connection.close()
@@ -33,7 +35,7 @@ class PhoneModel:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    phone = Phone(row[0], row[1], row[2],row[3])
+                    phone = Phone(row[0], row[1], row[2], row[3])
                     phones.append(phone.to_JSON())
             connection.close()
             return phones
@@ -44,7 +46,7 @@ class PhoneModel:
     def add_phone(self, phone):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO phone (idp, numero, ci_persona) VALUES ({phone.id},{phone.numero},{phone.ci})"
+            sQuery = f"INSERT INTO public.phone (numero, referencia, ci_persona) VALUES ('{phone.id}','{phone.numero}',{phone.ci})"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -58,7 +60,8 @@ class PhoneModel:
     def update_phone(self, phone):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE phone SET numero = {phone.numero} WHERE ci_persona ={phone.idp}"
+
+            sQuery = f"UPDATE public.phone SET numero='{phone.numero}', referencia='{phone.referencia}' WHERE idp={phone.idp});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -73,7 +76,7 @@ class PhoneModel:
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM phone WHERE ci_persona = %s", (phone.id,))
+                cursor.execute("DELETE FROM phone WHERE idp = %s", (phone.id,))
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()

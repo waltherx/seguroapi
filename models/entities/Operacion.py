@@ -1,12 +1,12 @@
 class Operacion:
     def __init__(
-        self, id=None, tipo=None, fecha=None,descripcion=None, ci=None
+        self, id=None, tipo=None, fecha=None, descripcion=None, paciente_id=None
     ) -> None:
         self.id = id
         self.tipo = tipo
         self.fecha = fecha
         self.descripcion = descripcion
-        self.ci = ci
+        self.paciente_id = paciente_id
 
     def to_JSON(self):
         return {
@@ -14,5 +14,5 @@ class Operacion:
             "tipo": self.tipo,
             "fecha": self.fecha,
             "descripcion": self.descripcion,
-            "ci": self.ci,            
+            "paciente_id": self.paciente_id,
         }

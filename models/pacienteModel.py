@@ -1,64 +1,58 @@
 from database.db import get_connection
-from .entities.Persona import Persona
+from .entities.Paciente import Paciente
 
 
-class PersonaModel:
+class PacienteModel:
     @classmethod
-    def get_personas(self):
+    def get_pacientes(self):
         try:
             connection = get_connection()
-            personas = []
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona ORDER BY ci ASC;"
+            pacientes = []
+            sQuery = f"SELECT idpac, tiposangre, hipertencion, altura, peso, ci_persona FROM public.paciente;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    persona = Persona(
+                    paciente = Paciente(
                         row[0],
                         row[1],
                         row[2],
                         row[3],
                         row[4],
                         row[5],
-                        row[6],
-                        row[7],
                     )
-                    personas.append(persona.to_JSON())
+                    pacientes.append(paciente.to_JSON())
             connection.close()
-            return personas
+            return pacientes
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def get_persona(self, ci):
+    def get_paciente(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona FROM persona WHERE ci = {ci};"
+            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular,  foto, tiposangre, hipertencion, altura, peso, direccion,user_id FROM persona WHERE ci = {ci} ORDER BY ci ASC;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()
-
-                persona = None
+                paciente = None
                 if row != None:
-                    persona = Persona(
+                    paciente = Paciente(
                         row[0],
                         row[1],
                         row[2],
                         row[3],
                         row[4],
                         row[5],
-                        row[6],
-                        row[7],
                     )
-                    persona = persona.to_JSON()
-
+                    paciente = paciente.to_JSON()
             connection.close()
-            return persona
+            return paciente
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def add_persona(self, persona):
+    def add_paciente(self, paciente):
         try:
             connection = get_connection()
             sQuery = f"INSERT INTO persona (ci, nombres, apellidos, fechanac, licvehicular, foto, tiposangre, hipertencion, altura, peso, direccion) VALUES ({persona.ci},'{persona.nombres}','{persona.apellidos}','{persona.fechaNac}',{persona.licVehicular},'{persona.foto}','{persona.tipoSangre}','{persona.hipertencion}',{persona.altura},{persona.peso},'{persona.direccion}')"
@@ -68,14 +62,14 @@ class PersonaModel:
                 connection.commit()
             connection.close()
             if affected_rows == 1:
-                return persona.ci
+                return 1
             else:
                 return 0
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def update_persona(self, persona):
+    def update_paciente(self, paciente):
         try:
             connection = get_connection()
             sQuery = f"UPDATE persona SET nombres='{persona.nombres}', apellidos='{persona.apellidos}', fechanac='{persona.fechaNac}', licvehicular={persona.licVehicular}, foto='{persona.foto}', tipoSangre='{persona.tipoSangre}', hipertencion='{persona.hipertencion}', altura='{persona.altura}', peso='{persona.peso}', direccion='{persona.direccion}' WHERE ci = {persona.ci}"
@@ -91,7 +85,7 @@ class PersonaModel:
             raise Exception(ex)
 
     @classmethod
-    def delete_persona(self, persona):
+    def delete_paciente(self, paciente):
         try:
             connection = get_connection()
             sQuery = f"DELETE FROM persona WHERE idenf = {persona.ci}"
