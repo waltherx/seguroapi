@@ -41,8 +41,9 @@ class ParamedicoModel:
                         row[5],
                         row[6],
                         row[7],
+                        row[8],
                     )
-                    paramedico = Paramedico(row[8], row[9], row[10],row[11]	)
+                    paramedico = Paramedico(row[9], row[10], row[11],row[12]	)
                     persona = persona.to_JSON()
                     paramedico = paramedico.to_JSON()
             connection.close()

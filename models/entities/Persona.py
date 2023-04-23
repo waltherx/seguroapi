@@ -8,6 +8,7 @@ class Persona:
         foto_url=None,
         foto_name=None,
         direccion=None,
+        genero=None,
         estado_civil=None,
     ) -> None:
         self.ci = ci
@@ -17,6 +18,7 @@ class Persona:
         self.foto_url = foto_url
         self.foto_name = foto_name
         self.direccion = direccion
+        self.genero = genero
         self.estado_civil = estado_civil
 
     def to_JSON(self):
@@ -28,5 +30,6 @@ class Persona:
             "foto_url" : self.foto_url,
             "foto_name": self.foto_name,            
             "direccion": self.direccion,
+            "genero": self.genero,
             "estado_civil": self.estado_civil,
         }
