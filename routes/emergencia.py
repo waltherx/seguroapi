@@ -10,7 +10,7 @@ EmergenciaApi = Blueprint("emergencia_blueprint", __name__)
 
 
 @EmergenciaApi.route("/<id>")
-def get_docs(id):
+def get_emgergencias(id):
     try:
         emergencia = EmergenciaModel.get_documentos(id)
         if emergencia != None:
