@@ -1,4 +1,5 @@
 from database.db import get_connection
+from .entities.Persona import Persona
 from .entities.Paciente import Paciente
 
 
@@ -28,26 +29,40 @@ class PacienteModel:
             raise Exception(ex)
 
     @classmethod
-    def get_paciente(self, ci):
+    def get_paciente_X_ci(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), licvehicular,  foto, tiposangre, hipertencion, altura, peso, direccion,user_id FROM persona WHERE ci = {ci} ORDER BY ci ASC;"
+            
+            sQuery = f"select ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, idpac, tiposangre, hipertencion, altura, peso, ci_persona FROM public.persona p, public.paciente c where p.ci = c.ci_persona and p.ci = {ci} ;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()
+                persona = None
                 paciente = None
                 if row != None:
-                    paciente = Paciente(
+                    persona = Persona(
                         row[0],
                         row[1],
                         row[2],
                         row[3],
                         row[4],
                         row[5],
+                        row[6],
+                        row[7],
                     )
+                    
+                    paciente = Paciente(
+                        row[8],
+                        row[9],
+                        row[10],
+                        row[11],
+                        row[12],
+                        row[13],
+                    )
+                    persona = persona.to_JSON()                    
                     paciente = paciente.to_JSON()
             connection.close()
-            return paciente
+            return {"paciente": paciente, "persona": persona}
         except Exception as ex:
             raise Exception(ex)
 

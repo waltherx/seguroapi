@@ -18,7 +18,7 @@ from models.userModel import UserModel
 from routes import phone
 from routes import enfermedad
 from routes import alergia
-from routes import persona
+from routes import paciente
 from routes import hospital
 from routes import siniestro
 from routes import ambulancia
@@ -130,7 +130,7 @@ app.register_blueprint(alergia.AlergiaApi, url_prefix="/api/alergia")
 app.register_blueprint(enfermedad.EnfermedadApi, url_prefix="/api/enfermedad")
 app.register_blueprint(hospital.HospitalApi, url_prefix="/api/hospital")
 app.register_blueprint(siniestro.SiniestroApi, url_prefix="/api/siniestro")
-app.register_blueprint(persona.PersonaApi, url_prefix="/api/paciente")
+app.register_blueprint(paciente.PacienteApi, url_prefix="/api/paciente")
 app.register_blueprint(ambulancia.AmbulanciaApi, url_prefix="/api/ambulancia")
 app.register_blueprint(chofer.ChoferApi, url_prefix="/api/chofer")
 app.register_blueprint(documento.DocumentoApi, url_prefix="/api/doc")

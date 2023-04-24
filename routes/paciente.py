@@ -10,11 +10,12 @@ from models.vacunaModel import VacunaModel
 from models.operacionModel import OperacionModel
 
 from models.personaModel import PersonaModel
+from models.pacienteModel import PacienteModel
 
-PersonaApi = Blueprint("persona_blueprint", __name__)
+PacienteApi = Blueprint("paciente_blueprint", __name__)
 
 
-@PersonaApi.route("/")
+@PacienteApi.route("/")
 def get_personas():
     try:
         personas = PersonaModel.get_personas()
@@ -23,7 +24,7 @@ def get_personas():
         return jsonify({"message": str(ex)}), 500
 
 
-@PersonaApi.route("/<ci>")
+@PacienteApi.route("/<ci>")
 def get_persona56(ci):
     try:
         if ci:
@@ -50,7 +51,18 @@ def get_persona56(ci):
         return jsonify({"message": str(ex)}), 500
 
 
-@PersonaApi.route("/add", methods=["POST"])
+@PacienteApi.route("/p/<ci>", methods=["GET"])
+def get_paramed_xci(ci):
+    try:
+        if ci:
+            paciente = PacienteModel.get_paciente_X_ci(ci)
+            return (jsonify({"data": paciente, "message": "OK"}), 200)
+        return jsonify({"message": "falta el valor ID Paciente"}), 500
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+@PacienteApi.route("/add", methods=["POST"])
 def add_persona():
     try:
         ci = request.json["ci"]
@@ -87,7 +99,7 @@ def add_persona():
         return jsonify({"message": str(ex)}), 500
 
 
-@PersonaApi.route("/update/<ci>", methods=["PUT"])
+@PacienteApi.route("/update/<ci>", methods=["PUT"])
 def update_persona(ci):
     try:
         nombres = request.json["nombres"]
@@ -124,7 +136,7 @@ def update_persona(ci):
         return jsonify({"message": str(ex)}), 500
 
 
-@PersonaApi.route("/delete/<id>", methods=["DELETE"])
+@PacienteApi.route("/delete/<id>", methods=["DELETE"])
 def delete_persona(ci):
     try:
         persona = Persona(ci)
