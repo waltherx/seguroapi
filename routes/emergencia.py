@@ -12,9 +12,9 @@ EmergenciaApi = Blueprint("emergencia_blueprint", __name__)
 @EmergenciaApi.route("/<id>")
 def get_emgergencias(id):
     try:
-        emergencia = EmergenciaModel.get_documentos(id)
+        emergencia = EmergenciaModel.get_emergencia(id)
         if emergencia != None:
-            return jsonify({"Emergencia": emergencia}), 200
+            return jsonify({"Emergencia": emergencia,"message": "OK"}), 200
         else:
             return (
                 jsonify({"message": "nose encontro la emergencia con id :" + id}),
