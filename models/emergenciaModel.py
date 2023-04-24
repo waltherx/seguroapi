@@ -25,7 +25,7 @@ class EmergenciaModel:
     def update_emergencia(self, emergencia):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE vacuna SET nombre='{emergencia.nombre}', direccion='{emergencia.direccion}', lat={emergencia.lat}, longi={emergencia.long} WHERE idh = {emergencia.id}"
+            sQuery = f"UPDATE emergencia SET estado='{emergencia.estado}' WHERE idem = {emergencia.id}"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
