@@ -36,8 +36,6 @@ def get_paramed_xci(ci):
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
     
-
-
 @ParamedicoApi.route("/view/<id>", methods=["GET"])
 def get_paramedico_by_id(id):
     try:

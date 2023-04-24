@@ -23,6 +23,26 @@ def get_chofers():
         return jsonify({"message": str(ex)}), 500
 
 
+@ChoferApi.route("/c/<ci>")
+def get_choferxCi(ci):
+    try:
+        if ci:
+            chofer = ChoferModel.get_chofer_x_ci(ci)
+            return (
+                jsonify(
+                    {
+                        "Data": chofer,
+                        "message": "OK",
+                    }
+                ),
+                200,
+            )
+        return jsonify({"message": "falta el valor ID ambulancia"}), 500
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+
 @ChoferApi.route("/<id>")
 def get_choferxId(id):
     try:

@@ -20,6 +20,36 @@ class ChoferModel:
             return chofer
         except Exception as ex:
             raise Exception(ex)
+        
+    @classmethod
+    def get_chofer_x_ci(self, ci):
+        try:
+            connection = get_connection()
+            sQuey = f"select ci, nombres, apellidos, fecha_nacimiento, foto_url, foto_name, direccion, genero, estado_civil, idch, licencia, categoria, estado, id_ambulancia, ci_persona FROM public.chofer c,public.persona p where p.ci = c.ci_persona and p.ci = {ci};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuey)
+                row = cursor.fetchone()
+                chofer = None
+                persona = None
+                if row != None:
+                    persona = Persona(
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
+                    )
+                    persona = persona.to_JSON()
+                    chofer = Chofer(row[9], row[10], row[11], row[12], row[13],row[14])
+                    chofer = chofer.to_JSON()
+            connection.close()
+            return {"persona":persona ,"chofer":chofer}
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def get_chofersxId(self, id):

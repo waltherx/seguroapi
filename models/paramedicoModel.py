@@ -50,7 +50,6 @@ class ParamedicoModel:
             return {"persona": persona, "paramedico": paramedico}
         except Exception as ex:
             raise Exception(ex)
-        pass
 
     @classmethod
     def get_paramedico(self, id):
