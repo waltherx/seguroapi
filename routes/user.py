@@ -15,18 +15,18 @@ UserApi = Blueprint("user_blueprint", __name__)
 def get_users():
     try:
         users = UserModel.get_users()
-        return jsonify(users)
+        return jsonify(users),200
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
 
-@UserApi.route("/<id>")
+@UserApi.route("/<id>", methods=["GET"])
 def get_user(id):
     try:
         _user = UserModel.get_user(id)
-        return jsonify(_user)
+        return jsonify({"data": _user.to_JSON()}),200
     except Exception as ex:
-        return jsonify({"message": str(ex)}), 500
+        return jsonify({"message1": str(ex)}), 500
 
 
 @UserApi.route("/update", methods=["PUT"])
@@ -40,19 +40,20 @@ def update_user():
         _token = request.json["token"]
         _idrol = request.json["idrol"]
         _user = User(_id, _nameuser, _password, _email, _estado, _token, _idrol)
-        #if _user.id != None:
+        # if _user.id != None:
         ok = UserModel.update_user(_user)
         return jsonify({"message": "usuario actualisado"}), 200
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+
 @UserApi.route("/token", methods=["PUT"])
 def update_user_token():
     try:
         _id = request.json["id"]
-        _token = request.json["token"]        
+        _token = request.json["token"]
         _user = User(_id, None, None, None, None, _token, None)
-        #if _user.id != None:
+        # if _user.id != None:
         ok = UserModel.update_user_token(_user)
         return jsonify({"message": "usuario token actualisado"}), 200
     except Exception as ex:

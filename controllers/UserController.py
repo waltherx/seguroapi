@@ -1,4 +1,4 @@
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask import Blueprint
 from flask import (
     render_template,
@@ -8,6 +8,7 @@ from flask import (
 )
 
 from models.entities.User import User
+from models.personaModel import PersonaModel
 from models.userModel import UserModel
 from werkzeug.security import generate_password_hash
 
@@ -46,7 +47,8 @@ def create():
 @usersweb.route("/view", methods=["GET"])
 @login_required
 def view():
-    return render_template("user/view.html")
+    _persona = PersonaModel.get_persona(current_user.ci_persona)
+    return render_template("user/view.html", persona=_persona)
 
 
 """

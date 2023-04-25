@@ -14,7 +14,9 @@ class UserModel:
                 cursor.execute("SELECT * FROM usuario")
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+                    user = User(
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                    )
                     users.append(user.to_JSON())
             connection.close()
             return users
@@ -22,20 +24,24 @@ class UserModel:
             raise Exception(ex)
 
     @classmethod
-    def login(self, usuario):
+    def login(self, user):
         try:
             cursor = get_connection().cursor()
-            sql = """SELECT p.idu, p.nameuser, p.password, p.email, p.estado, p.token, idrol
-                    FROM public.usuario p WHERE p.nameuser = '{0}'""".format(
-                usuario.nameuser
-            )
-            cursor.execute(sql)
+            sQuery = f"SELECT p.idu, p.nameuser, p.password, p.email, p.estado, p.token, idrol, p.ci_persona FROM public.usuario p WHERE p.nameuser = '{user.nameuser}'"
+            cursor.execute(sQuery)
             data = cursor.fetchone()
             if data != None:
-                coincide = User.verificar_password(data[2], usuario.password)
+                coincide = User.verificar_password(data[2], user.password)                
                 if coincide:
                     usuario_logeado = User(
-                        data[0], data[1], data[2], data[3], data[4], data[5], data[6]
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                        data[4],
+                        data[5],
+                        data[6],
+                        data[7],
                     )
                     return usuario_logeado
                 else:
@@ -47,16 +53,22 @@ class UserModel:
 
     @classmethod
     def get_user(self, id):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sQuey = f"SELECT p.idu, p.nameuser, p.password, p.email, p.estado, p.token, r.idrol ,r.nombre  FROM public.usuario p,public.rol r where p.idrol  = r.idrol and p.idu = {id};"
-            cursor.execute(sQuey)
-            row = cursor.fetchone()
-            user = None
-            if row != None:
-                user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-        connection.close()
-        return user
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                sQuey = f"SELECT * FROM usuario WHERE idu = {id};"
+                cursor.execute(sQuey)
+                row = cursor.fetchone()
+                user = None
+                if row != None:
+                    user = User(
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                    )                
+                    #user = user.to_JSON()
+            connection.close()
+            return user
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def get_userbyname(self, nameuser):
@@ -68,7 +80,9 @@ class UserModel:
                 row = cursor.fetchone()
                 user = None
                 if row != None:
-                    user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+                    user = User(
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                    )
                     user = user.to_JSON()
             connection.close()
             return user
@@ -79,7 +93,7 @@ class UserModel:
     def add_user(self, user):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO usuario (nameuser, password, email, idrol) VALUES ('{user.nameuser}','{user.password}','{user.email}',{user.idrol})"
+            sQuery = f"INSERT INTO usuario (nameuser, password, email, idrol,ci_persona) VALUES ('{user.nameuser}','{user.password}','{user.email}',{user.idrol},{user.ci_persona})"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

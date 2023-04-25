@@ -33,7 +33,7 @@ class PersonaModel:
     def get_persona(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fechanac,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona FROM persona WHERE ci = {ci};"
+            sQuery = f"SELECT ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM persona WHERE ci = {ci};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()
