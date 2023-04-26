@@ -15,7 +15,7 @@ UserApi = Blueprint("user_blueprint", __name__)
 def get_users():
     try:
         users = UserModel.get_users()
-        return jsonify(users),200
+        return jsonify(users), 200
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
@@ -24,7 +24,10 @@ def get_users():
 def get_user(id):
     try:
         _user = UserModel.get_user(id)
-        return jsonify({"data": _user.to_JSON()}),200
+        if _user:
+            return jsonify({"data": _user.to_JSON()}), 200
+        else:
+            return jsonify({"message1": "Usuario no encontrado"}), 404
     except Exception as ex:
         return jsonify({"message1": str(ex)}), 500
 
@@ -78,3 +81,12 @@ def login():
         return jsonify({"message": "usuario no regristrado"})
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+
+
+@UserApi.route("/p/<ci>", methods=["GET"])
+def get_user_x_ci(ci):
+    try:
+        _user = UserModel.get_user_by_ci(ci)
+        return jsonify({"data": _user}), 200
+    except Exception as ex:
+        return jsonify({"message1": str(ex)}), 500
