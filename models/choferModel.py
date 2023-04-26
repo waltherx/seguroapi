@@ -8,7 +8,7 @@ class ChoferModel:
     def get_chofer(self, id):
         try:
             connection = get_connection()
-            sQuey = f"SELECT idch, licencia, categoria, estado, id_ambulancia,user_id FROM public.chofer where idch = {id};"
+            sQuey = f"SELECT idch, licencia, categoria, estado, id_ambulancia,ci_persona FROM public.chofer where idch = {id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuey)
                 row = cursor.fetchone()
@@ -54,7 +54,7 @@ class ChoferModel:
     @classmethod
     def get_chofersxId(self, id):
         try:
-            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, user_id FROM public.chofer, public.ambulancia  where chofer.id_ambulancia = ambulancia.idam  and chofer.id_ambulancia =  {id};"
+            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, ci_persona FROM public.chofer, public.ambulancia  where chofer.id_ambulancia = ambulancia.idam  and chofer.id_ambulancia =  {id};"
             connection = get_connection()
             chofers = []
             with connection.cursor() as cursor:
@@ -71,7 +71,7 @@ class ChoferModel:
     @classmethod
     def get_chofers(self):
         try:
-            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, user_id FROM chofer"
+            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, ci_pesona FROM chofer"
             connection = get_connection()
             chofers = []
             with connection.cursor() as cursor:

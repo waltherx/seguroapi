@@ -9,8 +9,10 @@ from models.entities.Ambulancia import Ambulancia
 from models.paramedicoModel import ParamedicoModel
 from models.choferModel import ChoferModel
 from models.ambulanciaModel import AmbulanciaModel
+from models.emergenciaModel import EmergenciaModel
 
 AmbulanciaApi = Blueprint("ambulancia_blueprint", __name__)
+
 
 @AmbulanciaApi.route("/")
 def get_ambulancias():
@@ -39,6 +41,17 @@ def get_ambulanciaxId(id):
                 ),
                 200,
             )
+        return jsonify({"message": "falta el valor ID ambulancia"}), 500
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+@AmbulanciaApi.route("/e/<id>", methods=["GET"])
+def get_Emergencia(id):
+    try:
+        if id:
+            emergencias = EmergenciaModel.get_emergencias_x_ambulancia(id)
+            return jsonify({"emergencias": emergencias, "message": "OK"}), 200
         return jsonify({"message": "falta el valor ID ambulancia"}), 500
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

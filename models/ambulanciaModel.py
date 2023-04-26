@@ -37,3 +37,6 @@ class AmbulanciaModel:
             return ambulancia
         except Exception as ex:
             raise Exception(ex)
+        
+  
+            
