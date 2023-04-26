@@ -9,23 +9,14 @@ from models.phoneModel import PhoneModel
 PhoneApi = Blueprint("phone_blueprint", __name__)
 
 
-@PhoneApi.route("/")
-def get_phones():
+@PhoneApi.route("/<ci>")
+def get_phone(ci):
     try:
-        phones = PhoneModel.get_phones()
-        return jsonify(phones)
-    except Exception as ex:
-        return jsonify({"message": str(ex)}), 500
-
-
-@PhoneApi.route("/<id>")
-def get_phone(id):
-    try:
-        phone = PhoneModel.get_phone(id)
+        phone = PhoneModel.get_phone(ci)
         if phone != None:
-            return jsonify(phone)
+            return jsonify({"telefonos": phone}), 200
         else:
-            return jsonify({}), 404
+            return jsonify({"message": "ingrese un Ci"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
@@ -35,7 +26,6 @@ def add_phone():
     try:
         id = request.json["id"]
         numero = request.json["numero"]
-        # id = uuid.uuid4()
         phone = Phone(id, numero)
 
         affected_rows = PhoneModel.add_phone(phone)
@@ -53,7 +43,7 @@ def add_phone():
 def update_phone(id):
     try:
         numero = request.json["numero"]
-        
+
         phone = Phone(id, numero)
 
         affected_rows = PhoneModel.update_phone(phone)
