@@ -8,7 +8,7 @@ class MedicoModel:
         try:
             connection = get_connection()
             medicos = []
-            sQuey = f"SELECT idmed, especialidad, hospital_id, user_id FROM public.medico m,public.hospital h where m.hospital_id  =h.idh and m.hospital_id = {id};"
+            sQuey = f"SELECT * FROM public.medico m, usuario u ,public.hospital h where u.ci_persona = m.ci_persona and m.hospital_id  = h.idh and m.hospital_id = {id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuey)
                 resultset = cursor.fetchall()
@@ -16,6 +16,7 @@ class MedicoModel:
                     medico = Medico(row[0], row[1], row[2],row[3])
                     medicos.append(medico.to_JSON())
                 connection.close()
+                
             return medicos
         except Exception as ex:
             raise Exception(ex)

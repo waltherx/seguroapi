@@ -9,7 +9,7 @@ class EmergenciaModel:
             connection = get_connection()
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT idem, fecha, descripcion, id_ambulancia, id_hospital, estado FROM public.emergencia where idem =  %s",(id,)
+                    "SELECT idem, fecha, descripcion, estado, id_ambulancia, id_hospital FROM public.emergencia where idem =  %s",(id,)
                 )
                 row = cursor.fetchone()
                 emergencia = None
