@@ -54,10 +54,8 @@ def create():
 @login_required
 def view():
     _persona = PersonaModel.get_persona(current_user.ci_persona)
-    birth_date = datetime.strptime(_persona["fechaNac"], "%d-%m-%Y")
-    _edad = Calcular_edad(birth_date)
-
-    print(_edad)
+    _birth_date = datetime.strptime(_persona["fechaNac"], "%d-%m-%Y")
+    _edad = Calcular_edad(_birth_date)
     return render_template("user/view.html", persona=_persona, edad_user=_edad)
 
 

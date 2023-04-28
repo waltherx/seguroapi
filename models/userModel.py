@@ -71,6 +71,35 @@ class UserModel:
             raise Exception(ex)
 
     @classmethod
+    def get_user_id(self, id):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                sQuey = f"SELECT u.idu, u.nameuser, u.password, u.email, u.estado, u.token, u.idrol, u.ci_persona, p.nombres , p.apellidos , p.foto_url , p.foto_name  FROM usuario u ,persona p where p.ci =u.ci_persona and u.idu = {id};"
+                cursor.execute(sQuey)
+                row = cursor.fetchone()
+                user = None
+                if row != None:
+                    user = {
+                        "id": row[0],
+                        "nameuser": row[1],
+                        "password": row[2],
+                        "email": row[3],
+                        "estado": row[4],
+                        "token": row[5],
+                        "idrol": row[6],
+                        "ci_persona": row[7],
+                        "nombres": row[8],
+                        "apellidos": row[9],
+                        "foto_url": row[10],
+                        "foto_name": row[11],
+                    }
+            connection.close()
+            return user
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
     def get_userbyname(self, nameuser):
         try:
             connection = get_connection()
@@ -135,7 +164,7 @@ class UserModel:
             raise Exception(ex)
 
     @classmethod
-    def get_user_by_ci(self,ci):
+    def get_user_by_ci(self, ci):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:

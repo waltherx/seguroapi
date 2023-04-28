@@ -23,9 +23,9 @@ def get_users():
 @UserApi.route("/<id>", methods=["GET"])
 def get_user(id):
     try:
-        _user = UserModel.get_user(id)
+        _user = UserModel.get_user_id(id)
         if _user:
-            return jsonify({"data": _user.to_JSON()}), 200
+            return jsonify({"data": _user}), 200
         else:
             return jsonify({"message1": "Usuario no encontrado"}), 404
     except Exception as ex:
