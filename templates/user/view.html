@@ -1,24 +1,22 @@
 {% extends 'layout.html' %} {% block body %}
-<div class="card-body">
-  <p><b>ID User : </b>{{current_user.id}}</p>
-  <p><b>Nombre de Usuario : </b>{{current_user.nameuser}}</p>
-  <p><b>Email : </b>{{current_user.email}}</p>
-  <p><b>Rol : </b>{{current_user.idrol}}</p>
-  <p><b>ID User : </b>{{current_user.ci_persona}}</p>
-</div>
 
----
 
-<div class="row">
-  <div class="col-md-6 col-lg-4 item">
-      <div class="box"><img class="rounded-circle" src="assets/img/1.jpg">
-          <h3 class="name"></h3>
-          <p class="title">Musician</p>
-          <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est, et interdum justo suscipit id. Etiam dictum feugiat tellus, a semper massa. </p>
-          <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
-      </div>
+<div class="card mx-auto rounded shadow" style="width: 18rem;">
+  <img src="{{persona.foto_url}}"  alt="perfil" class="card-img-top mx-auto d-block" style="width: 150px; height: 150px; border-radius: 50%;">
+  <div class="card-body">
+    <h5 class="card-title"></b>{{current_user.nameuser}}</h5>  
+    <p class="card-text"><b>CI : </b>{{current_user.ci_persona}}</p>
+    <p class="card-text"><b>ID User : </b>{{current_user.id}}</p>        
+    <p class="card-text"><b>Nombre : </b>{{persona.nombres}}</p>
+    <p class="card-text"><b>Apellidos : </b>{{persona.apellidos}}</p>
+    <p class="card-text"><b>Direccion : </b>{{edad}}</p>
+    <p class="card-text"><b>Edad : </b>{{Calcular_edad(persona.fecha_nacimiento)}}</p>
+    <p class="card-text"><b>Email : </b>{{current_user.email}}</p>
+    <p class="card-text"><b>Rol : </b>{{current_user.idrol}}</p>
+    <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
   </div>
+</div>
 
 {% endblock %}
 
-dsad
+

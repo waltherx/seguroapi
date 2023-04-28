@@ -55,3 +55,18 @@ def get_Emergencia(id):
         return jsonify({"message": "falta el valor ID ambulancia"}), 500
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+
+
+@AmbulanciaApi.route("/location", methods=["PUT", "PATCH"])
+def update_location():
+    try:
+        _id = request.json["id"]
+        _lat = request.json["lat"]
+        _lng = request.json["lng"]
+        ambu = Ambulancia(_id, None, None, None, None, None, _lat, _lng, None)
+        if AmbulanciaModel.update_location(ambu):
+            return jsonify({"message": "Posicion Actualizada"}), 200
+        else:
+            return jsonify({"message": "Posicion no Actualizada"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500

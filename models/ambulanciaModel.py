@@ -39,4 +39,16 @@ class AmbulanciaModel:
             raise Exception(ex)
         
   
-            
+    @classmethod
+    def update_location(self,ambulancia):
+        try:
+            connection = get_connection()
+            sQuery = f"UPDATE ambulancia SET lat = {ambulancia.lat}, longi = {ambulancia.long} WHERE idam = {ambulancia.id}"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
