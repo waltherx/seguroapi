@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from flask_login import login_required, current_user
 from flask import Blueprint
 from flask import (
@@ -15,16 +15,11 @@ from werkzeug.security import generate_password_hash
 
 usersweb = Blueprint("user_bp", __name__, template_folder="templates/user")
 
+
 def Calcular_edad(born):
     today = datetime.today()
-    #birth_date = input("Ingrese su fecha de nacimiento (dd/mm/yyyy): ")
-    #birth_date = datetime.strptime(birth_date, "%d/%m/%Y")
-    age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-    
-    
-    #age = Calcular_edad(birth_date)
-    #print("Tienes", age, "años.")
-    return age
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
 
 @usersweb.route("/")
 @login_required
@@ -59,8 +54,11 @@ def create():
 @login_required
 def view():
     _persona = PersonaModel.get_persona(current_user.ci_persona)
-    #_edad = Calcular_edad(_persona['fecha_nacimiento'])
-    return render_template("user/view.html", persona=_persona, )
+    birth_date = datetime.strptime(_persona["fechaNac"], "%d-%m-%Y")
+    _edad = Calcular_edad(birth_date)
+
+    print(_edad)
+    return render_template("user/view.html", persona=_persona, edad_user=_edad)
 
 
 """
