@@ -27,6 +27,10 @@ def index():
     userList = UserModel.get_users()
     return render_template("/user/index.html", users=userList)
 
+@usersweb.route("/password")
+@login_required
+def password():
+    return render_template("/user/password.html")
 
 @usersweb.route("/create", methods=["POST"])
 @login_required

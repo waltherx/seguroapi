@@ -105,3 +105,16 @@ class PersonaModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+    @classmethod
+    def upload_photo(self,persona):
+        try:
+            connection = get_connection()
+            sQuery = f"UPDATE persona SET foto_url='{persona.foto_url}', foto_name='{persona.foto_name}' WHERE ci = {persona.ci}"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)

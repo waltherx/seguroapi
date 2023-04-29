@@ -1,8 +1,12 @@
 {% extends 'layout.html' %} {% block body %}
 
-
-<div class="card mx-auto rounded shadow" style="width: 18rem;">
-  <img src="{{persona.foto_url}}"  alt="perfil" class="card-img-top mx-auto d-block" style="width: 150px; height: 150px; border-radius: 50%;">
+<div class="container">
+<div class="card mx-auto shadow" style="max-width: 24rem;">
+  <div class="card-header text-white" style="background-color: #012970">
+    <b>Informacion de Usuario</b>
+    <br>
+  </div>
+  <img src="{{persona.foto_url}}"  alt="perfil" class="card-img-top mx-auto d-block p-2" style="width: 150px; height: 150px; border-radius: 50%;">
   <div class="card-body">
     <h5 class="card-title"></b>{{current_user.nameuser}}</h5>  
     <p class="card-text"><b>CI : </b>{{current_user.ci_persona}}</p>
@@ -23,7 +27,7 @@
     <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
   </div>
 </div>
-
+</div>
 {% endblock %}
 
 

@@ -18,6 +18,7 @@ from models.userModel import UserModel
 from routes import phone
 from routes import enfermedad
 from routes import alergia
+from routes import persona
 from routes import paciente
 from routes import hospital
 from routes import siniestro
@@ -139,6 +140,7 @@ app.register_blueprint(notificacion.NotificacionApi, url_prefix="/api/notificaci
 app.register_blueprint(paramedico.ParamedicoApi, url_prefix="/api/paramedico")
 app.register_blueprint(medico.MedicoApi, url_prefix="/api/medico")
 app.register_blueprint(emergencia.EmergenciaApi, url_prefix="/api/emergencia")
+app.register_blueprint(persona.PersonaApi, url_prefix="/api/person")
 # Error handlers
 app.register_error_handler(401, page_not_authorized)
 app.register_error_handler(404, page_not_found)
