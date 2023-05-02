@@ -80,7 +80,7 @@ class ChoferModel:
     @classmethod
     def get_chofers(self):
         try:
-            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, ci_pesona FROM chofer"
+            sQuery = f"SELECT idch, licencia, categoria, estado, id_ambulancia, ci_persona FROM chofer"
             connection = get_connection()
             chofers = []
             with connection.cursor() as cursor:
