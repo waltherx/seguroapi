@@ -73,3 +73,16 @@ def update_location():
             return jsonify({"message": "Metodo no valido"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+
+
+@AmbulanciaApi.route("/ch/<id>", methods=["GET"])
+def get_ambulancia_choferid(id):
+    try:
+        if request.method == "GET":
+            if id:
+                ambulancias = AmbulanciaModel.get_ambulanciaIdchofer(id)
+                return jsonify({"ambulancias": ambulancias, "message": "OK"}), 200
+            return jsonify({"message": "falta el valor ID ambulancia"}), 500
+        return jsonify({"message": "Metodo no valido"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500

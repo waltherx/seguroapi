@@ -75,6 +75,7 @@ class ChoferModel:
             return chofers
         except Exception as ex:
             raise Exception(ex)
+        
 
     @classmethod
     def get_chofers(self):

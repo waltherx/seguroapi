@@ -37,7 +37,25 @@ class AmbulanciaModel:
             return ambulancia
         except Exception as ex:
             raise Exception(ex)
-        
+    
+    @classmethod
+    def get_ambulanciaIdchofer(self, id):
+        try:
+            connection = get_connection()
+            sQuery = f"SELECT a.idam, a.modelo, a.marca, a.anio, a.placa, a.capcidad, a.lat, a.longi, a.estado FROM ambulancia a , chofer c where a.idam = c.id_ambulancia and c.idch = {id};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                row = cursor.fetchone()
+                ambulancia = None
+                if row != None:
+                    ambulancia = Ambulancia(
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8]
+                    )
+                    ambulancia = ambulancia.to_JSON()
+            connection.close()
+            return ambulancia
+        except Exception as ex:
+            raise Exception(ex)      
   
     @classmethod
     def update_location(self,ambulancia):
