@@ -51,3 +51,23 @@ class NotificacionModel:
             return notifs
         except Exception as ex:
             raise Exception(ex)
+
+    @classmethod
+    def update_read_notif(self, id):
+        try:
+            connection = get_connection()
+            sQuery = f"UPDATE public.notificacion SET leido=true WHERE idnoti={id};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+
+
+
+
+

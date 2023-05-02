@@ -22,7 +22,8 @@ def get_notifs(id):
             )
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
-    
+
+
 @NotificacionApi.route("/des/<id>")
 def get_notifdes(id):
     try:
@@ -35,7 +36,7 @@ def get_notifdes(id):
                 404,
             )
     except Exception as ex:
-        return jsonify({"message": str(ex)}), 500        
+        return jsonify({"message": str(ex)}), 500
 
 
 @NotificacionApi.route("/add", methods=["POST"])
@@ -47,7 +48,7 @@ def add_token():
         _user_dest = request.json["user_destino"]
         _user_remi = request.json["user_remitente"]
         noti = Notificacion(
-            _id, _titulo,_descrip, None, None, _user_dest, _user_remi, None
+            _id, _titulo, _descrip, None, None, _user_dest, _user_remi, None
         )
         res_noti = NotificacionModel.add_notif(noti)
         if res_noti != None:
@@ -57,5 +58,31 @@ def add_token():
             )
         else:
             return jsonify({"message": "Error on insert"})
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+@NotificacionApi.route("/update/r/<id>", methods=["PUT", "PATCH"])
+def update_notificacion_leida(id):
+    try:
+        if request.method == "PATCH" or request.method == "PUT":
+            if id:
+                res_noti = NotificacionModel.update_read_notif(id)
+                if res_noti != None:
+                    return (
+                        jsonify(
+                            {
+                                "id_notificacion": id,
+                                "message": "notificacion leida actualizada!",
+                            }
+                        ),
+                        201,
+                    )
+                else:
+                    return jsonify({"message": "Error on update"}), 404
+            else:
+                return jsonify({"message": "Error on update id no valido"}), 404
+        else:
+            return jsonify({"message": "Error on update method no valido"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
