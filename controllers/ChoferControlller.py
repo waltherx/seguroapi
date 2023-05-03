@@ -11,5 +11,5 @@ chofersweb = Blueprint("chofer_bp", __name__, template_folder="templates/chofer"
 @chofersweb.route("/")
 @login_required
 def index():
-    choferList = ChoferModel.get_chofers()
+    choferList = ChoferModel.get_chofers_persons()
     return render_template("/chofer/index.html", chofers=choferList)

@@ -5,11 +5,11 @@
   <div class="row justify-content-center">
     <h2>Administrar Chofer</h2>
   </div>
-  <div class="border border-dark p-0">
-    <div class="card-header" style="background-color: #011f4b">
+  <div class="card mx-auto shadow">
+    <div class="card-header" style="background-color: #012970">
       <button
         type="button"
-        class="btn btn-primary btn-sm"
+        class="btn btn-light rounded-pill"
         data-bs-toggle="modal"
         data-bs-target="#modalcreate"
       >
@@ -18,10 +18,11 @@
       {% include '/chofer/create.html' %}
     </div>
     <div class="table-responsive bg-white container pt-2">
-      <table class="table table-sm table-bordered" id="example">
+      <table class="table datatable">
         <thead>
           <tr>
             <th class="text-center">#</th>
+            <th>Nombre Completo</th>
             <th>Licencia</th>
             <th>Categoria</th>
             <th>Estado</th>
@@ -32,9 +33,10 @@
         <tbody>
           {% for chofer in chofers %}
           <tr>
-            <td class="text-center">{{loop.index0 + 1}}</td>
+            <td class="text-center">{{chofer.idch}}</td>
+            <td>{{chofer.nombre +" "+chofer.apellido}}</td>
             <td>{{chofer.licencia}}</td>
-            <td>{{chofer.categoria_licencia}}</td>
+            <td>{{chofer.categoria}}</td>
             <td>{{chofer.estado}}</td>
             <td>
               <button

@@ -93,3 +93,31 @@ class ChoferModel:
             return chofers
         except Exception as ex:
             raise Exception(ex)
+        
+        
+    @classmethod
+    def get_chofers_persons(self):
+        try:
+            sQuery = f"SELECT c.idch, p.ci, p.nombres, p.apellidos, p.foto_url, c.licencia, c.categoria, c.estado, c.id_ambulancia FROM persona p,chofer c where p.ci =c.ci_persona;"
+            connection = get_connection()
+            chofers = []
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                resultset = cursor.fetchall()
+                for row in resultset:
+                    _chofer = {"idch":row[0],
+                              "ci":row[1],
+                              "nombre":row[2],
+                              "apellido":row[3],
+                              "foto_url":row[4],
+                              "licencia":row[5],
+                              "categoria":row[6],
+                              "estado":row[7],
+                              "id_ambulancia":row[8],
+                    }
+                    chofers.append(_chofer)
+                connection.close()
+            return chofers
+        except Exception as ex:
+            raise Exception(ex)
+        

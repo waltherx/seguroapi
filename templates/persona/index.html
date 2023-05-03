@@ -1,117 +1,123 @@
 {% extends 'layout.html' %} {% block body %}
 
-<div class="container">
+<div class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div>
+        <h2>Administrar Paciente</h2>
+      </div>
+      <div class="card mx-auto shadow">
+        <div class="card-header" style="background-color: #012970">
+          <a
+            href="/paciente/createp"
+            type="button"
+            class="btn btn-light rounded-pill"
+          >
+            <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Paciente
+          </a>
+        </div>
 
-  <div class="row justify-content-center">
-    <h2>Administrar Paciente</h2>
-  </div>
-  <div class="border border-dark p-0">
-    <div class="card-header" style="background-color: #011f4b">
-      <a href="/paciente/createp" type="button" class="btn btn-light rounded-pill">
-        <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Paciente
-      </a>
-    </div>
-    <div class="table-responsive bg-white container pt-2">
-      <table class="table table-sm table-bordered" id="example">
-        <thead>
-          <tr>
-            <th class="text-center">CI</th>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th class="text-center">CI</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {% for persona in personas %}
-          <tr>
-            <td class="text-center">{{persona.ci}}</td>
-            <td>{{persona.apellidos}}</td>
-            <td>{{persona.nombres}}</td>
-            <td>
-              <a
-                href="/paciente/view/{{persona.ci}}"
-                type="button"
-                class="btn btn-success btn-sm"
-                ><i class="bi bi-eye-fill"></i>
-              </a>
-            </td>
-            <td>
-              <a
-                href="/paciente/updatep/{{persona.ci}}"
-                type="button"
-                class="btn btn-primary btn-sm"
-                ><i class="bi bi-gear"></i>
-              </a>
-            </td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-info btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaldelete{{persona.ci}}"
-              >
-                <i class="bi bi-qr-code"></i>
-              </button>
+          <tbody>
+            {% for persona in personas %}
+            <tr>
+              <td class="text-center">{{persona.ci}}</td>
+              <td>{{persona.apellidos}}</td>
+              <td>{{persona.nombres}}</td>
+              <td>
+                <a
+                  href="/paciente/view/{{persona.ci}}"
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  ><i class="bi bi-eye-fill"></i>
+                </a>
+              </td>
+              <td>
+                <a
+                  href="/paciente/updatep/{{persona.ci}}"
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  ><i class="bi bi-gear"></i>
+                </a>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaldelete{{persona.ci}}"
+                >
+                  <i class="bi bi-qr-code"></i>
+                </button>
 
-              <div
-                class="modal fade"
-                id="modaldelete{{persona.ci}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="basicModal"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">
-                        Qr Paciente : {{persona.nombres + persona.apellidos}}
-                      </h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <br />
-
-                    <div class="modal-body">
-                      <div class="form-group row">
-                        <img
-                          src="{{ qrcode(persona, box_size=8, border=5) }}"
-                        />
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-default"
-                        data-bs-dismiss="modal"
+                <div
+                  class="modal fade"
+                  id="modaldelete{{persona.ci}}"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="basicModal"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div
+                        class="modal-header"
+                        style="background-color: #011f4b; color: white"
                       >
-                        Cerrar
-                      </button>
-                      <button type="submit" class="btn btn-primary">
-                        Imprimir
-                      </button>
+                        <h4 class="modal-title">
+                          Qr Paciente : {{persona.nombres + persona.apellidos}}
+                        </h4>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <br />
+
+                      <div class="modal-body">
+                        <div class="form-group row">
+                          <img
+                            src="{{ qrcode(persona, box_size=8, border=5) }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-default"
+                          data-bs-dismiss="modal"
+                        >
+                          Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                          Imprimir
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <br />
+      <br />
     </div>
   </div>
-  <br />
-  <br />
 </div>
 {% endblock %}
