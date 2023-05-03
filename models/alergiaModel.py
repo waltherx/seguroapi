@@ -25,12 +25,9 @@ class AlergiaModel:
     def get_alergia(self, id):
         try:
             connection = get_connection()
-
+            sQuery = f"SELECT l.idale, l.nombre, l.descripcion, l.gravedad, l.reaccion, l.paciente_id FROM alergia l, paciente a , persona p where p.ci =a.ci_persona and l.paciente_id =a.idpac and p.ci = {id}"
             with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT idale, nombre, descripcion, gravedad, reaccion, paciente_id FROM alergia WHERE idale = %s",
-                    (id,),
-                )
+                cursor.execute(sQuery)
                 row = cursor.fetchone()
                 alergia = None
                 if row != None:

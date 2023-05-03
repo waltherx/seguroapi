@@ -28,8 +28,7 @@ class PhoneModel:
     def get_phone(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT phone.idp, phone.numero,phone.referencia, phone.ci_persona FROM persona,phone where phone.ci_persona=persona.ci and persona.ci={ci}"
-
+            sQuery = f"SELECT d.iddoc, d.tipo, d.url, d.fecha, d.nombre, d.paciente_id FROM documento d, paciente a, persona p where p.ci = a.ci_persona and a.idpac = d.paciente_id and p.ci ={ci};"
             phones = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

@@ -6,7 +6,7 @@ class OperacionModel:
     @classmethod
     def get_operacion(self, ci):
         try:
-            sQuery = f"SELECT idop, tipo, fecha, descripcion, ci_persona FROM persona, operacion where persona.ci = operacion.ci_persona and persona.ci = {ci};"
+            sQuery = f"SELECT o.idop, o.tipo, o.fecha, o.descripcion, o.paciente_id FROM operacion o, paciente a ,persona p where p.ci = a.ci_persona and o.paciente_id = a.idpac and p.ci = {ci};"
             connection = get_connection()
             operacions = []
             with connection.cursor() as cursor:

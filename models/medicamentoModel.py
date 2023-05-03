@@ -26,7 +26,7 @@ class MedicamentoModel:
     @classmethod
     def get_medicamento(self, ci):
         try:
-            sQuery =f"SELECT idme, nombre, descripcion, cantidad, unidad_medida, ci_persona FROM medicamento,persona where medicamento.ci_persona = persona.ci and persona.ci = {ci};"
+            sQuery =f"SELECT m.idme, m.nombre, m.descripcion, m.cantidad, m.unidad_medida, m.paciente_id FROM medicamento m, paciente a, persona p where p.ci = a.ci_persona and m.paciente_id =a.idpac and p.ci = {ci};"
             connection = get_connection()
             medicamentos = []
 

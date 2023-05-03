@@ -6,7 +6,7 @@ class VacunaModel:
 	@classmethod
 	def get_vacuna(self, ci):
 		try:
-			sQuery = f"SELECT idvac, nombre, dosis_requeridas, ci_persona FROM persona ,vacuna where persona.ci=vacuna.ci_persona and vacuna.ci_persona = {ci};"
+			sQuery = f"SELECT v.idvac, v.nombre, v.dosis_requeridas, v.paciente_id FROM persona p ,vacuna v, paciente a where p.ci=a.ci_persona  and v.paciente_id = a.idpac and p.ci =  {ci};"
 			connection = get_connection()
 			vacunas = []
 			with connection.cursor() as cursor:
