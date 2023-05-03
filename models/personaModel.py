@@ -20,7 +20,7 @@ class PersonaModel:
                         "apellidos": row[3],
                         "fecha_nacimiento": row[4],
                         "foto_url": row[5],
-                        "foto_name": row[6],
+                        #"foto_name": row[6],
                         "direccion": row[7],
                         "genero": row[8],
                         "esdo_civil": row[9],
