@@ -8,22 +8,28 @@ class PersonaModel:
         try:
             connection = get_connection()
             personas = []
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona ORDER BY ci ASC;"
+            sQuery = f"SELECT  p.ci, a.idpac, p.nombres, p.apellidos, to_char(p.fecha_nacimiento,'DD-MM-YYYY'), p.foto_url, p.foto_name, p.direccion, p.genero, p.estado_civil, a.tiposangre, a.hipertencion, a.altura, a.peso FROM persona p, paciente a where p.ci = a.ci_persona ORDER BY ci ASC;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    persona = Persona(
-                        row[0],
-                        row[1],
-                        row[2],
-                        row[3],
-                        row[4],
-                        row[5],
-                        row[6],
-                        row[7],
-                    )
-                    personas.append(persona.to_JSON())
+                    _persona = {
+                        "ci": row[0],
+                        "id_paciente": row[1],
+                        "nombres": row[2],
+                        "apellidos": row[3],
+                        "fecha_nacimiento": row[4],
+                        "foto_url": row[5],
+                        "foto_name": row[6],
+                        "direccion": row[7],
+                        "genero": row[8],
+                        "esdo_civil": row[9],
+                        "tipo_sangre": row[10],
+                        "hipertencion": row[11],
+                        "altura": row[12],
+                        "peso": row[13],
+                    }
+                    personas.append(_persona)
             connection.close()
             return personas
         except Exception as ex:
@@ -105,8 +111,9 @@ class PersonaModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+
     @classmethod
-    def upload_photo(self,persona):
+    def upload_photo(self, persona):
         try:
             connection = get_connection()
             sQuery = f"UPDATE persona SET foto_url='{persona.foto_url}', foto_name='{persona.foto_name}' WHERE ci = {persona.ci}"
