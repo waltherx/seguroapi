@@ -74,6 +74,9 @@ def update_location():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+@AmbulanciaApi.route("/location/ambulancia/<id>", methods=["PUT"])
+def update_state_ambulancia():
+    pass
 
 @AmbulanciaApi.route("/ch/<id>", methods=["GET"])
 def get_ambulancia_choferid(id):

@@ -43,6 +43,7 @@ class MedicoModel:
         except Exception as ex:
             raise Exception(ex)
 
+
     @classmethod
     def get_medicos(self):
         try:
@@ -55,6 +56,37 @@ class MedicoModel:
                 for row in resultset:
                     medico = Medico(row[0], row[1], row[2], row[3])
                     medicos.append(medico.to_JSON())
+                connection.close()
+            return medicos
+        except Exception as ex:
+            raise Exception(ex)
+
+
+    @classmethod
+    def get_medicos_persons(self):
+        try:
+            sQuery = f"SELECT  p.ci, m.idmed, p.nombres, p.apellidos, to_char(p.fecha_nacimiento,'DD-MM-YYYY'), p.foto_url, p.foto_name, p.direccion, p.genero, p.estado_civil, m.especialidad, m.hospital_id  FROM persona p, medico m where p.ci = m.ci_persona ORDER BY ci ASC;"
+            connection = get_connection()
+            medicos = []
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                resultset = cursor.fetchall()
+                for row in resultset:
+                    _medico = {
+                        "ci": row[0],
+                        "id_medico": row[1],
+                        "nombres": row[2],
+                        "apellidos": row[3],
+                        "fecha_nacimiento": row[4],
+                        "foto_url": row[5],
+                        "foto_name": row[6],
+                        "direccion": row[7],
+                        "genero": row[8],
+                        "estado_civil": row[9],
+                        "especialidad": row[10],
+                        "hospital_id": row[11],
+                    }
+                    medicos.append(_medico)
                 connection.close()
             return medicos
         except Exception as ex:

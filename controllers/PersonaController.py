@@ -2,12 +2,7 @@ import os
 import logging
 from flask_login import login_required
 from flask import Blueprint
-from flask import (
-    render_template,
-    redirect,
-    request,
-    flash,
-)
+from flask import render_template, redirect, request, flash, jsonify
 
 import cloudinary
 from cloudinary import uploader, api
@@ -29,8 +24,10 @@ from decouple import config
 
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg", "gif"])
 
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 personaweb = Blueprint("persona_bp", __name__, template_folder="templates/persona")
 
@@ -40,6 +37,7 @@ personaweb = Blueprint("persona_bp", __name__, template_folder="templates/person
 def index():
     personaList = PersonaModel.get_personas()
     return render_template("/persona/index.html", personas=personaList)
+
 
 @personaweb.route("/view/<id>", methods=["GET", "POST"])
 @login_required
@@ -57,13 +55,15 @@ def view(id):
         vacunas=vacunaList,
         operaciones=operacionList,
         medicamentos=medicamentoList,
-        documentos=docList
+        documentos=docList,
     )
+
 
 @personaweb.route("/createp", methods=["GET"])
 @login_required
 def createp():
     return render_template("persona/modal/create.html")
+
 
 @personaweb.route("/updatep/<ci>", methods=["GET"])
 @login_required
@@ -103,8 +103,12 @@ def create():
 				_peso,
 				_direccion,
 			)
-		""" 
-        cloudinary.config(cloud_name=config('CLOUD_NAME'), api_key=config('API_KEY'), api_secret=config('API_SECRET'))
+		"""
+        cloudinary.config(
+            cloud_name=config("CLOUD_NAME"),
+            api_key=config("API_KEY"),
+            api_secret=config("API_SECRET"),
+        )
         upload_result = None
         if request.method == "POST":
             file_to_upload = request.files["txtFoto"]
@@ -123,6 +127,7 @@ def create():
 		except Exception as e:
 			flash(e.args[1])
 			return redirect("/paciente")"""
+
 
 @personaweb.route("/update/<id>", methods=["GET", "POST"])
 @login_required

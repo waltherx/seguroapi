@@ -1,87 +1,148 @@
 {% extends 'layout.html' %} {% block body %}
 
-<div class="container">
-  <div class="row justify-content-center">
-    <h2>Administrar Medico</h2>
-  </div>
-  <div class="border border-dark p-0">
-    <div class="card-header" style="background-color: #011f4b">
-      <button
-        type="button"
-        class="btn btn-light rounded-pill"
-        data-bs-toggle="modal"
-        data-bs-target="#modalcreate"
-      >
-        <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Medico
-      </button>
-      {% include '/paramedico/create.html' %}
-    </div>
-    <div class="table-responsive bg-white container pt-2">
-      <table class="table table-sm table-bordered" id="example">
-        <thead>
-          <tr>
-            <th class="text-center">#</th>
-            <th>Especialidad</th>
-            <th class="text-center">Acciones</th>
-          </tr>
-        </thead>
+<div class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Administrar Medico</h2>
+      <div class="card mx-auto shadow">
+        <div class="card-header" style="background-color: #012970">
+          <button
+            type="button"
+            class="btn btn-light rounded-pill"
+            data-bs-toggle="modal"
+            data-bs-target="#modalcreate"
+          >
+            <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Medico
+          </button>
+          {% include '/medico/create.html' %}
+        </div>
 
-        <tbody>
-          {% for paramedico in paramedicos %}
-          <tr>
-            <td class="text-center">{{loop.index0 + 1}}</td>
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th>CI</th>
+              <th>ID</th>
+              <th>Nombre Completo</th>
+              <th>Especialidad</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
 
-            <td>{{paramedico.especialidad}}</td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-warning btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaledit{{paramedico.id}}"
-              >
-                <i class="bi bi-gear"></i>
-              </button>
+          <tbody>
+            {% for medico in medicos %}
+            <tr>
+              <td>{{medico.ci}}</td>
+              <td>{{medico.id_medico}}</td>
+              <td>{{medico.nombres + " "+medico.apellidos}}</td>
+              <td>{{medico.especialidad}}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-warning btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaledit{{medico.id}}"
+                >
+                  <i class="bi bi-gear"></i>
+                </button>
 
-              <div
-                class="modal fade"
-                id="modaledit{{paramedico.id}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modaledit{{paramedico.id}}"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">Editar Paramedico</h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
+                <div
+                  class="modal fade"
+                  id="modaledit{{medico.id}}"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="modaledit{{medico.id}}"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div
+                        class="modal-header"
+                        style="background-color: #011f4b; color: white"
+                      >
+                        <h4 class="modal-title">Editar Medico</h4>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <br />
+                      <div class="modal-body">
+                        <form method="POST" action="#">
+                          <div class="mb-3">
+                            <label for="txtNombre" class="col-form-label"
+                              >Especialidad:</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="txtNombre"
+                              name="txtNombre"
+                              value="{{medico.especialidad}}"
+                              required
+                            />
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-default"
+                              data-bs-dismiss="modal"
+                            >
+                              Cerrar
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                              Actualizar
+                            </button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                    <br />
-                    <div class="modal-body">
-                      <form
-                        method="POST"
-                        action="#"
-                      >                        
-                        <div class="mb-3">
-                          <label for="txtNombre" class="col-form-label"
-                            >Especialidad:</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="txtNombre"
-                            name="txtNombre"
-                            value="{{paramedico.especialidad}}"
-                            required
-                          />
+                  </div>
+                </div>
+                |
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaldelete{{medico.id}}"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+                <div
+                  class="modal fade"
+                  id="modaldelete{{medico.id}}"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="basicModal"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div
+                        class="modal-header"
+                        style="background-color: #011f4b; color: white"
+                      >
+                        <h4 class="modal-title">Eliminar Medico</h4>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <br />
+                      <form action="#" method="post">
+                        <div class="modal-body">
+                          <div class="form-group row">
+                            <label class="col-sm-12 col-form-label"
+                              >Esta seguro de eliminar
+                              <span style="font-weight: bold; color: red"
+                                >{{medico.id}}</span
+                              >
+                              ?</label
+                            >
+                          </div>
                         </div>
                         <div class="modal-footer">
                           <button
@@ -91,80 +152,20 @@
                           >
                             Cerrar
                           </button>
-                          <button type="submit" class="btn btn-success">
-                            Actualizar
+                          <button type="submit" class="btn btn-danger">
+                            Eliminar
                           </button>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
-              </div>
-              |
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaldelete{{paramedico.id}}"
-              >
-                <i class="bi bi-trash"></i>
-              </button>
-              <div
-                class="modal fade"
-                id="modaldelete{{paramedico.id}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="basicModal"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">Eliminar Paramedico</h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <br />
-                    <form action="#" method="post">                  
-                      <div class="modal-body">
-                        <div class="form-group row">
-                          <label class="col-sm-12 col-form-label"
-                            >Esta seguro de eliminar
-                            <span style="font-weight: bold; color: red"
-                              >{{paramedico.id}}</span
-                            >
-                            ?</label
-                          >
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-default"
-                          data-bs-dismiss="modal"
-                        >
-                          Cerrar
-                        </button>
-                        <button type="submit" class="btn btn-danger">
-                          Eliminar
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <br />

@@ -70,13 +70,15 @@
                   aria-hidden="true"
                 >
                   <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
                     <div class="modal-content">
                       <div
                         class="modal-header"
                         style="background-color: #011f4b; color: white"
                       >
                         <h4 class="modal-title">
-                          Qr Paciente : {{persona.nombres + persona.apellidos}}
+                          Qr Paciente : <br/>
+                          {{persona.nombres +" "+ persona.apellidos}}
                         </h4>
                         <button
                           type="button"
@@ -90,7 +92,7 @@
                       <div class="modal-body">
                         <div class="form-group row">
                           <img
-                            src="{{ qrcode(persona, box_size=8, border=5) }}"
+                            src="{{ qrcode({'ci_persona':persona.ci,'nombre_completo':persona.nombres+' '+persona.apellidos, 'foto_url':persona.foto_url,'fecha_nacimiento':persona.fecha_nacimiento}) }}" alt="QR Code"
                           />
                         </div>
                       </div>
@@ -107,6 +109,7 @@
                         </button>
                       </div>
                     </div>
+                  </div>
                   </div>
                 </div>
               </td>

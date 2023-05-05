@@ -29,6 +29,10 @@ class PersonaModel:
                         "altura": row[12],
                         "peso": row[13],
                     }
+                    
+                    print(row[12])
+                    print('------------------------------------')   
+                    print(row[13])
                     personas.append(_persona)
             connection.close()
             return personas

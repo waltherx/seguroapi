@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash,jsonify
 from decouple import config
 from flask_qrcode import QRcode
 from flask_cors import CORS
@@ -33,6 +33,7 @@ from routes import medico
 from routes import emergencia
 
 
+
 from models.entities.User import User
 
 from controllers.AlergiaController import alergiaweb
@@ -41,6 +42,7 @@ from controllers.PersonaController import personaweb
 from controllers.UserController import usersweb
 from controllers.ParamedicoController import paramedicoweb
 from controllers.ChoferControlller import chofersweb
+from controllers.MedicoController import medicosweb
 from controllers.AmbulanciaController import ambulanciaweb
 from controllers.DocumentoController import documentoWeb
 from controllers.HospitalController import hospitalweb
@@ -123,6 +125,7 @@ app.register_blueprint(ambulanciaweb, url_prefix="/ambulancia")
 app.register_blueprint(usersweb, url_prefix="/user")
 app.register_blueprint(documentoWeb, url_prefix="/documento")
 app.register_blueprint(hospitalweb, url_prefix="/hospital")
+app.register_blueprint(medicosweb, url_prefix="/medico")
 
 # Blueprints Api Rest fun
 app.register_blueprint(user.UserApi, url_prefix="/api/user")
