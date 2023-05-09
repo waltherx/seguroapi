@@ -3,6 +3,7 @@ from .entities.Phone import Phone
 
 
 class PhoneModel:
+    """
     @classmethod
     def get_phones(self, id):
         try:
@@ -19,12 +20,12 @@ class PhoneModel:
             return phones
         except Exception as ex:
             raise Exception(ex)
-
+    """
     @classmethod
     def get_phone(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT d.iddoc, d.tipo, d.url, d.fecha, d.nombre, d.paciente_id FROM documento d, paciente a, persona p where p.ci = a.ci_persona and a.idpac = d.paciente_id and p.ci ={ci};"
+            sQuery = f"SELECT t.idp, t.numero, t.referencia, t.ci_persona FROM phone t, persona p where t.ci_persona = p.ci and t.ci_persona ={ci} ORDER BY t.idp ASC"
             phones = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
