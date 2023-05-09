@@ -13,9 +13,9 @@
 
               <div class="card-body profile-card profile-overview">  
                 <img src="{{paciente.foto_url}}" alt="Profile" class="rounded-circle d-block mx-auto">
-                <h2>CI : {{paciente.ci}}</h2>
-                
-                <h5 class="card-title">Informacion de Paciente</h5>
+                <h2>ID : {{ paciente.id_paciente }} </h2>
+                <h2>CI : {{ paciente.ci }}</h2>
+                <!--<h5 class="card-title">Informacion de Paciente</h5>
   
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Nombre</div>
@@ -56,7 +56,7 @@
                       <div class="col-lg-3 col-md-4 label">Peso :</div>
                       <div class="col-lg-9 col-md-8">{{paciente.peso}}</div>
                     </div>
-
+                  -->
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@
   
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Fecha Nacimiento</div>
-                      <div class="col-lg-9 col-md-8">{{paciente.fechaNac}}</div>
+                      <div class="col-lg-9 col-md-8">{{paciente.fecha_nacimiento}}</div>
                     </div>
   
                     <div class="row">
@@ -124,7 +124,7 @@
   
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Tipo De Sangre</div>
-                      <div class="col-lg-9 col-md-8">{{paciente.tipoSangre}}</div>
+                      <div class="col-lg-9 col-md-8">{{paciente.tiposangre}}</div>
                     </div>
   
                     <div class="row">
@@ -134,16 +134,56 @@
   
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Altura</div>
-                      <div class="col-lg-9 col-md-8">{{paciente.altura}}</div>
+                      <div class="col-lg-9 col-md-8">{{paciente.altura }} m/cm</div>
                     </div>
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label">Peso :</div>
-                      <div class="col-lg-9 col-md-8">{{paciente.peso}}</div>
+                      <div class="col-lg-9 col-md-8">{{paciente.peso }} kl/gr</div>
                     </div>
                   </div>
-                  <div class="tab-pane fade profile-enf pt-3" id="profile-enf">                   
+                  <div class="tab-pane fade profile-enf pt-3" id="profile-enf"> 
+                    <div class="table-responsive bg-white container pt-2">
+                      <table class="table table-sm table-bordered" id="example">
+                        <thead>
+                          <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Descripcion</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for enfermedad in enfermedades %}
+                          <tr>
+                            <td class="text-center">{{loop.index0 + 1}}</td>
+                            <td class="text-center">{{enfermedad.nombre}}</td>
+                            <td class="text-center">{{enfermedad.descripcion}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>                  
                   </div>
                   <div class="tab-pane fade pt-3" id="profile-ale">
+                    <div class="table-responsive bg-white container pt-2">
+                      <table class="table table-sm table-bordered" id="example">
+                        <thead>
+                          <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Descripcion</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for alergia in alergias %}
+                          <tr>
+                            <td class="text-center">{{loop.index0 + 1}}</td>
+                            <td class="text-center">{{alergia.nombre}}</td>
+                            <td class="text-center">{{alergia.descripcion}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div class="tab-pane fade pt-3" id="profile-vac">
                     <div class="table-responsive bg-white container pt-2">
@@ -169,15 +209,81 @@
                   </div>
 
                   <div class="tab-pane fade pt-3" id="profile-med">
-
+                    <div class="table-responsive bg-white container pt-2">
+                      <table class="table table-sm table-bordered" id="example">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Descripcion</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-center">Unidad</th>
+                          </tr>
+                        </thead>
+            
+                        <tbody>
+                          {% for medicamento in medicamentos %}
+                          <tr>
+                            <td class="text-center">{{medicamento.nombre}}</td>
+                            <td class="text-center">{{medicamento.descripcion}}</td>
+                            <td class="text-center">{{medicamento.cantidad}}</td>
+                            <td class="text-center">{{medicamento.unidad}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
 
                   <div class="tab-pane fade pt-3" id="profile-ope">
-                    
+                    <div class="table-responsive bg-white container pt-2">
+                      <table class="table table-sm table-bordered" id="example">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Fecha</th>
+                            <th class="text-center">descripcion</th>
+                          </tr>
+                        </thead>
+            
+                        <tbody>
+                          {% for operacion in operaciones %}
+                          <tr>
+                            <td class="text-center">{{operacion.tipo}}</td>
+                            <td class="text-center">{{operacion.fecha}}</td>
+                            <td class="text-center">{{operacion.descripcion}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
 
                   <div class="tab-pane fade pt-3" id="profile-doc">
-                    
+                    <div class="table-responsive bg-white container pt-2">
+                      <table class="table table-sm table-bordered" id="example">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Fecha</th>
+                            <th class="text-center">documento</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for doc in documentos %}
+                          <tr>
+                            <td class="text-center">{{doc.tipo}}</td>
+                            <td class="text-center">{{doc.fecha}}</td>
+                            <td class="text-center">
+                              <img
+                                src="https://res.cloudinary.com/dci37dfd7/image/upload/c_thumb,w_200,g_face/v1680995661/doc/{{doc.nombre}}"
+                                alt=""
+                              />
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
   
                 </div><!-- End Bordered Tabs -->

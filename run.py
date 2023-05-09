@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash,jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from decouple import config
 from flask_qrcode import QRcode
 from flask_cors import CORS
@@ -31,7 +31,6 @@ from routes import notificacion
 from routes import paramedico
 from routes import medico
 from routes import emergencia
-
 
 
 from models.entities.User import User
@@ -100,6 +99,7 @@ def load_user(user_id):
 @login_required
 def home():
     return render_template("/home.html")
+
 
 @app.route("/")
 @login_required

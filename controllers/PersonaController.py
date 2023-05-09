@@ -9,12 +9,16 @@ from cloudinary import uploader, api
 from cloudinary.utils import cloudinary_url
 from models.entities.Persona import Persona
 from models.personaModel import PersonaModel
+from models.pacienteModel import PacienteModel
+from models.enfermedadModel import EnfermedadModel
+from models.alergiaModel import AlergiaModel
 from models.vacunaModel import VacunaModel
 from models.operacionModel import OperacionModel
 from models.documentoModel import DocumentoModel
 from models.medicamentoModel import MedicamentoModel
 from models.phoneModel import PhoneModel
 from models.documentoModel import DocumentoModel
+
 
 from werkzeug.utils import secure_filename
 from decouple import config
@@ -42,21 +46,29 @@ def index():
 @personaweb.route("/view/<id>", methods=["GET", "POST"])
 @login_required
 def view(id):
-    personaOne = PersonaModel.get_persona(id)
-    vacunaList = VacunaModel.get_vacuna(id)
-    operacionList = OperacionModel.get_operacion(id)
-    medicamentoList = MedicamentoModel.get_medicamento(id)
-    phonesList = PhoneModel.get_phone(id)
-    docList = DocumentoModel.get_documentos(id)
-    return render_template(
-        "persona/modal/view2.html",
-        paciente=personaOne,
-        phones=phonesList,
-        vacunas=vacunaList,
-        operaciones=operacionList,
-        medicamentos=medicamentoList,
-        documentos=docList,
-    )
+    if id :
+        personaOne = PacienteModel.get_paciente_new(id)
+        enfList = EnfermedadModel.get_enfermedad(id)
+        alerList = AlergiaModel.get_alergia(id)
+        vacunaList = VacunaModel.get_vacuna(id)
+        operacionList = OperacionModel.get_operacion(id)
+        medicamentoList = MedicamentoModel.get_medicamento(id)
+        phonesList = PhoneModel.get_phone(id)
+        docList = DocumentoModel.get_documentos(id)
+        
+        return render_template(
+            "persona/modal/view2.html",
+            paciente=personaOne,
+            enfermedades = enfList,
+            alergias = alerList,
+            phones=phonesList,
+            vacunas=vacunaList,
+            operaciones=operacionList,
+            medicamentos=medicamentoList,
+            documentos=docList,
+        )
+    flash("Falta Ci de paciente..")
+    return redirect("/persona")
 
 
 @personaweb.route("/createp", methods=["GET"])

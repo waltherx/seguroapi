@@ -4,21 +4,17 @@ from .entities.Phone import Phone
 
 class PhoneModel:
     @classmethod
-    def get_phones(self):
+    def get_phones(self, id):
         try:
             connection = get_connection()
             phones = []
-
+            sQuery = f"SELECT t.idp, t.numero, t.referencia, t.ci_persona FROM phone t, persona p where t.ci_persona = p.ci and t.ci_persona ={ id } ORDER BY t.idp ASC;"
             with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT idp, numero, referencia, ci_persona FROM public.phone ORDER BY idp ASC"
-                )
+                cursor.execute(sQuery)
                 resultset = cursor.fetchall()
-
                 for row in resultset:
                     phone = Phone(row[0], row[1], row[2], row[3])
                     phones.append(phone.to_JSON())
-
             connection.close()
             return phones
         except Exception as ex:

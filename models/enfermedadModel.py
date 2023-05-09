@@ -23,18 +23,18 @@ class EnfermedadModel:
     @classmethod
     def get_enfermedad(self, id):
         try:
+            enfermedads = []
             connection = get_connection()
+            sQuery= f"SELECT e.idenf, e.nombre, e.descripcion, e.causa, e.sintoma, e.diagnostico, e.paciente_id FROM enfermedad e, persona p ,paciente w where e.paciente_id = w.idpac and p.ci =w.ci_persona and p.ci = { id } ;"
             with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT idenf, nombre FROM enfermedad WHERE idenf = %s", (id,)
-                )
-                row = cursor.fetchone()
+                cursor.execute(sQuery)
+                resultset = cursor.fetchall()
                 enfermedad = None
-                if row != None:
-                    enfermedad = Enfermedad(row[0], row[1])
-                    enfermedad = enfermedad.to_JSON()
+                for row in resultset:
+                    enfermedad = Enfermedad(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+                    enfermedads.append(enfermedad.to_JSON())
             connection.close()
-            return enfermedad
+            return enfermedads
         except Exception as ex:
             raise Exception(ex)
 
