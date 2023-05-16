@@ -27,7 +27,7 @@ def get_ambulancias():
 def get_ambulanciaxId(id):
     try:
         if id:
-            chofers = ChoferModel.get_chofer(id)
+            chofers = ChoferModel.get_chofersxId(id)
             paramedicos = ParamedicoModel.get_paramedicos(id)
             ambulancia = AmbulanciaModel.get_ambulanciaId(id)
             return (

@@ -1,5 +1,5 @@
 {% include 'head.html'   %}
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
   </head>
   <body>
     {% include 'logo.html' %}
@@ -71,6 +71,10 @@
                   <li class="nav-item">
                     <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-info">Informacion</button>
                   </li>
+
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-pho">Contactos</button>
+                  </li>
   
                   <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-enf">Enfermedad</button>
@@ -91,7 +95,7 @@
                   <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-ope">Operacion</button>
                   </li>
-
+                  
                   <li class="nav-item">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-doc">Documento</button>
                   </li>
@@ -141,6 +145,14 @@
                       <div class="col-lg-9 col-md-8">{{paciente.peso }} kl/gr</div>
                     </div>
                   </div>
+
+                  <div class="tab-pane fade show active profile-overview" id="profile-pho">
+                    <div>
+                      <button id="guardar-phone" type="button" class="btn btn-primary" >Agregar Contacto</button>
+                      <div id="contentphone"></div>
+                    </div>
+                  </div>
+
                   <div class="tab-pane fade profile-enf pt-3" id="profile-enf"> 
                     <div class="table-responsive bg-white container pt-2">
                       <table class="table table-sm table-bordered" id="example">
@@ -274,10 +286,10 @@
                             <td class="text-center">{{doc.tipo}}</td>
                             <td class="text-center">{{doc.fecha}}</td>
                             <td class="text-center">
-                              <img
+                              <!--<img
                                 src="https://res.cloudinary.com/dci37dfd7/image/upload/c_thumb,w_200,g_face/v1680995661/doc/{{doc.nombre}}"
                                 alt=""
-                              />
+                              />-->
                             </td>
                           </tr>
                           {% endfor %}
@@ -289,8 +301,7 @@
                 </div><!-- End Bordered Tabs -->
   
               </div>
-            </div>
-  
+            </div>            
           </div>
           <!-- End Left side columns -->
         </div>
@@ -299,6 +310,37 @@
     <!-- End #main -->
     {% include 'credits.html'   %}
     <script>
-      
+      function cargarPhones(){
+        
+        const url = `${window.origin}/api/phone/{{ paciente.ci }}`;
+        fetch(url)
+          .then(res => res.json())
+          .then(data => mostrarPhones(data['telefonos']))        
+          .catch(error => console.error('Error:', error))
+      }
+
+      function mostrarPhones(phones = []){
+
+        const contenido = document.querySelector('#contentphone');
+
+        let html = '';
+
+        phones.forEach( phone => {
+          const {id, numero, referencia, ci_persona } = phone;
+          html +=`<p>${ phone.numero }</p>
+                  <p>${ phone.referencia }</p>`;
+        });
+
+        contenido.innerHTML = html;
+      }
+
+      document.addEventListener('DOMContentLoaded', cargarPhones());
+
     </script>
-    {% include 'footer.html'   %}
+
+    <!--<script src="sweetalert2.all.min.js"></script>-->      
+    <!-- Template Main JS File -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
+  </body>
+  </html>

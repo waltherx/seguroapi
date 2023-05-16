@@ -36,7 +36,7 @@ def get_medicosxhos(id):
         return jsonify({"message": str(ex)}), 500    
 
 @MedicoApi.route("/view/<id>")
-def get_choferxId(id):
+def get_medico_x_Id(id):
     try:
         if id:
             medico = MedicoModel.get_medico(id)
@@ -49,6 +49,6 @@ def get_choferxId(id):
                 ),
                 200,
             )
-        return jsonify({"message": "falta el valor ID Medico"}), 500
+        return jsonify({"message": "falta el valor ID Medico"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

@@ -4,7 +4,7 @@ class Persona:
         ci=None,
         nombres=None,
         apellidos=None,
-        fechaNac=None,
+        fecha_nacimiento=None,
         foto_url=None,
         foto_name=None,
         direccion=None,
@@ -14,7 +14,7 @@ class Persona:
         self.ci = ci
         self.nombres = nombres
         self.apellidos = apellidos
-        self.fechaNac = fechaNac
+        self.fecha_nacimiento = fecha_nacimiento
         self.foto_url = foto_url
         self.foto_name = foto_name
         self.direccion = direccion
@@ -26,7 +26,7 @@ class Persona:
             "ci": self.ci,
             "nombres": self.nombres,
             "apellidos": self.apellidos,
-            "fechaNac": self.fechaNac,
+            "fecha_nacimiento": self.fechaNac,
             "foto_url" : self.foto_url,
             "foto_name": self.foto_name,            
             "direccion": self.direccion,

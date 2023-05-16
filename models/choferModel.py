@@ -54,7 +54,7 @@ class ChoferModel:
     @classmethod
     def get_chofersxId(self, id):
         try:
-            sQuery = f"SELECT c.idch, c.licencia, c.categoria, c.estado, c.id_ambulancia, c.ci_persona, u.idu FROM chofer c, ambulancia a,usuario u  where c.id_ambulancia = a.idam and u.ci_persona = c.ci_persona  and c.id_ambulancia = {id};"
+            sQuery = f"SELECT c.idch, c.licencia, c.categoria, c.estado, c.id_ambulancia, c.ci_persona, u.idu FROM chofer c, ambulancia a,usuario u  where c.id_ambulancia = a.idam and u.ci_persona = c.ci_persona  and c.id_ambulancia = {id} and u.idrol = 3;"
             connection = get_connection()
             chofers = []
             with connection.cursor() as cursor:

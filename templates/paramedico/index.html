@@ -1,4 +1,12 @@
-{% extends 'layout.html' %} {% block body %}
+{% extends 'layout.html' %}
+{% block style %}
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+{% endblock %}
+{% block body %}
 
 <div class="container">
   <div class="row justify-content-center">
@@ -170,4 +178,58 @@
   <br />
   <br />
 </div>
+{% endblock %}
+{% block js %}
+<script>
+  const form = document.getElementById("form");
+  const step1 = document.getElementById("step1");
+  const step2 = document.getElementById("step2");
+  const step3 = document.getElementById("step3");
+  const next1 = document.getElementById("next1");
+  const next2 = document.getElementById("next2");
+  const prev1 = document.getElementById("prev1");
+  const prev2 = document.getElementById("prev2");
+
+  next1.addEventListener("click", () => {
+    step1.classList.add("hidden");
+    step2.classList.remove("hidden");
+  });
+
+  prev1.addEventListener("click", () => {
+    step2.classList.add("hidden");
+    step1.classList.remove("hidden");
+  });
+
+  next2.addEventListener("click", () => {
+    step2.classList.add("hidden");
+    step3.classList.remove("hidden");
+  });
+
+  prev2.addEventListener("click", () => {
+    step3.classList.add("hidden");
+    step2.classList.remove("hidden");
+  });
+
+  const addMedicoForm = document.querySelector("#add-medico");
+  addMedicoForm.addEventListener("submit", function (event) {
+  console.log(event.target.ci.value);
+    fetch(`${window.origin}/api/person/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ci: `${event.target.ci.value}`,
+        nombres: `${event.target.nombreTxt.value}`,
+        apellidos: `${event.target.apellidoTxt.value}`,
+        fecha_nacimiento: `${event.target.fechaTxt.value}`,
+        direccion: `${event.target.direccion.value}`,
+        genero: `${event.target.genero.value}`,
+        estado_civil: `${event.target.estado_civil.value}`,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then(console.log("medico agregado",resp.json()));
+  });
+</script>
 {% endblock %}

@@ -43,7 +43,7 @@ class ParamedicoModel:
                         row[7],
                         row[8],
                     )
-                    paramedico = Paramedico(row[9], row[10], row[11],row[12]	)
+                    paramedico = Paramedico(row[9], row[10], row[11], row[12])
                     persona = persona.to_JSON()
                     paramedico = paramedico.to_JSON()
             connection.close()
@@ -71,15 +71,22 @@ class ParamedicoModel:
     @classmethod
     def get_paramedicos(self, id):
         try:
-            sQuery = f"SELECT idpar, especialidad, id_ambulancia, ci_persona FROM public.paramedico,public.ambulancia where paramedico.id_ambulancia  = ambulancia.idam  and ambulancia.idam = {id};"
+            sQuery = f"SELECT p.idpar, p.especialidad, p.id_ambulancia, p.ci_persona, u.idu ,u.nameuser  FROM paramedico p, ambulancia a, usuario u  where p.id_ambulancia  = a.idam and u.ci_persona = p.ci_persona  and p.id_ambulancia  = {id} and u.idrol = 4;"
             connection = get_connection()
             paramedicos = []
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    paramedico = Paramedico(row[0], row[1], row[2], row[3])
-                    paramedicos.append(paramedico.to_JSON())
+                    paramedico = {
+                        "id": row[0],
+                        "especialidad": row[1],
+                        "id_ambulancia": row[2],
+                        "ci_persona": row[3],
+                        "user_id": row[4],
+                        "nameuser": row[5],
+                    }
+                    paramedicos.append(paramedico)
                 connection.close()
             return paramedicos
         except Exception as ex:

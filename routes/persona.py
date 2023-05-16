@@ -17,7 +17,26 @@ from models.personaModel import PersonaModel
 
 PersonaApi = Blueprint("prna_blueprint", __name__)
 
-
+@PersonaApi.route('/add',methods=['POST'])
+def add_persona():
+    try:
+        if request.method=='POST':
+            data = request.json
+            if data:
+                _ci = data['ci']
+                _nombre = data['nombres']
+                _apellido = data['apellidos']
+                _fecha = data['fecha_nacimiento']
+                _direccion = data['direccion']  if data['direccion'] else ''
+                _genero = data['genero']
+                _estado_civil = data['estado_civil']                
+                new_persona = Persona(_ci,_nombre,_apellido,_fecha,None,None,_direccion,_genero,_estado_civil)
+                new_ci = PersonaModel.add_persona(new_persona)
+                return jsonify({'ci_persona':new_ci}), 200                
+        return jsonify({'message':'Metodo http diferente de Post'}), 404 
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+    
 @PersonaApi.route("/upload/<ci>", methods=["POST"])
 def upload_perfil(ci):
     try:

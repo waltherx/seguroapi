@@ -1,5 +1,5 @@
 {% include 'head.html'   %}
-
+  {% block style %}  {% endblock %} 
   </head>
 
   <body>
@@ -21,4 +21,8 @@
     </main>
     <!-- End #main -->
     {% include 'credits.html'   %}
+    
     {% include 'footer.html'   %}
+    {% block js %} {% endblock %}
+  </body>
+  </html>

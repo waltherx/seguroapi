@@ -1,5 +1,5 @@
 from flask_login import login_required
-from flask import Blueprint
+from flask import Blueprint,request
 from flask import render_template, flash
 
 from models.medicoModel import MedicoModel

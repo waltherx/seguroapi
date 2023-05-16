@@ -71,7 +71,7 @@ class PersonaModel:
     def add_persona(self, persona):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO persona (ci, nombres, apellidos, fechanac, licvehicular, foto, tiposangre, hipertencion, altura, peso, direccion) VALUES ({persona.ci},'{persona.nombres}','{persona.apellidos}','{persona.fechaNac}',{persona.licVehicular},'{persona.foto}','{persona.tipoSangre}','{persona.hipertencion}',{persona.altura},{persona.peso},'{persona.direccion}')"
+            sQuery = f"INSERT INTO public.persona (ci, nombres, apellidos, fecha_nacimiento, direccion, genero, estado_civil) VALUES({persona.ci}, '{persona.nombres}', '{persona.apellidos}' , '{persona.fecha_nacimiento}', '{persona.direccion}', '{persona.genero}', '{persona.estado_civil}');"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
