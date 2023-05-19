@@ -10,14 +10,19 @@ class UserModel:
         try:
             connection = get_connection()
             users = []
+            sQuery = f"select u.idu ,p.ci, u.nameuser, CONCAT(p.apellidos  ,', ', p.nombres) AS nombre_completo, r.nombre  from persona p ,usuario u ,rol r where p.ci =u.ci_persona and u.idrol  =r.idrol order by u.idu asc"
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM usuario")
+                cursor.execute(sQuery)
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    user = User(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
-                    )
-                    users.append(user.to_JSON())
+                    user = {
+                        "id_user": row[0],
+                        "ci_persona": row[1],
+                        "name_user": row[2],
+                        "nombre_completo": row[3],
+                        "rol": row[4],
+                    }
+                    users.append(user)
             connection.close()
             return users
         except Exception as ex:
@@ -122,13 +127,16 @@ class UserModel:
     def add_user(self, user):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO usuario (nameuser, password, email, idrol,ci_persona) VALUES ('{user.nameuser}','{user.password}','{user.email}',{user.idrol},{user.ci_persona})"
+            sQuery = f"INSERT INTO public.usuario (nameuser, password, email, estado, idrol, ci_persona) VALUES('{user.nameuser}', '{generate_password_hash(user.password)}', '{user.email}', 'act', {user.idrol}, {user.ci_persona});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()
-            return affected_rows
+            if affected_rows == 1:
+                return 1
+            else:
+                return 0
         except Exception as ex:
             raise Exception(ex)
 

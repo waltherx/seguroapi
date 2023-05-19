@@ -15,11 +15,9 @@ from werkzeug.security import generate_password_hash
 
 usersweb = Blueprint("user_bp", __name__, template_folder="templates/user")
 
-
 def Calcular_edad(born):
     today = datetime.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-
 
 @usersweb.route("/")
 @login_required
@@ -31,28 +29,6 @@ def index():
 @login_required
 def password():
     return render_template("/user/password.html")
-
-@usersweb.route("/create", methods=["POST"])
-@login_required
-def create():
-    if request.method == "POST":
-        try:
-            _name = request.form.get("txtNombre")
-            _pass = request.form.get("txtPassword")
-            _password = generate_password_hash(_pass)
-            _email = request.form.get("txtEmail")
-            _rol = request.form.get("txtRol")
-            user = User(None, _name, _password, _email, None, None, _rol)
-            ok = UserModel.add_user(user)
-            if ok:
-                flash("User Agregado Correctamente")
-            else:
-                flash("User no Agregado")
-            return redirect("/user")
-        except Exception as e:
-            flash(e.args[1])
-            return redirect("/user")
-
 
 @usersweb.route("/view", methods=["GET"])
 @login_required

@@ -30,19 +30,26 @@ class MedicoModel:
     def get_medico(self, id):
         try:
             connection = get_connection()
-            sQuey = f"SELECT idmed, especialidad, hospital_id, user_id FROM public.medico m where m.idmed =  {id};"
+            sQuey = f"select m.idmed, m.ci_persona, p.nombres ,p.apellidos ,p.foto_url ,m.especialidad , m.hospital_id, h.nombre  from medico m, persona p, hospital h where m.ci_persona = p.ci and m.hospital_id =h.idh  and m.idmed = {id} LIMIT 1;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuey)
                 row = cursor.fetchone()
                 medico = None
                 if row != None:
-                    medico = Medico(row[0], row[1], row[2], row[3])
-                    medico = medico.to_JSON()
+                    medico = {
+                        "id_medico": row[0],
+                        "ci_persona": row[1],
+                        "nombres": row[2],
+                        "apellidos": row[3],
+                        "foto_url": row[4],
+                        "especialidad": row[5],
+                        "hospital_id": row[6],
+                        "hospital_name": row[7],
+                    }
             connection.close()
             return medico
         except Exception as ex:
             raise Exception(ex)
-
 
     @classmethod
     def get_medicos(self):
@@ -61,6 +68,22 @@ class MedicoModel:
         except Exception as ex:
             raise Exception(ex)
 
+    @classmethod
+    def add_medico(self, medico):
+        try:
+            connection = get_connection()
+            sQuery = f"INSERT INTO public.medico (especialidad, hospital_id, ci_persona) VALUES('{medico.especialidad}', {medico.hospital_id}, {medico.ci_persona});"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            if affected_rows == 1:
+                return 1
+            else:
+                return 0
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def get_medicos_persons(self):

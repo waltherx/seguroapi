@@ -46,6 +46,8 @@ from controllers.AmbulanciaController import ambulanciaweb
 from controllers.DocumentoController import documentoWeb
 from controllers.HospitalController import hospitalweb
 
+from controllers.PacienteController import pacienteweb
+
 
 # CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
 app = Flask(__name__)
@@ -118,7 +120,7 @@ def page_not_authorized(error):
 # Blueprints App Web
 app.register_blueprint(alergiaweb, url_prefix="/alergia")
 app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
-app.register_blueprint(personaweb, url_prefix="/paciente")
+app.register_blueprint(personaweb, url_prefix="/persona")
 app.register_blueprint(chofersweb, url_prefix="/chofer")
 app.register_blueprint(paramedicoweb, url_prefix="/paramedico")
 app.register_blueprint(ambulanciaweb, url_prefix="/ambulancia")
@@ -126,6 +128,8 @@ app.register_blueprint(usersweb, url_prefix="/user")
 app.register_blueprint(documentoWeb, url_prefix="/documento")
 app.register_blueprint(hospitalweb, url_prefix="/hospital")
 app.register_blueprint(medicosweb, url_prefix="/medico")
+
+app.register_blueprint(pacienteweb, url_prefix="/paciente")
 
 # Blueprints Api Rest fun
 app.register_blueprint(user.UserApi, url_prefix="/api/user")
@@ -144,6 +148,7 @@ app.register_blueprint(paramedico.ParamedicoApi, url_prefix="/api/paramedico")
 app.register_blueprint(medico.MedicoApi, url_prefix="/api/medico")
 app.register_blueprint(emergencia.EmergenciaApi, url_prefix="/api/emergencia")
 app.register_blueprint(persona.PersonaApi, url_prefix="/api/person")
+
 # Error handlers
 app.register_error_handler(401, page_not_authorized)
 app.register_error_handler(404, page_not_found)

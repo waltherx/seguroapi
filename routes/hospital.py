@@ -91,3 +91,20 @@ def delete_hospital(id):
 
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+
+
+@HospitalApi.route("/geojson", methods=["GET"])
+def hospital_geojson():
+    try:
+        features = []
+        hospitals = HospitalModel.get_hospitals()
+        for row in hospitals:
+            feature = {
+                "type": "Feature",
+                "geometry": {"type": "Point", "coordinates": [row["long"], row["lat"]]},
+                "properties": {"name": row["nombre"], "description": row["direccion"]},
+            }
+            features.append(feature)
+        return jsonify({"type": "FeatureCollection", "features": features}), 200
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500

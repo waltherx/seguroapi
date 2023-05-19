@@ -10,7 +10,7 @@ class HospitalModel:
             hospitals = []
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM hospital")
+                cursor.execute("select * from hospital h order by idh asc;")
                 resultset = cursor.fetchall()
                 for row in resultset:
                     hospital = Hospital(row[0], row[1], row[2], row[3], row[4])

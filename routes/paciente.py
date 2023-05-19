@@ -149,3 +149,5 @@ def delete_persona(ci):
 
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+
+

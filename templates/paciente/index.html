@@ -9,7 +9,7 @@
 <div class="section">
   <div class="row">
     <div class="col-lg-12">
-      <h2>Administrar Medico</h2>
+      <h2>Administrar Paciente</h2>
       <div class="card mx-auto shadow">
         <div class="card-header" style="background-color: #012970">
           <button
@@ -18,45 +18,41 @@
             data-bs-toggle="modal"
             data-bs-target="#modalcreate"
           >
-            <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Medico
+            <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Paciente
           </button>
-          {% include '/medico/create.html' %}
+          {% include '/paciente/create.html' %}
         </div>
 
         <table class="table datatable">
           <thead>
             <tr>
-              <th>CI</th>
-              <th>ID</th>
+              <th>CI</th>              
               <th>Nombre Completo</th>
-              <th>Especialidad</th>
               <th class="text-center">Acciones</th>
             </tr>
           </thead>
 
           <tbody>
-            {% for medico in medicos %}
+            {% for paciente in pacients %}
             <tr>
-              <td>{{medico.ci}}</td>
-              <td>{{medico.id_medico}}</td>
-              <td>{{medico.nombres + " "+medico.apellidos}}</td>
-              <td>{{medico.especialidad}}</td>
+              <td>{{paciente.ci_persona}}</td>              
+              <td>{{paciente.nombres +" "+ paciente.apellidos}}</td>
               <td>
                 <button
                   type="button"
                   class="btn btn-warning btn-sm"
                   data-bs-toggle="modal"
-                  data-bs-target="#modaledit{{medico.id}}"
+                  data-bs-target="#modaledit{{paciente.id_paciente}}"
                 >
                   <i class="bi bi-gear"></i>
                 </button>
 
                 <div
                   class="modal fade"
-                  id="modaledit{{medico.id}}"
+                  id="modaledit{{paciente.id_paciente}}"
                   tabindex="-1"
                   role="dialog"
-                  aria-labelledby="modaledit{{medico.id}}"
+                  aria-labelledby="modaledit{{paciente.id_paciente}}"
                   aria-hidden="true"
                 >
                   <div class="modal-dialog">
@@ -65,7 +61,7 @@
                         class="modal-header"
                         style="background-color: #011f4b; color: white"
                       >
-                        <h4 class="modal-title">Editar Medico</h4>
+                        <h4 class="modal-title">Editar Paciente</h4>
                         <button
                           type="button"
                           class="btn-close"
@@ -87,7 +83,7 @@
                               class="form-control"
                               id="txtNombre{{loop.index}}"
                               name="txtNombre{{loop.index}}"
-                              value="{{medico.especialidad}}"
+                              value="{{ pass }}"
                               required
                             />
                           </div>
@@ -113,13 +109,13 @@
                   type="button"
                   class="btn btn-danger btn-sm"
                   data-bs-toggle="modal"
-                  data-bs-target="#modaldelete{{medico.id}}"
+                  data-bs-target="#modaldelete{{paciente.id_paciente}}"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
                 <div
                   class="modal fade"
-                  id="modaldelete{{medico.id}}"
+                  id="modaldelete{{paciente.id_paciente}}"
                   tabindex="-1"
                   role="dialog"
                   aria-labelledby="basicModal"
@@ -131,7 +127,7 @@
                         class="modal-header"
                         style="background-color: #011f4b; color: white"
                       >
-                        <h4 class="modal-title">Eliminar Medico</h4>
+                        <h4 class="modal-title">Eliminar Paciente</h4>
                         <button
                           type="button"
                           class="btn-close"
@@ -146,7 +142,7 @@
                             <label class="col-sm-12 col-form-label"
                               >Esta seguro de eliminar
                               <span style="font-weight: bold; color: red"
-                                >{{medico.id}}</span
+                                >{{paciente.id_paciente}}</span
                               >
                               ?</label
                             >
@@ -171,8 +167,8 @@
                 |
                 <button
                   type="button"
-                  id="{{medico.id_medico}}"
-                  class="viewMedico"
+                  id="{{paciente.id_paciente}}"
+                  class="viewPaciente"
                 >
                   <i class="bi bi-eye"></i>
                 </button>

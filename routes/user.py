@@ -32,6 +32,21 @@ def get_user(id):
         return jsonify({"message1": str(ex)}), 500
 
 
+@UserApi.route("/add", methods=["POST"])
+def add_user():
+    try:
+        _ci = request.json["ci_persona"]
+        _nameuser = request.json["nameuser"]
+        _password = request.json["password"]
+        _email = request.json["email"]
+        _idrol = request.json["id_rol"]
+        _user = User(None, _nameuser, _password, _email, None, None, _idrol, _ci)
+        UserModel.add_user(_user)
+        return jsonify({"message": "usuario agregado"}), 200
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
 @UserApi.route("/update", methods=["PUT"])
 def update_user():
     try:

@@ -20,9 +20,10 @@
       <table class="table datatable">
         <thead>
           <tr>
-            <th class="text-center">#</th>
+            <th class="text-center">ID</th>
+            <th>CI</th>
+            <th>Usuario</th>
             <th>Nombre</th>
-            <th>Estado</th>
             <th>Rol</th>
             <th class="text-center">Acciones</th>
           </tr>
@@ -31,11 +32,11 @@
         <tbody>
           {% for user in users %}
           <tr>
-            <td class="text-center">{{loop.index0 + 1}}</td>
-
-            <td>{{user.nameuser}}</td>
-            <td>{{user.estado}}</td>
-            <td>{{user.idrol}}</td>
+            <td class="text-center">{{user.id_user}}</td>
+            <td>{{user.ci_persona}}</td>
+            <td>{{user.name_user}}</td>
+            <td>{{user.nombre_completo}}</td>
+            <td>{{user.rol}}</td>
             <td>
                 <button
                   type="button"
