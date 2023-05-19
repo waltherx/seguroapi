@@ -135,7 +135,7 @@ class PacienteModel:
     def add_paciente(self, paciente):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO persona (ci, nombres, apellidos, fechanac, licvehicular, foto, tiposangre, hipertencion, altura, peso, direccion) VALUES ({persona.ci},'{persona.nombres}','{persona.apellidos}','{persona.fechaNac}',{persona.licVehicular},'{persona.foto}','{persona.tipoSangre}','{persona.hipertencion}',{persona.altura},{persona.peso},'{persona.direccion}')"
+            sQuery = f"INSERT INTO public.paciente (tiposangre, hipertencion, altura, peso, ci_persona) VALUES('{paciente.tipoSangre}', '{paciente.hipertencion}', {paciente.altura}, {paciente.peso}, {paciente.ci_persona});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

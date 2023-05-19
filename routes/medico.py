@@ -67,8 +67,7 @@ def add_medico():
             _nameuser = request.json["nameuser"]
             _password = request.json["password"]
             _email = request.json["email"]
-            _idrol = request.json["id_rol"]
-
+            print(request.json)
             new_persona = Persona(
                 _ci_persona,
                 _nombre,
@@ -81,7 +80,7 @@ def add_medico():
                 _estado_civil,
             )
             new_medico = Medico(None, _especialidad, _hospital_id, _ci_persona)
-            new_user = User(None, _nameuser, _password, _email, None, None, _idrol, _ci_persona)
+            new_user = User(None, _nameuser, _password, _email, None, None, 2, _ci_persona)
 
             PersonaModel.add_persona(new_persona)
             MedicoModel.add_medico(new_medico)

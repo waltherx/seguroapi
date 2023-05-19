@@ -228,17 +228,36 @@
     const genero = document.getElementById("generoTxt").value;
     const estado = document.getElementById("estadocTxt").value;
 
-    const data = {
-      ci: ci,
+    const tipo_sangre = document.getElementById("txtSangre").value;
+    const hipertencion = document.getElementById("txtHipertencion").value;
+    const altura = document.getElementById("txtAltura").value;
+    const peso = document.getElementById("txtPeso").value;
+
+    const name_user = document.getElementById("nameuserTxt").value;
+    const password_user = document.getElementById("passwordTxt").value;
+    const email_user = document.getElementById("emailTxt").value;
+
+    const data = {      
+      ci_persona: ci,
       nombres: nombre,
       apellidos: apellido,
       fecha_nacimiento: fecha,
       direccion: direccion,
       genero: genero,
       estado_civil: estado,
+      nameuser: name_user,
+      password: password_user,
+      email: email_user,
+
+      tipo_sangre: tipo_sangre,
+      hipertencion: hipertencion,
+      altura: altura,
+      peso: peso,
     };
 
-    fetch(`${window.origin}/api/person/add`, {
+    console.log(data);
+
+    fetch(`${window.origin}/api/paciente/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -250,49 +269,14 @@
         return response.json();
       })
       .then((result) => {
-        myModal.hide();
-        Swal.fire("Medico Agreado");
+        //myModal.hide();
+        Swal.fire("Paciente Agreado");
       })
       .catch((error) => {
-        console.error("Error:", error);
+        Swal.fire("ah ocurrido un error",error);
       });
   }
 
-  const buttons = document.querySelectorAll(".viewMedico");
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      console.log(button.id);
-      const id_medico = button.id;
-      url_med = `${window.origin}/api/medico/view/${id_medico}`;
-      console.log(url_med);
-      fetch(url_med)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(response.statusText);
-          }
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          Swal.fire({
-            title: "<strong>Informacion Medico</strong>",
-            imageUrl: `${result.medico.foto_url}`,
-            imageWidth: 100,
-            imageHeight: 100,
-            html: `<p><b class='fw-semibold'>ID: </b>${result.medico.id_medico}</p>
-            <p><b clcass='fw-semibold'>CI: </b>${result.medico.ci_persona}</p>
-            <p><b class='fw-semibold'>Nombres: </b>${result.medico.nombres}</p>
-            <p><b class='fw-semibold'>Apellidos: </b>${result.medico.apellidos}</p>
-            <p><b class='fw-semibold'>Especialidad: </b>${result.medico.especialidad}</p>
-            <p><b class='fw-semibold'>Hospital: </b>${result.medico.hospital_name}</p>`,
-          });
-        })
-        .catch((error) => {
-          Swal.showValidationMessage(`Request fallo: ${error}`);
-        });
-    });
-  });
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 {% endblock %}

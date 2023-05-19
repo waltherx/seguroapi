@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify, request
 
 # Entities
 from models.entities.Persona import Persona
+from models.entities.Paciente import Paciente
+from models.entities.User import User
 
 # Models
 from models.phoneModel import PhoneModel
@@ -11,6 +13,7 @@ from models.operacionModel import OperacionModel
 
 from models.personaModel import PersonaModel
 from models.pacienteModel import PacienteModel
+from models.userModel import UserModel
 
 PacienteApi = Blueprint("paciente_blueprint", __name__)
 
@@ -63,38 +66,50 @@ def get_paramed_xci(ci):
 
 
 @PacienteApi.route("/add", methods=["POST"])
-def add_persona():
+def add_paciente():
     try:
-        ci = request.json["ci"]
-        nombres = request.json["nombres"]
-        apellidos = request.json["apellidos"]
-        fechanac = request.json["fechanac"]
-        licvehicular = request.json["licvehicular"]
-        foto = request.json["foto"]
-        tiposangre = request.json["tiposangre"]
-        hipertencion = request.json["hipertencion"]
-        altura = request.json["altura"]
-        peso = request.json["peso"]
-        direccion = request.json["direccion"]
-        persona = Persona(
-            ci,
-            nombres,
-            apellidos,
-            fechanac,
-            licvehicular,
-            foto,
-            tiposangre,
-            hipertencion,
-            altura,
-            peso,
-            direccion,
-        )
-        ci_persona = PersonaModel.add_persona(persona)
-        if ci_persona != 0:
-            return jsonify({"ci": ci_persona, "message": "Paciente agregado"})
-        else:
-            return jsonify({"message": "Error on insert persona"}), 500
+        if request.method == "POST":
+            _ci_persona = request.json["ci_persona"]
+            _nombre = request.json["nombres"]
+            _apellido = request.json["apellidos"]
+            _fecha = request.json["fecha_nacimiento"]
+            _direccion = request.json["direccion"] if request.json["direccion"] else ""
+            _genero = request.json["genero"]
+            _estado_civil = request.json["estado_civil"]
+            # paciente
+            _tipo_sangre = request.json["tipo_sangre"]
+            _hipertencion = request.json["hipertencion"]
+            _altura = request.json["altura"]
+            _peso = request.json["peso"]
+            # user
+            _nameuser = request.json["nameuser"]
+            _password = request.json["password"]
+            _email = request.json["email"]
+            print(request.json)
+            new_persona = Persona(
+                _ci_persona,
+                _nombre,
+                _apellido,
+                _fecha,
+                None,
+                None,
+                _direccion,
+                _genero,
+                _estado_civil,
+            )
+            new_paciente = Paciente(
+                None, _tipo_sangre, _hipertencion, _altura, _peso, _ci_persona
+            )
+            new_user = User(
+                None, _nameuser, _password, _email, None, None, 5, _ci_persona
+            )
 
+            PersonaModel.add_persona(new_persona)
+            PacienteModel.add_paciente(new_paciente)
+            UserModel.add_user(new_user)
+            return jsonify({"message": "Paciente agregado!"}), 200
+        else:
+            return jsonify({"message": "method no post"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
@@ -149,5 +164,3 @@ def delete_persona(ci):
 
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
-
-

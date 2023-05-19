@@ -232,17 +232,31 @@
     const genero = document.getElementById("generoTxt").value;
     const estado = document.getElementById("estadocTxt").value;
 
-    const data = {
-      ci: ci,
+    const especialidad = document.getElementById("especialidadTxt").value;
+    const hospital = document.getElementById("hospitalTxt").value;
+
+    const name_user = document.getElementById("nameuserTxt").value;
+    const password_user = document.getElementById("passwordTxt").value;
+    const email_user = document.getElementById("emailTxt").value;
+
+    const data = {      
+      ci_persona: ci,
       nombres: nombre,
       apellidos: apellido,
       fecha_nacimiento: fecha,
       direccion: direccion,
       genero: genero,
       estado_civil: estado,
+      nameuser: name_user,
+      password: password_user,
+      email: email_user,
+      especialidad: especialidad,
+      hospital_id: hospital,
     };
 
-    fetch(`${window.origin}/api/person/add`, {
+    console.log(data);
+
+    fetch(`${window.origin}/api/medico/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -258,7 +272,7 @@
         Swal.fire("Medico Agreado");
       })
       .catch((error) => {
-        console.error("Error:", error);
+        Swal.fire("ah ocurrido un error",error);
       });
   }
 
@@ -293,7 +307,7 @@
           });
         })
         .catch((error) => {
-          Swal.showValidationMessage(`Request fallo: ${error}`);
+          Swal.fire(`Request fallo: ${error}`);
         });
     });
   });
