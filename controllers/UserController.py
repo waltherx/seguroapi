@@ -34,7 +34,7 @@ def password():
 @login_required
 def view():
     _persona = PersonaModel.get_persona(current_user.ci_persona)
-    _birth_date = datetime.strptime(_persona["fechaNac"], "%d-%m-%Y")
+    _birth_date = datetime.strptime(_persona["fecha_nacimiento"], "%d-%m-%Y")
     _edad = Calcular_edad(_birth_date)
     return render_template("user/view.html", persona=_persona, edad_user=_edad)
 

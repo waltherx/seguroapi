@@ -26,7 +26,7 @@ class Persona:
             "ci": self.ci,
             "nombres": self.nombres,
             "apellidos": self.apellidos,
-            "fechaNac": self.fechaNac,
+            "fecha_nacimiento": self.fecha_nacimiento,
             "foto_url" : self.foto_url,
             "foto_name": self.foto_name,            
             "direccion": self.direccion,
