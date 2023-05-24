@@ -60,7 +60,7 @@ def get_Emergencia(id):
 @AmbulanciaApi.route("/location", methods=["PUT", "PATCH"])
 def update_location():
     try:
-        if request.methods == "PUT" or request.method == "PATCH":
+        if request.method == "PUT" or request.method == "PATCH":
             _id = request.json["id"]
             _lat = request.json["lat"]
             _lng = request.json["lng"]
@@ -74,9 +74,58 @@ def update_location():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+
+@AmbulanciaApi.route("/add", methods=["POST"])
+def add_ambulancia():
+    try:
+        if request.method == "POST":
+            data = request.json
+            _modelo = data["modelo"]
+            _marca = data["marca"]
+            _anio = data["anio"]
+            _placa = data["placa"]
+            _capacidad = data["capacidad"]
+            ambu = Ambulancia(
+                None, _modelo, _marca, _anio, _placa, _capacidad, None, None, None
+            )
+            if AmbulanciaModel.add_ambulancia(ambu):
+                return jsonify({"message": "Ambulnacia Agregada!"}), 200
+            else:
+                return jsonify({"message": "Ambulnacia no Agregada!"}), 404
+        else:
+            return jsonify({"message": "Metodo no valido"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+@AmbulanciaApi.route("/update", methods=["PUT", "PATCH"])
+def update_ambulancia():
+    try:
+        if request.method == "PUT" or request.method == "PATCH":
+            data = request.json
+            _id = data["id"]
+            _modelo = data["modelo"]
+            _marca = data["marca"]
+            _anio = data["anio"]
+            _placa = data["placa"]
+            _capacidad = data["capacidad"]
+            ambu = Ambulancia(
+                _id, _modelo, _marca, _anio, _placa, _capacidad, None, None, None
+            )
+            if AmbulanciaModel.update_ambulancia(ambu):
+                return jsonify({"message": "Ambulnacia Actualizada!"}), 200
+            else:
+                return jsonify({"message": "Ambulnacia no Actualizada!"}), 404
+        else:
+            return jsonify({"message": "Metodo no valido"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
 @AmbulanciaApi.route("/location/ambulancia/<id>", methods=["PUT"])
 def update_state_ambulancia():
     pass
+
 
 @AmbulanciaApi.route("/ch/<id>", methods=["GET"])
 def get_ambulancia_choferid(id):

@@ -58,6 +58,34 @@ class AmbulanciaModel:
             raise Exception(ex)      
   
     @classmethod
+    def add_ambulancia(self,ambulancia):
+        try:
+            connection = get_connection()
+            sQuery = f"INSERT INTO public.ambulancia (modelo, marca, anio, placa, capcidad) VALUES('{ambulancia.modelo}', '{ambulancia.marca}', {ambulancia.anio}, '{ambulancia.placa}', {ambulancia.capacidad});"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def update_ambulancia(self,ambulancia):
+        try:
+            connection = get_connection()
+            sQuery = f"UPDATE public.ambulancia SET modelo='{ambulancia.modelo}', marca='{ambulancia.marca}', anio={ambulancia.anio}, placa='{ambulancia.placa}', capcidad={ambulancia.capacidad} WHERE idam={ambulancia.id};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)    
+  
+    @classmethod
     def update_location(self,ambulancia):
         try:
             connection = get_connection()
