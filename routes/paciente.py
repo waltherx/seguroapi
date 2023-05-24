@@ -85,7 +85,10 @@ def add_paciente():
             _nameuser = request.json["nameuser"]
             _password = request.json["password"]
             _email = request.json["email"]
+            x = 'paciente'
+            print(f'>{x:=^22}<')
             print(request.json)
+            print(f'>{x:=^22}<')
             new_persona = Persona(
                 _ci_persona,
                 _nombre,

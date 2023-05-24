@@ -6,7 +6,7 @@ class DocumentoModel:
     @classmethod
     def get_documentos(self, ci):
         try:
-            sQuery = f"SELECT iddoc, tipo, url, fecha, nombre, paciente_id FROM public.documento, public.paciente, public.persona where paciente.idpac = documento.paciente_id and paciente.ci_persona = persona.ci and persona.ci  = {ci};"
+            sQuery = f"SELECT iddoc,nombre, url,tipo, fecha , paciente_id FROM public.documento, public.paciente, public.persona where paciente.idpac = documento.paciente_id and paciente.ci_persona = persona.ci and persona.ci  = {ci};"
             connection = get_connection()
             documentos = []
             with connection.cursor() as cursor:
@@ -17,7 +17,7 @@ class DocumentoModel:
                         row[0], row[1], row[2], row[3], None, row[4], row[5]
                     )
                     documentos.append(documento.to_JSON())
-            connection.close()            
+            connection.close()
             return documentos
         except Exception as ex:
             raise Exception(ex)

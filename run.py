@@ -21,7 +21,6 @@ from routes import alergia
 from routes import persona
 from routes import paciente
 from routes import hospital
-from routes import siniestro
 from routes import ambulancia
 from routes import chofer
 from routes import user
@@ -31,6 +30,9 @@ from routes import notificacion
 from routes import paramedico
 from routes import medico
 from routes import emergencia
+from routes import operacion
+from routes import vacuna
+from routes import medicamento
 
 
 from models.entities.User import User
@@ -49,13 +51,15 @@ from controllers.HospitalController import hospitalweb
 from controllers.PacienteController import pacienteweb
 
 
-# CORS(app, resources={"*": {"origins": "http://localhost:9300"}})
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
 
 qrcode = QRcode(app)
+
 login_manager_app = LoginManager(app)
 
+CORS(app, resources={"*": {"origins": "*"}})
 
 @app.route("/logout")
 @login_required
@@ -137,7 +141,6 @@ app.register_blueprint(phone.PhoneApi, url_prefix="/api/phone")
 app.register_blueprint(alergia.AlergiaApi, url_prefix="/api/alergia")
 app.register_blueprint(enfermedad.EnfermedadApi, url_prefix="/api/enfermedad")
 app.register_blueprint(hospital.HospitalApi, url_prefix="/api/hospital")
-app.register_blueprint(siniestro.SiniestroApi, url_prefix="/api/siniestro")
 app.register_blueprint(paciente.PacienteApi, url_prefix="/api/paciente")
 app.register_blueprint(ambulancia.AmbulanciaApi, url_prefix="/api/ambulancia")
 app.register_blueprint(chofer.ChoferApi, url_prefix="/api/chofer")
@@ -148,6 +151,9 @@ app.register_blueprint(paramedico.ParamedicoApi, url_prefix="/api/paramedico")
 app.register_blueprint(medico.MedicoApi, url_prefix="/api/medico")
 app.register_blueprint(emergencia.EmergenciaApi, url_prefix="/api/emergencia")
 app.register_blueprint(persona.PersonaApi, url_prefix="/api/person")
+app.register_blueprint(operacion.OperacionApi, url_prefix="/api/operacion")
+app.register_blueprint(vacuna.VacunaApi, url_prefix="/api/vacuna")
+app.register_blueprint(medicamento.MedicamentoApi, url_prefix="/api/medicamento")
 
 # Error handlers
 app.register_error_handler(401, page_not_authorized)

@@ -18,10 +18,10 @@ def get_enfermedads():
         return jsonify({"message": str(ex)}), 500
 
 
-@EnfermedadApi.route("/<id>")
-def get_enfermedad(id):
+@EnfermedadApi.route("/<ci>")
+def get_enfermedad(ci):
     try:
-        enfermedad = EnfermedadModel.get_enfermedad(id)
+        enfermedad = EnfermedadModel.get_enfermedad(ci)
         if enfermedad != None:
             return jsonify(enfermedad)
         else:

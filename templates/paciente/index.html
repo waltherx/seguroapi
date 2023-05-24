@@ -26,7 +26,7 @@
         <table class="table datatable">
           <thead>
             <tr>
-              <th>CI</th>              
+              <th>CI</th>
               <th>Nombre Completo</th>
               <th class="text-center">Acciones</th>
             </tr>
@@ -35,7 +35,7 @@
           <tbody>
             {% for paciente in pacients %}
             <tr>
-              <td>{{paciente.ci_persona}}</td>              
+              <td>{{paciente.ci_persona}}</td>
               <td>{{paciente.nombres +" "+ paciente.apellidos}}</td>
               <td>
                 <button
@@ -165,13 +165,12 @@
                   </div>
                 </div>
                 |
-                <button
-                  type="button"
-                  id="{{paciente.id_paciente}}"
-                  class="viewPaciente"
+                <a
+                  href="/paciente/{{paciente.ci_persona}}"
+                  class="btn btn-success btn-sm"
                 >
                   <i class="bi bi-eye"></i>
-                </button>
+                </a>
               </td>
             </tr>
             {% endfor %}
@@ -184,6 +183,11 @@
   <br />
 </div>
 {% endblock %} {% block js %}
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
 <script>
   const form = document.getElementById("form");
   const step1 = document.getElementById("step1");
@@ -237,7 +241,7 @@
     const password_user = document.getElementById("passwordTxt").value;
     const email_user = document.getElementById("emailTxt").value;
 
-    const data = {      
+    const data = {
       ci_persona: ci,
       nombres: nombre,
       apellidos: apellido,
@@ -248,35 +252,51 @@
       nameuser: name_user,
       password: password_user,
       email: email_user,
-
       tipo_sangre: tipo_sangre,
       hipertencion: hipertencion,
       altura: altura,
       peso: peso,
     };
 
-    console.log(data);
+    console.log(data.hipertencion);
 
-    fetch(`${window.origin}/api/paciente/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    guardarPacienteAxios(data)
       .then((response) => {
-        if (!response.ok) throw Error("Error en fetch ", response.statusText);
-        return response.json();
-      })
-      .then((result) => {
-        //myModal.hide();
-        Swal.fire("Paciente Agreado");
+        // Recargar la página sin utilizar la caché
+        location.reload(true);
+
+        /*const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 4000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Se Agrego Paciente!",
+        });*/
+        //Swal.fire("Datos Ingresados!", "Se Agrego Paciente!", "success");
       })
       .catch((error) => {
-        Swal.fire("ah ocurrido un error",error);
+        console.log("Error al obtener y llenar los datos:", error);
       });
   }
 
+  async function guardarPacienteAxios(datos) {
+    try {
+      const url = `${window.origin}/api/paciente/add`;
+      const { response } = await axios.post(url, datos);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 </script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 {% endblock %}

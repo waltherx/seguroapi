@@ -24,14 +24,15 @@ def get_phone(ci):
 @PhoneApi.route("/add", methods=["POST"])
 def add_phone():
     try:
-        id = request.json["id"]
-        numero = request.json["numero"]
-        phone = Phone(id, numero)
-
+        data = request.json
+        ci_persona = data["ci_persona"]
+        numero = data["numero"] 
+        referencia = data["referencia"] if data["numero"] else ""
+        phone = Phone(None, numero, referencia, ci_persona)
+        print(phone.to_JSON())
         affected_rows = PhoneModel.add_phone(phone)
-
         if affected_rows == 1:
-            return jsonify(phone.id)
+            return jsonify({"message": "Telefono Agregado!"}), 200
         else:
             return jsonify({"message": "Error on insert"}), 500
 

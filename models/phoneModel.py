@@ -42,7 +42,7 @@ class PhoneModel:
     def add_phone(self, phone):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.phone (numero, referencia, ci_persona) VALUES ('{phone.id}','{phone.numero}',{phone.ci})"
+            sQuery = f"INSERT INTO public.phone (numero, referencia, ci_persona) VALUES ('{phone.numero}','{phone.referencia}',{phone.ci_persona})"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

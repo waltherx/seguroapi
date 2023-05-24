@@ -1,0 +1,313 @@
+{% extends 'layout.html' %} {% block style %}
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .profile-pic {
+    color: transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .profile-pic input {
+    display: none;
+  }
+  .profile-pic img {
+    position: absolute;
+    object-fit: cover;
+    width: 165px;
+    height: 165px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+    border-radius: 100px;
+    z-index: 0;
+  }
+  .profile-pic .-label {
+    cursor: pointer;
+    height: 165px;
+    width: 165px;
+  }
+  .profile-pic:hover .-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    color: #fafafa;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 100px;
+    margin-bottom: 0;
+  }
+  .profile-pic span {
+    display: inline-flex;
+    padding: 0.2em;
+    height: 2em;
+  }
+  
+ /* body {
+    height: 100vh;
+    background-color: #191815;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  body a:hover {
+    text-decoration: none;
+  }*/
+    
+</style>
+{% endblock %} {% block body %}
+
+<div class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card mx-auto shadow">
+        <div class="card-header" style="background-color: #012970">
+          <h2>Administrar Paciente</h2>
+        </div>
+        <div class="card-body">
+          <fieldset>
+            <legend>Información Personal</legend>
+
+            <div class="profile-pic">
+              <label class="-label" for="file">
+                <span class="glyphicon glyphicon-camera"></span>
+                <span>Cambiar Perfil</span>
+              </label>
+              <input id="file" type="file" accept="image/png,image/jpeg" onchange="loadFile(event)"/>
+              <img src="{{paciente.persona.foto_url}}" id="output" width="200" />
+            </div>
+          </br>
+            <div class="row">
+              <div class="col">
+                <p><b>CI : </b>{{paciente.persona.ci}}</p>
+                <p><b>Nombre : </b>{{paciente.persona.nombres}}</p>
+                <p><b>Apellido : </b>{{paciente.persona.apellidos}}</p>
+                <p>
+                  <b>Fecha Nacimiento : </b
+                  >{{paciente.persona.fecha_nacimiento}}
+                </p>
+              </div>
+              <div class="col">
+                <p><b>Direccion : </b>{{paciente.persona.direccion}}</p>
+                <p><b>Estado Civil : </b>{{paciente.persona.estado_civil}}</p>
+                <p><b>Genero : </b>{{paciente.persona.genero}}</p>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Información Paciente</legend>
+            <div class="row">
+              <div class="col">
+                <p><b>ID : </b>{{paciente.paciente.id}}</p>
+                <p><b>Tipo Sangre : </b>{{paciente.paciente.tipoSangre}}</p>
+                <p><b>Hipertencion : </b>{{paciente.paciente.hipertencion}}</p>
+              </div>
+              <div class="col">
+                <p><b>Altura : </b>{{paciente.paciente.altura}}</p>
+                <p><b>Peso : </b>{{paciente.paciente.peso}}</p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Telefonos</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Numero</th>
+                  <th>Referencia</th>
+                </tr>
+              </thead>
+              <tbody id="tphones"></tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend>Alergia</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripcion</th>
+                  <th>Gravedad</th>
+                  <th>Reaccion</th>
+                </tr>
+              </thead>
+              <tbody id="talergia"></tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend>Enfermedades</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripcion</th>
+                  <th>Causa</th>
+                  <th>Sintoma</th>
+                  <th>Diagnostico</th>
+                </tr>
+              </thead>
+              <tbody id="tenfermedad"></tbody>
+            </table>
+          </fieldset>
+          <fieldset>
+            <legend>Documentos</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody id="tdocumento"></tbody>
+            </table>
+          </fieldset>
+          <fieldset>
+            <legend>Operaaciones</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Fecha</th>
+                  <th>Descripcion</th>
+                </tr>
+              </thead>
+              <tbody id="toperacion"></tbody>
+            </table>
+          </fieldset>
+          <fieldset>
+            <legend>Medicamentos</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripcion</th>
+                  <th>Unidad</th>
+                  <th>Cantidad</th>
+                </tr>
+              </thead>
+              <tbody id="tmedicamento"></tbody>
+            </table>
+          </fieldset>
+          <fieldset>
+            <legend>Vacunas</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Dosis</th>
+                </tr>
+              </thead>
+              <tbody id="tvacuna"></tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+  </div>
+  {% endblock %} {% block js %}
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/paciente/alergias.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/paciente/enfermedades.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/paciente/documentos.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/paciente/medicamentos.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/paciente/operaciones.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/paciente/vacunas.js') }}"></script>
+  <script>
+
+    function loadFile(event) {
+      const image = document.getElementById("output");
+      const file = event.target.files[0];
+      image.src = URL.createObjectURL(file);
+      const formData = new FormData();
+      formData.append('photo', file);
+      const url = `${window.origin}/api/person/upload/{{paciente.persona.ci}}`
+      
+      axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((response) => {
+      console.log(response.data);
+      Swal.fire(
+        'Correcto!',
+        'Cambio de perfil!',
+        'success')
+      })
+      .catch((error) => {
+      console.error(error);
+      });
+
+    }
+
+    obtenerPhones({{paciente.persona.ci}})
+      .then((datos) => {
+        llenarTabla(datos);
+      })
+      .catch((error) => {
+        console.log("Error al obtener y llenar los datos:", error);
+      });
+
+      obtenerAlergias({{paciente.persona.ci}})
+      .then((datos) => {
+        llenarTablaAlergia(datos);
+      })
+      .catch((error) => {
+        console.log("Error al obtener y llenar los datos:", error);
+      });
+
+      obtenerEnfermedades({{paciente.persona.ci}})
+      .then((datos) => {
+        llenarTablaEnfermedades(datos);
+      })
+      .catch((error) => {
+        console.log("Error al obtener y llenar los datos:", error);
+      });
+
+      obtenerDocumentos({{paciente.persona.ci}})
+      .then((datos)=>{
+        llenarTablaDoc(datos);
+        })
+        .catch((error) => {
+          console.log("Error al obtener y llenar los datos:", error);
+        });
+
+      obtenerMedicamentos({{paciente.persona.ci}})
+        .then((datos)=>{
+          llenarTablaMedicamentos(datos);
+        })
+        .catch((error) => {
+          console.log("Error al obtener y llenar los datos:", error);
+        });
+
+      obtenerOperaciones({{paciente.persona.ci}})
+        .then((datos)=>{
+          llenarTablaOperaciones(datos);
+        })
+        .catch((error) => {
+          console.log("Error al obtener y llenar los datos:", error);
+        });
+
+      obtenerVacunas({{paciente.persona.ci}})
+        .then((datos)=>{
+        llenarTablaVacuna(datos);
+        })
+        .catch((error) => {
+          console.log("Error al obtener y llenar los datos:", error);
+        });
+  </script>
+
+  {% endblock %}
+</div>

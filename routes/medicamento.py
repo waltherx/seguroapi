@@ -9,10 +9,10 @@ from models.medicamentoModel import MedicamentoModel
 MedicamentoApi = Blueprint("medicamento_blueprint", __name__)
 
 
-@MedicamentoApi.route("/<id>")
-def get_medicamento(id):
+@MedicamentoApi.route("/<ci>")
+def get_medicamento(ci):
     try:
-        medicamento = MedicamentoModel.get_medicamento(id)
+        medicamento = MedicamentoModel.get_medicamento(ci)
         if medicamento != None:
             return jsonify(medicamento), 200
         else:

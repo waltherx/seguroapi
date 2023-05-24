@@ -18,10 +18,10 @@ def get_alergias():
         return jsonify({"message": str(ex)}), 500
 
 
-@AlergiaApi.route("/<id>")
-def get_alergia(id):
+@AlergiaApi.route("/<ci>")
+def get_alergia(ci):
     try:
-        alergia = AlergiaModel.get_alergia(id)
+        alergia = AlergiaModel.get_alergia(ci)
         if alergia != None:
             return jsonify(alergia)
         else:

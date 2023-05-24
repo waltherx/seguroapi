@@ -22,11 +22,11 @@ class AlergiaModel:
             raise Exception(ex)
 
     @classmethod
-    def get_alergia(self, id):
+    def get_alergia(self, ci):
         try:
             connection = get_connection()
             alergias = []
-            sQuery = f"SELECT l.idale, l.nombre, l.descripcion, l.gravedad, l.reaccion, l.paciente_id FROM alergia l, paciente a , persona p where p.ci =a.ci_persona and l.paciente_id =a.idpac and p.ci = {id}"
+            sQuery = f"SELECT l.idale, l.nombre, l.descripcion, l.gravedad, l.reaccion, l.paciente_id FROM alergia l, paciente a , persona p where p.ci =a.ci_persona and l.paciente_id =a.idpac and p.ci = {ci}"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
