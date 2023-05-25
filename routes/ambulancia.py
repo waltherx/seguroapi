@@ -13,7 +13,6 @@ from models.emergenciaModel import EmergenciaModel
 
 AmbulanciaApi = Blueprint("ambulancia_blueprint", __name__)
 
-
 @AmbulanciaApi.route("/")
 def get_ambulancias():
     try:
@@ -21,7 +20,6 @@ def get_ambulancias():
         return jsonify(ambulancias)
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
-
 
 @AmbulanciaApi.route("/<id>")
 def get_ambulanciaxId(id):

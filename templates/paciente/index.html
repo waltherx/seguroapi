@@ -40,73 +40,6 @@
               <td>
                 <button
                   type="button"
-                  class="btn btn-warning btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaledit{{paciente.id_paciente}}"
-                >
-                  <i class="bi bi-gear"></i>
-                </button>
-
-                <div
-                  class="modal fade"
-                  id="modaledit{{paciente.id_paciente}}"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-labelledby="modaledit{{paciente.id_paciente}}"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div
-                        class="modal-header"
-                        style="background-color: #011f4b; color: white"
-                      >
-                        <h4 class="modal-title">Editar Paciente</h4>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <br />
-                      <div class="modal-body">
-                        <form method="POST" action="#">
-                          <div class="mb-3">
-                            <label
-                              for="txtNombre{{loop.index}}"
-                              class="col-form-label"
-                              >Especialidad:</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="txtNombre{{loop.index}}"
-                              name="txtNombre{{loop.index}}"
-                              value="{{ pass }}"
-                              required
-                            />
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-default"
-                              data-bs-dismiss="modal"
-                            >
-                              Cerrar
-                            </button>
-                            <button type="submit" class="btn btn-success">
-                              Actualizar
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                |
-                <button
-                  type="button"
                   class="btn btn-danger btn-sm"
                   data-bs-toggle="modal"
                   data-bs-target="#modaldelete{{paciente.id_paciente}}"
@@ -142,7 +75,7 @@
                             <label class="col-sm-12 col-form-label"
                               >Esta seguro de eliminar
                               <span style="font-weight: bold; color: red"
-                                >{{paciente.id_paciente}}</span
+                                >{{paciente.ci_persona}}</span
                               >
                               ?</label
                             >
@@ -262,9 +195,7 @@
 
     guardarPacienteAxios(data)
       .then((response) => {
-        // Recargar la página sin utilizar la caché
-        location.reload(true);
-
+        
         /*const Toast = Swal.mixin({
           toast: true,
           position: "top-end",

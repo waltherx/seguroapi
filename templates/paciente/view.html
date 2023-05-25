@@ -114,7 +114,10 @@
           </fieldset>
 
           <fieldset>
-            <legend>Telefonos</legend>
+            <div class="row">
+              <div class="col"><legend>Telefonos</legend></div>
+              <div class="col"><button id="btnPhone" class="btn btn-sm btn-primary">+</button></div>
+            </div>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -217,6 +220,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
   <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/alergias.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/enfermedades.js') }}"></script>
@@ -225,6 +230,12 @@
   <script src="{{ url_for('static', filename='js/paciente/operaciones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/vacunas.js') }}"></script>
   <script>
+    /*document.addEventListener("DOMContentLoaded", () => {
+      
+    });*/
+    const ci = '{{paciente.persona.ci}}';
+
+    console.log(ci);
 
     function loadFile(event) {
       const image = document.getElementById("output");
@@ -251,7 +262,14 @@
       });
     }
 
-    obtenerPhones({{paciente.persona.ci}})
+    const btnPhone = document.getElementById('btnPhone');
+    btnPhone.addEventListener('click', function(){modalPhone({{paciente.persona.ci}})} ,false);
+
+    tippy('#btnPhone', {
+      content: 'Agregar Telefono de Paciente',
+    });
+
+    obtenerPhones(ci)
       .then((datos) => {
         llenarTabla(datos);
       })
@@ -259,7 +277,7 @@
         console.log("Error al obtener y llenar los datos:", error);
       });
 
-      obtenerAlergias({{paciente.persona.ci}})
+      obtenerAlergias(ci)
       .then((datos) => {
         llenarTablaAlergia(datos);
       })
@@ -267,7 +285,7 @@
         console.log("Error al obtener y llenar los datos:", error);
       });
 
-      obtenerEnfermedades({{paciente.persona.ci}})
+      obtenerEnfermedades(ci)
       .then((datos) => {
         llenarTablaEnfermedades(datos);
       })
@@ -275,7 +293,7 @@
         console.log("Error al obtener y llenar los datos:", error);
       });
 
-      obtenerDocumentos({{paciente.persona.ci}})
+      obtenerDocumentos(ci)
       .then((datos)=>{
         llenarTablaDoc(datos);
         })
@@ -283,7 +301,7 @@
           console.log("Error al obtener y llenar los datos:", error);
         });
 
-      obtenerMedicamentos({{paciente.persona.ci}})
+      obtenerMedicamentos(ci)
         .then((datos)=>{
           llenarTablaMedicamentos(datos);
         })
@@ -291,7 +309,7 @@
           console.log("Error al obtener y llenar los datos:", error);
         });
 
-      obtenerOperaciones({{paciente.persona.ci}})
+      obtenerOperaciones(ci)
         .then((datos)=>{
           llenarTablaOperaciones(datos);
         })
@@ -299,7 +317,7 @@
           console.log("Error al obtener y llenar los datos:", error);
         });
 
-      obtenerVacunas({{paciente.persona.ci}})
+      obtenerVacunas(ci)
         .then((datos)=>{
         llenarTablaVacuna(datos);
         })

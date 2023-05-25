@@ -27,7 +27,7 @@ def add_phone():
         data = request.json
         ci_persona = data["ci_persona"]
         numero = data["numero"] 
-        referencia = data["referencia"] if data["numero"] else ""
+        referencia = data["referencia"] if data["referencia"] else ""
         phone = Phone(None, numero, referencia, ci_persona)
         print(phone.to_JSON())
         affected_rows = PhoneModel.add_phone(phone)
