@@ -279,9 +279,9 @@
   }
 
   function viewRow(button) {
-    var row = button.parentNode.parentNode;
-    var cells = row.getElementsByTagName("td");
-    var id_medico = cells[1].innerText;
+    const row = button.parentNode.parentNode;
+    const cells = row.getElementsByTagName("td");
+    const id_medico = cells[1].innerText;
     viewMedico(id_medico)
       .then((result) => {
         console.log(result.medico.apellidos);

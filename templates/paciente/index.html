@@ -104,6 +104,13 @@
                 >
                   <i class="bi bi-eye"></i>
                 </a>
+                |
+                <button 
+                id="btnQrcode"
+                class="btn btn-secondary btn-sm"
+                onclick="generateQr(this)">
+                  <i class="bi bi-qr-code"></i>
+                </button>
               </td>
             </tr>
             {% endfor %}
@@ -120,7 +127,9 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
 <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
+<script src="{{ url_for('static', filename='js/codeqr.js') }}"></script>
 <script>
   const form = document.getElementById("form");
   const step1 = document.getElementById("step1");

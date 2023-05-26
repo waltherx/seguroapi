@@ -94,7 +94,7 @@ function llenarTabla(datos) {
     td2.textContent = phone.referencia;
 
     const btnEliminar = crearBoton(true, () =>
-      eliminarTelefono(phone.id, phone.ci_persona)
+      eliminarTelefono(phone.id, phone.referencia, phone.ci_persona)
     );
     const btnActualizar = crearBoton(false, () =>
       actualizarTelefono(phone.id, phone.ci_persona)
@@ -128,10 +128,10 @@ function crearBoton(isDelete, onClick) {
   return boton;
 }
 
-function eliminarTelefono(id, ci_persona) {
+function eliminarTelefono(id, referencia, ci_persona) {
   Swal.fire({
     title: "Esta Seguro?",
-    text: "Eliminar Telefono!",
+    text: `Eliminar Telefono de ${referencia}!`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#012970",
@@ -163,6 +163,72 @@ async function deletePhone(id, ci_persona) {
   }
 }
 
-function actualizarTelefono(id) {
-  console.log("Actualizar teléfono con ID:", id);
+function actualizarTelefono(id, ci_persona) {
+  try {
+    console.log("Actualizar teléfono con ID:", id);
+    update_phone(id, ci_persona);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function update_phone(id_telefono, ci_person) {
+  const url_get = `${window.origin}/api/phone/${ci_person}/${id_telefono}`;
+  //const url_put = `${window.origin}/api/phone/update`
+  console.log(url_get);
+  const response = await axios.get(url_get);
+  //return response.data;
+  phone = response.data;
+  console.log(phone);
+  const { value: formValues } = await Swal.fire({
+    title: "Agregar Numero",
+    html: `<div class="form-floating">      
+      <input id="numeroTxt" type="number" value=${phone.numero} class="form-control">
+      <label for="numeroTxt" class="form-label">Numero:</label>
+      </div><div class="form-floating">
+      <input id="referenciaTxt" type="text" value=${phone.referencia} class="form-control">
+      <label for="referenciaTxt" class="form-label">Referencia:</label> </div>`,
+    focusConfirm: false,
+    preConfirm: obtenerValoresPhone,
+    confirmButtonText: "Aceptar",
+    confirmButtonColor: "#012970",
+  });
+
+  const url = `${window.origin}/api/phone/add`;
+  if (formValues) {
+    const data = {
+      id_telefono: id_telefono,
+      numero: formValues[0],
+      referencia: formValues[1],
+    };
+    console.log(data);
+    try {
+      const url_put = `${window.origin}/api/phone/${ci_persona}/${id_telefono}`;
+      console.log(url_put);
+      //Swal.fire(data.referencia, data.numero, "success");
+      const response = await axios.put(url_put, data);
+      console.log(response);      
+      Swal.fire("Correcto!", "Acualizado", "success");
+      mostarPhones(ci_person);
+    } catch (error) {
+      Swal.fire(JSON.stringify("error", response.data, "error"));
+    }
+  }
+}
+
+function obtenerPhoneUpdate(){
+
+}
+
+async function view_phone(id_telefono, ci_persona) {
+  try {
+    const url_get = `${window.origin}/api/phone/${ci_persona}/${id_telefono}`;
+    //const url_put = `${window.origin}/api/phone/update`
+    console.log(url_get);
+    const response = await axios.get(url_get);
+    return response.data;
+    //const data = await axios.put(url_put,data)
+  } catch (error) {
+    console.log(error);
+  }
 }
