@@ -68,11 +68,12 @@ class PhoneModel:
             raise Exception(ex)
 
     @classmethod
-    def delete_phone(self, phone):
+    def delete_phone(self, id):
         try:
             connection = get_connection()
+            sQuery=f"DELETE FROM public.phone WHERE idp={id};"
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM phone WHERE idp = %s", (phone.id,))
+                cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()

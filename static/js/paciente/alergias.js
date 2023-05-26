@@ -18,7 +18,7 @@ async function modalAlergia(ci_person,id_paciente) {
           <label for="reaccionTxt" class="form-label">Reaccion:</label>
         </div>`,
     focusConfirm: false,
-    preConfirm: obtenerValores,
+    preConfirm: obtenerValoresAlergia,
     confirmButtonText: "Aceptar",
     confirmButtonColor: "#012970",
   });
@@ -50,7 +50,7 @@ async function modalAlergia(ci_person,id_paciente) {
   }
 }
 
-function obtenerValores() {
+function obtenerValoresAlergia() {
   const input1 = document.getElementById("nombreTxt").value;
   const input2 = document.getElementById("descrTxt").value;
   const input3 = document.getElementById("gravedadTxt").value;

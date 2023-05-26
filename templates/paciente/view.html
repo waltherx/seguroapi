@@ -47,16 +47,15 @@
     height: 2em;
   }
   
- /* body {
-    height: 100vh;
-    background-color: #191815;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .custom-btn {
+    background-color: #012970;
+    color: white;
   }
-  body a:hover {
-    text-decoration: none;
-  }*/
+
+  .custom-btn:hover {
+    background-color: #012970;
+    color:white;
+  }
     
 </style>
 {% endblock %} {% block body %}
@@ -116,13 +115,18 @@
           <fieldset>
             <div class="row">
               <div class="col"><legend>Telefonos</legend></div>
-              <div class="col"><button id="btnPhone" class="btn btn-sm btn-primary">+</button></div>
+              <div class="col">
+                <button id="btnPhone" class="btn btn-sm custom-btn">
+                  <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
             </div>
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Numero</th>
                   <th>Referencia</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="tphones"></tbody>
@@ -132,7 +136,11 @@
           <fieldset>
             <div class="row">
               <div class="col"><legend>Alergia</legend></div>
-              <div class="col"><button id="btnAlergia" class="btn btn-sm btn-primary">+</button></div>
+              <div class="col">
+                <button id="btnAlergia" class="btn btn-sm custom-btn">
+                  <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
             </div>
             <table class="table table-striped">
               <thead>

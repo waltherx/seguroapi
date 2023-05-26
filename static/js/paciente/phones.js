@@ -8,9 +8,9 @@ async function modalPhone(ci_person) {
       <input id="referenciaTxt" type="text" class="form-control">
       <label for="referenciaTxt" class="form-label">Referencia:</label> </div>`,
     focusConfirm: false,
-    preConfirm: obtenerValores,
-    confirmButtonText:'Aceptar',
-    confirmButtonColor: '#012970',
+    preConfirm: obtenerValoresPhone,
+    confirmButtonText: "Aceptar",
+    confirmButtonColor: "#012970",
   });
 
   const url = `${window.origin}/api/phone/add`;
@@ -37,7 +37,7 @@ async function modalPhone(ci_person) {
   }
 }
 
-function obtenerValores() {
+function obtenerValoresPhone() {
   const input1 = document.getElementById("numeroTxt").value;
   const input2 = document.getElementById("referenciaTxt").value;
 
@@ -80,10 +80,67 @@ function llenarTabla(datos) {
     const tr = document.createElement("tr");
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
+    const td3 = document.createElement("td");
+    const td4 = document.createElement("td");
     td1.textContent = phone.numero;
     td2.textContent = phone.referencia;
+
+    const btnEliminar = crearBoton(true, () => eliminarTelefono(phone.id));
+    const btnActualizar = crearBoton(false, () => actualizarTelefono(phone.id));
+
+    const contenedorBotones = document.createElement("div");
+    contenedorBotones.classList.add("d-flex", "justify-content-end", "gap-2");
+    contenedorBotones.appendChild(btnActualizar);
+    contenedorBotones.appendChild(btnEliminar);
+
+    //td4.appendChild(btnActualizar);
+
+    td3.appendChild(contenedorBotones);
+
     tr.appendChild(td1);
     tr.appendChild(td2);
+    tr.appendChild(td3);
+    //tr.appendChild(td4);
     tablaBody.appendChild(tr);
   });
+}
+
+function crearBoton(isDelete, onClick) {
+  const boton = document.createElement("button");
+  boton.textContent = "";
+  if (isDelete) {
+    boton.innerHTML = `<i class="bi bi-trash"></i>`;
+    boton.classList.add("btn", "btn-danger", "btn-sm");
+  } else {
+    boton.innerHTML = `<i class="bi bi-gear-fill"></i>`;
+    boton.classList.add("btn", "btn-success", "btn-sm");
+  }
+
+  boton.classList.add("btn", "btn-success", "btn-sm");
+  boton.addEventListener("click", onClick);
+  return boton;
+}
+
+function eliminarTelefono(id) {
+  console.log("-----");
+  Swal.fire({
+    title: "Esta Seguro?",
+    text: "Eliminar Telefono!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#012970",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire("Eliminado!", "Telefono fue Eliminado!", "success");
+    }
+  });
+
+  console.log("Eliminar teléfono con ID:", id);
+}
+
+function actualizarTelefono(id) {
+  // Lógica para actualizar el teléfono con el ID proporcionado
+  console.log("Actualizar teléfono con ID:", id);
 }
