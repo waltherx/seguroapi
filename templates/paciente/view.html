@@ -130,7 +130,10 @@
           </fieldset>
 
           <fieldset>
-            <legend>Alergia</legend>
+            <div class="row">
+              <div class="col"><legend>Alergia</legend></div>
+              <div class="col"><button id="btnAlergia" class="btn btn-sm btn-primary">+</button></div>
+            </div>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -234,6 +237,7 @@
       
     });*/
     const ci = '{{paciente.persona.ci}}';
+    const id_paciente = '{{paciente.paciente.id}}';
 
     console.log(ci);
 
@@ -263,10 +267,17 @@
     }
 
     const btnPhone = document.getElementById('btnPhone');
-    btnPhone.addEventListener('click', function(){modalPhone({{paciente.persona.ci}})} ,false);
+    btnPhone.addEventListener('click', function(){modalPhone(ci)} ,false);
 
     tippy('#btnPhone', {
       content: 'Agregar Telefono de Paciente',
+    });
+
+    const btnAlergia = document.getElementById('btnAlergia');
+    btnAlergia.addEventListener('click', function(){modalAlergia(ci,id_paciente)} ,false);
+
+    tippy('#btnAlergia', {
+      content: 'Agregar Alergia de Paciente',
     });
 
     obtenerPhones(ci)

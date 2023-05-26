@@ -1,6 +1,6 @@
 class Alergia:
 
-    def __init__(self, id=None, nombre=None,descripcion=None, gravedad=None, reaccion=None, paciente_id=None) -> None:
+    def __init__(self, id=None, nombre="",descripcion="", gravedad="", reaccion="", paciente_id="") -> None:
         self.id = id
         self.nombre = nombre
         self.descripcion = descripcion

@@ -171,8 +171,8 @@
                 |
                 <button
                   type="button"
-                  id="{{medico.id_medico}}"
-                  class="viewMedico"
+                  class="btn btn-sm btn-success"
+                  onclick="viewRow(this)"
                 >
                   <i class="bi bi-eye"></i>
                 </button>
@@ -188,6 +188,8 @@
   <br />
 </div>
 {% endblock %} {% block js %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   const form = document.getElementById("form");
   const step1 = document.getElementById("step1");
@@ -239,7 +241,7 @@
     const password_user = document.getElementById("passwordTxt").value;
     const email_user = document.getElementById("emailTxt").value;
 
-    const data = {      
+    const data = {
       ci_persona: ci,
       nombres: nombre,
       apellidos: apellido,
@@ -272,45 +274,51 @@
         Swal.fire("Medico Agreado");
       })
       .catch((error) => {
-        Swal.fire("ah ocurrido un error",error);
+        Swal.fire("ah ocurrido un error", error);
       });
   }
 
-  const buttons = document.querySelectorAll(".viewMedico");
+  function viewRow(button) {
+    var row = button.parentNode.parentNode;
+    var cells = row.getElementsByTagName("td");
+    var id_medico = cells[1].innerText;
+    viewMedico(id_medico)
+      .then((result) => {
+        console.log(result.medico.apellidos);
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      console.log(button.id);
-      const id_medico = button.id;
-      url_med = `${window.origin}/api/medico/view/${id_medico}`;
-      console.log(url_med);
-      fetch(url_med)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(response.statusText);
-          }
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          Swal.fire({
-            title: "<strong>Informacion Medico</strong>",
-            imageUrl: `${result.medico.foto_url}`,
-            imageWidth: 100,
-            imageHeight: 100,
-            html: `<p><b class='fw-semibold'>ID: </b>${result.medico.id_medico}</p>
-            <p><b clcass='fw-semibold'>CI: </b>${result.medico.ci_persona}</p>
-            <p><b class='fw-semibold'>Nombres: </b>${result.medico.nombres}</p>
-            <p><b class='fw-semibold'>Apellidos: </b>${result.medico.apellidos}</p>
-            <p><b class='fw-semibold'>Especialidad: </b>${result.medico.especialidad}</p>
-            <p><b class='fw-semibold'>Hospital: </b>${result.medico.hospital_name}</p>`,
-          });
-        })
-        .catch((error) => {
-          Swal.fire(`Request fallo: ${error}`);
+        Swal.fire({
+          title: "<strong>Informacion Medico</strong>",
+          imageUrl: `${result.medico.foto_url}`,
+          imageWidth: 100,
+          imageHeight: 100,
+          html: `<p><b class='fw-semibold'>ID: </b>${result.medico.id_medico}</p>
+          <p><b clcass='fw-semibold'>CI: </b>${result.medico.ci_persona}</p>
+          <p><b class='fw-semibold'>Nombres: </b>${result.medico.nombres}</p>
+          <p><b class='fw-semibold'>Apellidos: </b>${result.medico.apellidos}</p>
+          <p><b class='fw-semibold'>Especialidad: </b>${result.medico.especialidad}</p>
+          <p><b class='fw-semibold'>Hospital: </b>${result.medico.hospital_name}</p>`,
         });
-    });
-  });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async function viewMedico(id_medico) {
+    if (typeof id_medico !== 'string' || id_medico.trim() === '') {
+      console.log("El parámetro 'id_medico' es inválido o está vacío");
+      return;
+    }
+    try {
+      const url = `${window.origin}/api/medico/view/${id_medico}`;
+      console.log(url);
+      const response = await axios.get(url);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 {% endblock %}

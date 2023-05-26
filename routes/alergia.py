@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from werkzeug.exceptions import BadRequest
 
 # Entities
 from models.entities.Alergia import Alergia
@@ -30,21 +31,43 @@ def get_alergia(ci):
         return jsonify({"message": str(ex)}), 500
 
 
+def validate_alergia_data(data):
+    required_fields = ["id_paciente", "nombre"]
+    missing_fields = [field for field in required_fields if field not in data]
+
+    if missing_fields:
+        raise BadRequest(
+            f"Los campos obligatorios {', '.join(missing_fields)} están ausentes"
+        )
+        
+    id_paciente = data["id_paciente"]
+    nombre = data["nombre"]    
+    descripcion = data.get("descripcion", "")
+    gravedad = data.get("gravedad", "")
+    reaccion = data.get("reaccion", "")
+
+    return Alergia(None, nombre, descripcion, gravedad, reaccion, id_paciente)
+
+
 @AlergiaApi.route("/add", methods=["POST"])
 def add_alergia():
+    if request.method != "POST":
+        return jsonify({"message": "La solicitud debe ser de tipo POST"}), 405
     try:
-        id = None
-        nomnbre = request.json["nomnbre"]
-        alergia = Alergia(id, nomnbre)
+        data = request.get_json()
+        alergia = validate_alergia_data(data)
         affected_rows = AlergiaModel.add_alergia(alergia)
 
         if affected_rows == 1:
-            return jsonify(alergia.id)
+            return jsonify({"message": "Alergia Agregada!"}), 201
         else:
-            return jsonify({"message": "Error on insert"}), 500
+            return jsonify({"message": "Error al insertar"}), 500
 
-    except Exception as ex:
-        return jsonify({"message": str(ex)}), 500
+    except BadRequest as e:
+        return jsonify({"message": str(e)}), 400
+
+    except Exception as e:
+        return jsonify({"message": "Error interno del servidor"}), 500
 
 
 @AlergiaApi.route("/update/<id>", methods=["PUT"])
