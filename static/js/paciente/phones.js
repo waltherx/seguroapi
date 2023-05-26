@@ -24,16 +24,24 @@ async function modalPhone(ci_person) {
       const response = await axios.post(url, data);
       const msg = response;
       Swal.fire("Correcto!", msg.data.message, "success");
-      obtenerPhones(ci_person)
-        .then((datos) => {
-          llenarTabla(datos);
-        })
-        .catch((error) => {
-          console.log("Error al obtener y llenar los datos:", error);
-        });
+      mostarPhones(ci_person);
     } catch (error) {
       Swal.fire(JSON.stringify(error, msg.data.message, "error"));
     }
+  }
+}
+
+function mostarPhones(ci_persona) {
+  try {
+    obtenerPhones(ci_persona)
+      .then((datos) => {
+        llenarTabla(datos);
+      })
+      .catch((error) => {
+        console.log("Error al obtener y llenar los datos:", error);
+      });
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -85,18 +93,18 @@ function llenarTabla(datos) {
     td1.textContent = phone.numero;
     td2.textContent = phone.referencia;
 
-    const btnEliminar = crearBoton(true, () => eliminarTelefono(phone.id));
-    const btnActualizar = crearBoton(false, () => actualizarTelefono(phone.id));
+    const btnEliminar = crearBoton(true, () =>
+      eliminarTelefono(phone.id, phone.ci_persona)
+    );
+    const btnActualizar = crearBoton(false, () =>
+      actualizarTelefono(phone.id, phone.ci_persona)
+    );
 
     const contenedorBotones = document.createElement("div");
     contenedorBotones.classList.add("d-flex", "justify-content-end", "gap-2");
     contenedorBotones.appendChild(btnActualizar);
     contenedorBotones.appendChild(btnEliminar);
-
-    //td4.appendChild(btnActualizar);
-
     td3.appendChild(contenedorBotones);
-
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
@@ -115,14 +123,12 @@ function crearBoton(isDelete, onClick) {
     boton.innerHTML = `<i class="bi bi-gear-fill"></i>`;
     boton.classList.add("btn", "btn-success", "btn-sm");
   }
-
   boton.classList.add("btn", "btn-success", "btn-sm");
   boton.addEventListener("click", onClick);
   return boton;
 }
 
-function eliminarTelefono(id) {
-  console.log("-----");
+function eliminarTelefono(id, ci_persona) {
   Swal.fire({
     title: "Esta Seguro?",
     text: "Eliminar Telefono!",
@@ -133,14 +139,30 @@ function eliminarTelefono(id) {
     confirmButtonText: "Eliminar!",
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire("Eliminado!", "Telefono fue Eliminado!", "success");
+      deletePhone(id)
+        .then((result) => {
+          console.log(result);
+          Swal.fire("Eliminado!", "Telefono fue Eliminado!", "success");
+          mostarPhones(ci_persona);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
     }
   });
-
   console.log("Eliminar teléfono con ID:", id);
 }
 
+async function deletePhone(id, ci_persona) {
+  try {
+    const url = `${window.origin}/api/phone/delete/${id}`;
+    const response = await axios.delete(url);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function actualizarTelefono(id) {
-  // Lógica para actualizar el teléfono con el ID proporcionado
   console.log("Actualizar teléfono con ID:", id);
 }
