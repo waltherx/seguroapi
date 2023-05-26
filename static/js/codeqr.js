@@ -5,10 +5,7 @@ async function generateQr(button) {
   const ci_paciente = cells[0].innerText;
   gen(ci_paciente)
     .then((result) => {
-      console.log(result);
-
       const paciente = result.Paciente;
-
       const data = {
         ci_persona: paciente.ci,
         nombre_completo: `${paciente.nombres} ${paciente.apellidos}`,
@@ -48,7 +45,16 @@ function mostrarQR(texto) {
     imageWidth: 250,
     imageHeight: 250,
     imageAlt: "Código QR",
-    confirmButtonText: "Aceptar",
+    confirmButtonText: 'Descargar',
     confirmButtonColor: "#012970",
+    showCancelButton: true,
+    cancelButtonText: 'Cerrar',
+    showCloseButton: true,
+    preConfirm: () => {
+        let linkQr = document.createElement('a');
+        linkQr.href = imagenQR;
+        linkQr.download = 'Codigo_Qr_paciente.png';
+        linkQr.click();
+      }
   });
 }
