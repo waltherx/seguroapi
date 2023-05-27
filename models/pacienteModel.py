@@ -98,7 +98,7 @@ class PacienteModel:
     def get_paciente_X_ci(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"select ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, idpac, tiposangre, hipertencion, altura, peso, ci_persona FROM public.persona p, public.paciente c where p.ci = c.ci_persona and p.ci = {ci} ;"
+            sQuery = f"select p.ci, p.nombres, p.apellidos, to_char(p.fecha_nacimiento,'DD-MM-YYYY'), p.foto_url, p.foto_name, p.direccion, p.genero, p.estado_civil, c.idpac, c.tiposangre, c.hipertencion, c.altura, c.peso, c.ci_persona FROM public.persona p, public.paciente c where p.ci = c.ci_persona and p.ci = {ci} ;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()
@@ -114,15 +114,16 @@ class PacienteModel:
                         row[5],
                         row[6],
                         row[7],
+                        row[8],
                     )
 
                     paciente = Paciente(
-                        row[8],
                         row[9],
                         row[10],
                         row[11],
                         row[12],
                         row[13],
+                        row[14],
                     )
                     persona = persona.to_JSON()
                     paciente = paciente.to_JSON()
@@ -152,7 +153,7 @@ class PacienteModel:
     def update_paciente(self, paciente):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE persona SET nombres='{persona.nombres}', apellidos='{persona.apellidos}', fechanac='{persona.fechaNac}', licvehicular={persona.licVehicular}, foto='{persona.foto}', tipoSangre='{persona.tipoSangre}', hipertencion='{persona.hipertencion}', altura='{persona.altura}', peso='{persona.peso}', direccion='{persona.direccion}' WHERE ci = {persona.ci}"
+            sQuery = f"UPDATE public.paciente SET tiposangre='{paciente.tipoSangre}', hipertencion='{paciente.hipertencion}', altura={paciente.altura}, peso={paciente.peso} WHERE idpac={paciente.id};"
 
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

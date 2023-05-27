@@ -19,6 +19,5 @@ def main():
 @pacienteweb.route("/<ci>", methods=["GET", "POST"])
 @login_required
 def view(ci):
-    _paciente = PacienteModel.get_paciente_X_ci(ci)
-    print(_paciente)
+    _paciente = PacienteModel.get_paciente_X_ci(ci)    
     return render_template("/paciente/view.html", paciente=_paciente)

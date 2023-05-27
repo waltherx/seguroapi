@@ -85,10 +85,10 @@ def add_paciente():
             _nameuser = request.json["nameuser"]
             _password = request.json["password"]
             _email = request.json["email"]
-            x = 'paciente'
-            print(f'>{x:=^22}<')
+            x = "paciente"
+            print(f">{x:=^22}<")
             print(request.json)
-            print(f'>{x:=^22}<')
+            print(f">{x:=^22}<")
             new_persona = Persona(
                 _ci_persona,
                 _nombre,
@@ -116,44 +116,6 @@ def add_paciente():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
-
-@PacienteApi.route("/update/<ci>", methods=["PUT"])
-def update_persona(ci):
-    try:
-        nombres = request.json["nombres"]
-        apellidos = request.json["apellidos"]
-        fechanac = request.json["fechanac"]
-        licvehicular = request.json["licvehicular"]
-        foto = request.json["foto"]
-        tiposangre = request.json["tiposangre"]
-        hipertencion = request.json["hipertencion"]
-        altura = request.json["altura"]
-        peso = request.json["peso"]
-        direccion = request.json["direccion"]
-        persona = Persona(
-            ci,
-            nombres,
-            apellidos,
-            fechanac,
-            licvehicular,
-            foto,
-            tiposangre,
-            hipertencion,
-            altura,
-            peso,
-            direccion,
-        )
-        affected_rows = PersonaModel.update_persona(persona)
-
-        if affected_rows == 1:
-            return jsonify({"message": "persona updated"})
-        else:
-            return jsonify({"message": "No persona updated"}), 404
-
-    except Exception as ex:
-        return jsonify({"message": str(ex)}), 500
-
-
 @PacienteApi.route("/delete/<id>", methods=["DELETE"])
 def delete_persona(ci):
     try:
@@ -165,5 +127,24 @@ def delete_persona(ci):
         else:
             return jsonify({"message": "No enfermedad deleted"}), 404
 
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+@PacienteApi.route("/v1/update/", methods=["PUT", "PATCH"])
+def update_paciente():
+    try:
+        data = request.json
+        id = data["id"]
+        tiposangre = data["tiposangre"]
+        hipertencion = data["hipertencion"]
+        altura = data["altura"]
+        peso = data["peso"]
+        paciente = Paciente(id, tiposangre, hipertencion, altura, peso, None)
+        affected_rows = PacienteModel.update_paciente(paciente)
+        if affected_rows == 1:
+            return jsonify({"message": "Actualizado"})
+        else:
+            return jsonify({"message": "no Actualizado"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

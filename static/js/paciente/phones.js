@@ -48,9 +48,9 @@ function mostarPhones(ci_persona) {
 function obtenerValoresPhone() {
   const input1 = document.getElementById("numeroTxt").value;
   const input2 = document.getElementById("referenciaTxt").value;
-
+  console.log(input2);
   const numeroRegex = /^[0-9]+$/;
-  const alfanumericoRegex = /^[a-zA-Z0-9]+$/;
+  const alfanumericoRegex = /^[\w\s]+$/;
 
   if (input1.trim() === "" && input2.trim() === "") {
     Swal.showValidationMessage(
@@ -174,19 +174,15 @@ function actualizarTelefono(id, ci_persona) {
 
 async function update_phone(id_telefono, ci_person) {
   const url_get = `${window.origin}/api/phone/${ci_person}/${id_telefono}`;
-  //const url_put = `${window.origin}/api/phone/update`
-  console.log(url_get);
   const response = await axios.get(url_get);
-  //return response.data;
   phone = response.data;
-  console.log(phone);
   const { value: formValues } = await Swal.fire({
     title: "Agregar Numero",
     html: `<div class="form-floating">      
-      <input id="numeroTxt" type="number" value=${phone.numero} class="form-control">
+      <input id="numeroTxt" type="number" value="${phone.numero}" class="form-control">
       <label for="numeroTxt" class="form-label">Numero:</label>
       </div><div class="form-floating">
-      <input id="referenciaTxt" type="text" value=${phone.referencia} class="form-control">
+      <input id="referenciaTxt" type="text" value="${phone.referencia}" class="form-control">
       <label for="referenciaTxt" class="form-label">Referencia:</label> </div>`,
     focusConfirm: false,
     preConfirm: obtenerValoresPhone,
@@ -194,20 +190,15 @@ async function update_phone(id_telefono, ci_person) {
     confirmButtonColor: "#012970",
   });
 
-  const url = `${window.origin}/api/phone/add`;
   if (formValues) {
     const data = {
       id_telefono: id_telefono,
       numero: formValues[0],
       referencia: formValues[1],
     };
-    console.log(data);
     try {
-      const url_put = `${window.origin}/api/phone/${ci_persona}/${id_telefono}`;
-      console.log(url_put);
-      //Swal.fire(data.referencia, data.numero, "success");
+      const url_put = `${window.origin}/api/phone/update`;
       const response = await axios.put(url_put, data);
-      console.log(response);      
       Swal.fire("Correcto!", "Acualizado", "success");
       mostarPhones(ci_person);
     } catch (error) {
@@ -216,18 +207,11 @@ async function update_phone(id_telefono, ci_person) {
   }
 }
 
-function obtenerPhoneUpdate(){
-
-}
-
 async function view_phone(id_telefono, ci_persona) {
   try {
     const url_get = `${window.origin}/api/phone/${ci_persona}/${id_telefono}`;
-    //const url_put = `${window.origin}/api/phone/update`
-    console.log(url_get);
     const response = await axios.get(url_get);
     return response.data;
-    //const data = await axios.put(url_put,data)
   } catch (error) {
     console.log(error);
   }

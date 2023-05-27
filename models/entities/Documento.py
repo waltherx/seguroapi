@@ -23,7 +23,7 @@ class Documento:
             "nombre":self.nombre,
             "url": self.url,
             "tipo": self.tipo,
-            #"descripcion": self.descripcion,
+            "descripcion": self.descripcion,
             "fechaSubida": self.fechaSubida,
             "paciente_id": self.paciente_id,
         }

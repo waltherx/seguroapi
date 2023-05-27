@@ -23,10 +23,27 @@ class DocumentoModel:
             raise Exception(ex)
 
     @classmethod
+    def view_documento(self, id):
+        try:
+            connection = get_connection()
+            sQuery = f"SELECT iddoc,nombre, url, tipo, TO_CHAR(fecha, 'HH:MI:SS DD/MM/YYYY') AS fecha, paciente_id FROM public.documento where iddoc = {id} limit 1;"
+            documento = None
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                row = cursor.fetchone()
+                documento = Documento(row[0], row[1], row[2],row[3], None, row[4], row[5])
+                documento = documento.to_JSON()
+                connection.commit()
+            connection.close()
+            return documento
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
     def add_documento(self, documento):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.documento(tipo, url, fecha, ci_persona) VALUES('{documento.tipo}','{documento.url}','{documento.fecha}',{documento.ci})"
+            sQuery = f"INSERT INTO public.documento (tipo, url, fecha, nombre, paciente_id) VALUES('{documento.tipo}', '{documento.url}', NOW(), '{documento.nombre}', {documento.paciente_id});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -46,6 +63,20 @@ class DocumentoModel:
                 affected_rows = cursor.rowcount
                 connection.commit()
 
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def delete_documento(self, id):
+        try:
+            connection = get_connection()
+            sQuery = f"DELETE FROM documento WHERE iddoc={id};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
             connection.close()
             return affected_rows
         except Exception as ex:

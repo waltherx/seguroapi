@@ -1,46 +1,66 @@
-<form method="POST" action="/enfermedad/create">
-  <div class="modal fade" id="modalcreate">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div
-          class="modal-header"
-          style="background-color: #011f4b; color: white"
-        >
-          <h4 class="modal-tittle">Nueva Enfermedad</h4>
-          <button
-            type="button"
-            class="close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <style>
+      .row-padding {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row row-padding mx-auto w-50">
+      <div class="col">
+        <div class="form-floating">
+          <select class="form-select"
+                    id="sangreTxt"
+                    required>
+                    <option value="A+">A positivo (A+)</option>
+                    <option value="O+">O positivo (O+)</option>
+                    <option value="B+">B positivo (B+)</option>
+                    <option value="A-">A negativo (A-)</option>
+                    <option value="O-">O negativo (O-)</option>
+                    <option value="AB+">AB positivo (AB+)</option>
+                    <option value="B-">B negativo (B-)</option>
+                    <option value="AB-">AB negativo (AB-)</option>
+                    <option value="Rh+">Rh positivo (Rh+)</option>
+                    <option value="Rh-">Rh negativo (Rh-)</option>
+                  </select>
+          <label for="sangreTxt" class="form-label">Tipo de Sangre:</label>
         </div>
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md">
-              <label for="Nombre">Nombre</label>
-            </div>
-            <div class="col-md d-inline">
-              <input
-                class="form-control d-inline"
-                type="text"
-                name="txtNombre"
-                id="nombre"
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-bs-dismiss="modal">
-            Cerrar
-          </button>
-          <button type="submit" class="btn btn-success">Guardar</button>
+      </div>
+      <div class="col">
+        <div class="form-floating">
+          <input id="alturaTxt" type="number" class="form-control" />
+          <label for="alturaTxt" class="form-label">Altura:</label>
         </div>
       </div>
     </div>
-  </div>
-</form>
+    <div class="row row-padding mx-auto w-50">
+      <div class="col">
+        <div class="form-floating">
+          <select id="hipertencionTxt" class="form-select" required>
+            <option value="Si">Si</option>
+            <option value="No" selected>No</option>
+          </select>
+          <label for="hipertencionTxt" class="form-label">Hipertencion:</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating">
+          <input id="pesoTxt" type="number" class="form-control" />
+          <label for="pesoTxt" class="form-label">Peso:</label>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
