@@ -77,7 +77,7 @@ async function update_paciente(id_paciente) {
     }
   }
 }
-ñ;
+;
 
 function obtenerValoresPaciente() {
   const input1 = document.getElementById("sangreTxt").value;

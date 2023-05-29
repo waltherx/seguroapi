@@ -1,0 +1,10 @@
+.btn-options {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+.btn-options button {
+  padding: 5px 10px;
+  margin-right: 5px;
+}

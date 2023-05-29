@@ -1,4 +1,4 @@
-async function modalAlergia(ci_person,id_paciente) {
+async function modalAlergia(ci_person, id_paciente) {
   const { value: formValues } = await Swal.fire({
     title: "Agregar Alergia",
     html: `<div class="form-floating">
@@ -37,17 +37,21 @@ async function modalAlergia(ci_person,id_paciente) {
       const response = await axios.post(url, data);
       const msg = response;
       Swal.fire("Correcto!", msg.data.message, "success");
-      obtenerAlergias(ci_person)
-        .then((datos) => {
-          llenarTablaAlergia(datos);
-        })
-        .catch((error) => {
-          console.log("Error al obtener y llenar los datos:", error);
-        });
+      mostrarAlergias(ci_person);
     } catch (error) {
       Swal.fire(JSON.stringify(error, msg.data.message, "error"));
     }
   }
+}
+
+function mostrarAlergias(ci_persona) {
+  obtenerAlergias(ci_persona)
+    .then((datos) => {
+      llenarTablaAlergia(datos, ci_persona);
+    })
+    .catch((error) => {
+      console.log("Error al obtener y llenar los datos:", error);
+    });
 }
 
 function obtenerValoresAlergia() {
@@ -76,7 +80,7 @@ async function obtenerAlergias(ci_persona) {
   }
 }
 
-function llenarTablaAlergia(datos) {
+function llenarTablaAlergia(datos, ci_person) {
   const tablaBody = document.getElementById("talergia");
   tablaBody.innerHTML = "";
   datos.forEach((alergia) => {
@@ -85,14 +89,82 @@ function llenarTablaAlergia(datos) {
     const td2 = document.createElement("td");
     const td3 = document.createElement("td");
     const td4 = document.createElement("td");
+    const td5 = document.createElement("td");
     td1.textContent = alergia.nombre;
     td2.textContent = alergia.descripcion;
     td3.textContent = alergia.gravedad;
     td4.textContent = alergia.reaccion;
+
+    const btnEliminar = crearBotonAlergia(true, () =>
+      eliminarAlergia(alergia.id, alergia.nombre, ci_person)
+    );
+    const btnActualizar = crearBotonAlergia(false, () =>
+      actualizarAlergia(alergia.id, ci_person)
+    );
+
+    const contenedorBotones = document.createElement("div");
+    contenedorBotones.classList.add("d-flex", "justify-content-end", "gap-2");
+    contenedorBotones.appendChild(btnActualizar);
+    contenedorBotones.appendChild(btnEliminar);
+    td5.appendChild(contenedorBotones);
+
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
+    tr.appendChild(td5);
     tablaBody.appendChild(tr);
   });
+}
+
+function crearBotonAlergia(isDelete, onClick) {
+  const boton = document.createElement("button");
+  boton.textContent = "";
+  if (isDelete) {
+    boton.innerHTML = `<i class="bi bi-trash"></i>`;
+    boton.classList.add("btn", "btn-danger", "btn-sm");
+  } else {
+    boton.innerHTML = `<i class="bi bi-gear-fill"></i>`;
+    boton.classList.add("btn", "btn-success", "btn-sm");
+  }
+  //boton.classList.add("btn", "btn-success", "btn-sm");
+  boton.addEventListener("click", onClick);
+  return boton;
+}
+
+function eliminarAlergia(id, nombre, ci_persona) {
+  Swal.fire({
+    title: "Esta Seguro?",
+    text: `Eliminar Alergia de ${nombre}!`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#012970",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteAlergia(id)
+        .then((result) => {
+          Swal.fire("Eliminado!", "Enfermedad fue Eliminado!", "success");
+          mostrarAlergias(ci_persona);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+  });
+}
+
+async function deleteAlergia(id) {
+  try {
+    const url = `${window.origin}/api/alergia/delete/${id}`;
+    const response = await axios.delete(url);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function actualizarAlergia(id_alergia) {
+  console.log(id_alergia);
 }

@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from werkzeug.exceptions import BadRequest
 
 # Entities
 from models.entities.Chofer import Chofer
@@ -13,6 +14,7 @@ from models.emergenciaModel import EmergenciaModel
 
 AmbulanciaApi = Blueprint("ambulancia_blueprint", __name__)
 
+
 @AmbulanciaApi.route("/")
 def get_ambulancias():
     try:
@@ -20,6 +22,7 @@ def get_ambulancias():
         return jsonify(ambulancias)
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
+
 
 @AmbulanciaApi.route("/<id>")
 def get_ambulanciaxId(id):
@@ -73,19 +76,32 @@ def update_location():
         return jsonify({"message": str(ex)}), 500
 
 
+def validate_alergia_data(data):
+    required_fields = ["id", "modelo", "marca", "placa"]
+    missing_fields = [field for field in required_fields if field not in data]
+
+    if missing_fields:
+        raise BadRequest(
+            f"Los campos obligatorios {', '.join(missing_fields)} están ausentes"
+        )
+    id = data["id"]
+    modelo = data["modelo"]
+    marca = data.get("marca", "")
+    anio = data.get("anio", 0)
+    placa = data.get("placa", "")
+    capacidad = data.get("capacidad", 0)
+    lat = data.get("lat", 0)
+    long = data.get("long", 0)
+    estado = data.get("estado", "f")
+    return Ambulancia(id, modelo, marca, anio, placa, capacidad, lat, long, estado)
+
+
 @AmbulanciaApi.route("/add", methods=["POST"])
 def add_ambulancia():
     try:
         if request.method == "POST":
             data = request.json
-            _modelo = data["modelo"]
-            _marca = data["marca"]
-            _anio = data["anio"]
-            _placa = data["placa"]
-            _capacidad = data["capacidad"]
-            ambu = Ambulancia(
-                None, _modelo, _marca, _anio, _placa, _capacidad, None, None, None
-            )
+            ambu = validate_alergia_data(data)
             if AmbulanciaModel.add_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Agregada!"}), 200
             else:
@@ -101,15 +117,7 @@ def update_ambulancia():
     try:
         if request.method == "PUT" or request.method == "PATCH":
             data = request.json
-            _id = data["id"]
-            _modelo = data["modelo"]
-            _marca = data["marca"]
-            _anio = data["anio"]
-            _placa = data["placa"]
-            _capacidad = data["capacidad"]
-            ambu = Ambulancia(
-                _id, _modelo, _marca, _anio, _placa, _capacidad, None, None, None
-            )
+            ambu = validate_alergia_data(data)
             if AmbulanciaModel.update_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Actualizada!"}), 200
             else:

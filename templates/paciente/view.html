@@ -85,9 +85,11 @@
           </br>
           <fieldset>
             <div class="row">
-              <div class="col"><legend class="legend-txt">Información Personal</legend></div>
               <div class="col">
-                <button id="btnPersona" style="display: none;" class="btn btn-sm custom-btn">
+                <legend class="legend-txt">Información Personal</legend>
+              </div>
+              <div class="col">
+                <button id="btnPersona" class="btn btn-sm custom-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar">
                   <i class="bi bi-pen"></i>
               </button>
             </div>
@@ -106,14 +108,17 @@
                 <p><b>Direccion : </b>{{paciente.persona.direccion}}</p>
                 <p><b>Estado Civil : </b>{{paciente.persona.estado_civil}}</p>
                 <p><b>Genero : </b>{{paciente.persona.genero}}</p>
+                <p id="edadLbl"><b>Edad : </b></p>
               </div>
             </div>
           </fieldset>
           <fieldset>            
             <div class="row">
-              <div class="col"><legend class="legend-txt">Información Paciente</legend></div>
               <div class="col">
-                <button id="btnPaciente" class="btn btn-sm custom-btn">
+                <legend class="legend-txt">Información Paciente</legend>
+              </div>
+              <div class="col">
+                <button id="btnPaciente" class="btn btn-sm custom-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar Informacion de paciente">
                   <i class="bi bi-pen"></i>
               </button>
             </div>
@@ -133,34 +138,41 @@
 
           <fieldset>
             <div class="row">
-              <div class="col"><legend class="legend-txt">Telefonos</legend></div>
               <div class="col">
-                <button id="btnPhone" class="btn btn-sm custom-btn">
+                <legend class="legend-txt">Telefonos</legend>
+              </div> 
+              <div class="col">
+                <button id="btnPhone" class="btn btn-sm custom-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Telefono">
                   <i class="bi bi-plus-lg"></i>
               </button>
             </div>
             </div>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Numero</th>
-                  <th>Referencia</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="tphones"></tbody>
-            </table>
+            <div class="table-responsive bg-white">
+              <table class="table table-striped">
+               <thead>
+                  <tr>
+                   <th>Numero</th>
+                   <th>Referencia</th>
+                   <th></th>
+                 </tr>
+                </thead>
+               <tbody id="tphones"></tbody>
+              </table>
+            </div>
           </fieldset>
 
           <fieldset>
             <div class="row">
-              <div class="col"><legend class="legend-txt">Alergia</legend></div>
               <div class="col">
-                <button id="btnAlergia" class="btn btn-sm custom-btn">
+                <legend class="legend-txt">Alergia</legend>
+              </div>
+              <div class="col">
+                <button id="btnAlergia" class="btn btn-sm custom-btn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Alergia">
                   <i class="bi bi-plus-lg"></i>
               </button>
             </div>
             </div>
+            <div class="table-responsive bg-white">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -172,31 +184,47 @@
               </thead>
               <tbody id="talergia"></tbody>
             </table>
+          </div>
           </fieldset>
 
-          <fieldset>
-            <legend class="legend-txt">Enfermedades</legend>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Descripcion</th>
-                  <th>Causa</th>
-                  <th>Sintoma</th>
-                  <th>Diagnostico</th>
-                </tr>
-              </thead>
-              <tbody id="tenfermedad"></tbody>
-            </table>
-          </fieldset>
-          <fieldset>
+          <fieldset>            
             <div class="row">
-              <div class="col"><legend class="legend-txt">Documentos</legend></div>
               <div class="col">
-                <button id="btnDoc" class="btn btn-sm custom-btn">
+                <legend class="legend-txt">Enfermedades</legend>
+              </div>
+              <div class="col">
+                <button id="btnEnfermedad" class="btn btn-sm custom-btn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Enfermedad">
                   <i class="bi bi-plus-lg"></i>
               </button>
             </div>
+            </div>
+            <div class="table-responsive bg-white container pt-2">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                     <th>Nombre</th>
+                     <th>Descripcion</th>
+                     <th>Causa</th>
+                    <th>Sintoma</th>
+                    <th>Diagnostico</th>
+                  </tr>
+                </thead>
+               <tbody id="tenfermedad"></tbody>
+              </table>
+          </div>
+          </fieldset>
+          <fieldset>
+            <div class="row">
+              <div class="col">
+                <legend class="legend-txt">Documentos</legend>
+              </div>
+              <div class="col">
+                <button id="btnDoc" class="btn btn-sm custom-btn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Documento">
+                  <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </div>
+            <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -206,9 +234,12 @@
               </thead>
               <tbody id="tdocumento"></tbody>
             </table>
+          </div>
           </fieldset>
           <fieldset>
-            <legend class="legend-txt">Operaaciones</legend>
+            
+            <legend class="legend-txt">Operaciones</legend>
+            <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -219,9 +250,11 @@
               </thead>
               <tbody id="toperacion"></tbody>
             </table>
+          </div>
           </fieldset>
           <fieldset>
             <legend class="legend-txt">Medicamentos</legend>
+            <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -233,9 +266,11 @@
               </thead>
               <tbody id="tmedicamento"></tbody>
             </table>
+          </div>
           </fieldset>
           <fieldset>
             <legend class="legend-txt">Vacunas</legend>
+            <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -245,6 +280,7 @@
               </thead>
               <tbody id="tvacuna"></tbody>
             </table>
+          </div>
           </fieldset>
         </div>
       </div>
@@ -256,8 +292,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
   <script src="{{ url_for('static', filename='js/paciente/paciente.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/alergias.js') }}"></script>
@@ -266,16 +300,16 @@
   <script src="{{ url_for('static', filename='js/paciente/medicamentos.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/operaciones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/vacunas.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/birdday.js') }}"></script>
   <script>
-    /*document.addEventListener("DOMContentLoaded", () => {
-      
-    });*/
+
     const ci = '{{paciente.persona.ci}}';
     const id_paciente = '{{paciente.paciente.id}}';
 
-    console.log(ci);
+    console.log('ci persona -> ',ci);
+    console.log('id paciente -> ',id_paciente);
 
-     function loadFile(event) {
+    function loadFile(event) {
       const image = document.getElementById("output");
       const file = event.target.files[0];
       image.src = URL.createObjectURL(file);
@@ -299,35 +333,21 @@
       console.error(error);
       });
     }
-    
 
     const btnPaciente = document.getElementById('btnPaciente');
     btnPaciente.addEventListener('click', function(){update_paciente(id_paciente)} ,false);
 
-    tippy('#btnPaciente', {
-      content: 'Actualizar Informacion de paciente',
-    });
-
     const btnPhone = document.getElementById('btnPhone');
     btnPhone.addEventListener('click', function(){modalPhone(ci)} ,false);
-
-    tippy('#btnPhone', {
-      content: 'Agregar Telefono de Paciente',
-    });
 
     const btnAlergia = document.getElementById('btnAlergia');
     btnAlergia.addEventListener('click', function(){modalAlergia(ci,id_paciente)} ,false);
 
-    tippy('#btnAlergia', {
-      content: 'Agregar Alergia',
-    });
+    const btnEnfermedad = document.getElementById('btnEnfermedad');
+    btnEnfermedad.addEventListener('click', function(){modalEnfermedad(ci,id_paciente)} ,false);
 
     const btnDoc = document.getElementById('btnDoc');
     btnDoc.addEventListener('click', function(){modalDocumento(ci,id_paciente)} ,false);
-
-    tippy('#btnDoc', {
-      content: 'Agregar Documento.',
-    });
 
     obtenerPhones(ci)
       .then((datos) => {
@@ -337,21 +357,9 @@
         console.log("Error al obtener y llenar los datos:", error);
       });
 
-      obtenerAlergias(ci)
-      .then((datos) => {
-        llenarTablaAlergia(datos);
-      })
-      .catch((error) => {
-        console.log("Error al obtener y llenar los datos:", error);
-      });
+      mostrarAlergias(ci);
 
-      obtenerEnfermedades(ci)
-      .then((datos) => {
-        llenarTablaEnfermedades(datos);
-      })
-      .catch((error) => {
-        console.log("Error al obtener y llenar los datos:", error);
-      });
+      mostrarEnfermedades(ci);
 
       obtenerDocumentos(ci)
       .then((datos)=>{
@@ -384,6 +392,12 @@
         .catch((error) => {
           console.log("Error al obtener y llenar los datos:", error);
         });
+        
+        const edadLbl = document.getElementById('edadLbl');        
+        const fechaNacimiento = "{{paciente.persona.fecha_nacimiento}}";
+        console.log(fechaNacimiento);
+        const edad = calcularEdadExacta(fechaNacimiento);
+        edadLbl.innerHTML=`<p><b>Edad : </b>${edad.anios} Años ${edad.meses} Meses ${edad.dias} Dias.</p>`;
   </script>
 
   {% endblock %}

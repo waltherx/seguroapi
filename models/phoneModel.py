@@ -46,8 +46,8 @@ class PhoneModel:
             phone = None
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
-                row = cursor.fetchone()  
-                if row != None:              
+                row = cursor.fetchone()
+                if row != None:
                     phone = Phone(row[0], row[1], row[2], row[3])
                     phone = phone.to_JSON()
             connection.close()

@@ -40,6 +40,24 @@ class AlergiaModel:
             raise Exception(ex)
 
     @classmethod
+    def view_alergia(self, id):
+        try:
+            connection = get_connection()            
+            sQuery = f"SELECT idale, nombre, descripcion, gravedad, reaccion, paciente_id FROM public.alergia WHERE idale={id};"
+            alergia = None
+            print(sQuery)
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                row = cursor.fetchone()
+                if row:
+                    alergia = Alergia(row[0],row[1],row[2],row[3],row[4],row[5])
+                    alergia = alergia.to_JSON()
+                connection.close()
+            return alergia
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
     def add_alergia(self, alergia):
         try:
             connection = get_connection()            
@@ -58,7 +76,6 @@ class AlergiaModel:
         try:
             connection = get_connection()
             sQuery = f"UPDATE public.alergia SET nombre='{alergia.nombre}', descripcion='{alergia.descripcion}', gravedad='{alergia.gravedad}', reaccion='{alergia.reaccion}' WHERE idale={alergia.id});"
-
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -69,10 +86,10 @@ class AlergiaModel:
             raise Exception(ex)
 
     @classmethod
-    def delete_alergia(self, alergia):
+    def delete_alergia(self, id):
         try:
             connection = get_connection()
-            sQuery = f"DELETE FROM alergia WHERE idale = {alergia.id}"
+            sQuery = f"DELETE FROM public.alergia WHERE idale={id}"
 
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

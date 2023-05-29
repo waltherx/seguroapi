@@ -1,4 +1,5 @@
 {% extends 'layout.html' %} {% block style %}
+<link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet" />
 <style>
   .hidden {
     display: none;
@@ -18,104 +19,52 @@
             data-bs-toggle="modal"
             data-bs-target="#modalcreate"
           >
-            <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Paciente
+          <i class="bi bi-plus-lg"></i>Nuevo Paciente
           </button>
           {% include '/paciente/create.html' %}
+        </div>        
+        <div class="table-responsive bg-white container pt-2">
+          <table class="table datatable table-bordered" id="example">
+            <thead>
+              <tr>
+                <th scope="col">CI</th>
+                <th scope="col">Nombre Completo</th>
+                <th scope="col" class="btn-options" >Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for paciente in pacients %}
+              <tr>
+                <td scope="row">{{paciente.ci_persona}}</td>
+                <td>{{paciente.nombres +" "+ paciente.apellidos}}</td>
+                <td class="btn-options">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                  <a
+                    href="/paciente/{{paciente.ci_persona}}"
+                    class="btn btn-success btn-sm"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </button>
+                  <button
+                    id="btnQrcode"
+                    class="btn btn-secondary btn-sm"
+                    onclick="generateQr(this)"
+                  >
+                    <i class="bi bi-qr-code"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-
-        <table class="table datatable">
-          <thead>
-            <tr>
-              <th>CI</th>
-              <th>Nombre Completo</th>
-              <th class="text-center">Acciones</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for paciente in pacients %}
-            <tr>
-              <td>{{paciente.ci_persona}}</td>
-              <td>{{paciente.nombres +" "+ paciente.apellidos}}</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaldelete{{paciente.id_paciente}}"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-                <div
-                  class="modal fade"
-                  id="modaldelete{{paciente.id_paciente}}"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-labelledby="basicModal"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div
-                        class="modal-header"
-                        style="background-color: #011f4b; color: white"
-                      >
-                        <h4 class="modal-title">Eliminar Paciente</h4>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <br />
-                      <form action="#" method="post">
-                        <div class="modal-body">
-                          <div class="form-group row">
-                            <label class="col-sm-12 col-form-label"
-                              >Esta seguro de eliminar
-                              <span style="font-weight: bold; color: red"
-                                >{{paciente.ci_persona}}</span
-                              >
-                              ?</label
-                            >
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-default"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
-                          <button type="submit" class="btn btn-danger">
-                            Eliminar
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                |
-                <a
-                  href="/paciente/{{paciente.ci_persona}}"
-                  class="btn btn-success btn-sm"
-                >
-                  <i class="bi bi-eye"></i>
-                </a>
-                |
-                <button 
-                id="btnQrcode"
-                class="btn btn-secondary btn-sm"
-                onclick="generateQr(this)">
-                  <i class="bi bi-qr-code"></i>
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
@@ -204,7 +153,6 @@
 
     guardarPacienteAxios(data)
       .then((response) => {
-        
         /*const Toast = Swal.mixin({
           toast: true,
           position: "top-end",

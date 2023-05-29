@@ -19,6 +19,18 @@ def get_alergias():
         return jsonify({"message": str(ex)}), 500
 
 
+@AlergiaApi.route("/view/<id>", methods=["GET"])
+def view_alergia(id):
+    try:
+        alergia = AlergiaModel.view_alergia(id)
+        if alergia is not None:
+            return jsonify(alergia), 200
+        else:
+            return jsonify({"message": "no se encontro alergia!"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
 @AlergiaApi.route("/<ci>")
 def get_alergia(ci):
     try:
@@ -39,9 +51,9 @@ def validate_alergia_data(data):
         raise BadRequest(
             f"Los campos obligatorios {', '.join(missing_fields)} están ausentes"
         )
-        
+
     id_paciente = data["id_paciente"]
-    nombre = data["nombre"]    
+    nombre = data["nombre"]
     descripcion = data.get("descripcion", "")
     gravedad = data.get("gravedad", "")
     reaccion = data.get("reaccion", "")
@@ -73,10 +85,15 @@ def add_alergia():
 @AlergiaApi.route("/update/<id>", methods=["PUT"])
 def update_alergia(id):
     try:
-        nombre = request.json["nombre"]
+        data = request.json
+        id = data["id"]
+        nombre = data["nombre"]
+        descripcion = data.get("descripcion", "")
+        gravedad = data.get("gravedad", "")
+        reaccion = data.get("reaccion", "")
+        paciente_id = data["paciente_id"]
 
         alergia = Alergia(id, nombre)
-
         affected_rows = AlergiaModel.update_alergia(alergia)
 
         if affected_rows == 1:
@@ -91,14 +108,11 @@ def update_alergia(id):
 @AlergiaApi.route("/delete/<id>", methods=["DELETE"])
 def delete_alergia(id):
     try:
-        alergia = Alergia(id)
-
-        affected_rows = AlergiaModel.delete_alergia(alergia)
-
+        affected_rows = AlergiaModel.delete_alergia(id)
         if affected_rows == 1:
-            return jsonify(alergia.id)
+            return jsonify({"message": "Alergia Eliminada!"}), 200
         else:
-            return jsonify({"message": "No alergia deleted"}), 404
+            return jsonify({"message": "Alergia  no Eliminada"}), 404
 
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
