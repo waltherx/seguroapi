@@ -1,0 +1,39 @@
+
+  
+
+    <div id="carnet" class="id-card-holder">
+      <div class="id-card">
+        <div class="card-header">
+          <img style="width: 30px; height: 30px;" src="{{ url_for('static', filename='img/logo.png') }}" />
+          <p class="id">Carnet de Asegurado</p>
+          <div class="clear"></div>
+        </div>
+        <span class="b-border"></span>
+        <div class="card-detail">
+          <div class="stu-photo">
+            <img src="{{paciente.persona.foto_url}}" />
+          </div>
+          <div class="stu-info">
+            <h3>CI : <b>{{paciente.persona.ci}}</b></h3>
+            <p>
+              Nombre Completo :
+              <b>{{paciente.persona.nombres +" "+ paciente.persona.apellidos}}</b>
+            </p>
+            <p>
+              Direccion :<b>{{paciente.persona.direccion}}</b>
+            </p>
+            <p>Fecha de Nacimiento : <b>{{paciente.persona.fecha_nacimiento}}</b></p>
+          </div>
+          <div class="stu-qr">
+            <img id="qrious" />
+          </div>
+          <div class="clear"></div>
+        </div>
+        <footer class="id-card-footer">
+          <p class="card-fo"><strong>Santa Cruz Bolivia</strong></p>
+          <p class="card-fo">Seguro Scz</p>
+          <p class="card-fo">Copryrights © PL 2023</p>
+        </footer>
+      </div>
+    </div>
+  </br>

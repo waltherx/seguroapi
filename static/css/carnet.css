@@ -1,0 +1,120 @@
+/*body{
+    background-color: #ccc;
+  }*/
+  .clear {
+      clear: both;
+  }
+  .card-fo p {
+      font-size: 5px;
+      margin: 2px;
+  }
+
+  .id-card-holder {
+      width: 450px;
+      margin: 0 auto;
+      
+      font-family:'Sans-Serif';
+  }
+  .id-card {
+      background-color: #fff;
+      padding: 0px;
+      text-align: center;
+      /*box-shadow: 0 0 1.5px 0px #b9b9b9;*/
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+      display: block;
+      border-radius: 12px;
+      overflow: hidden;
+  }
+  .card-header {
+      padding: 10px;
+      background-color: #012970;
+  }
+  .card-header img {
+      width: 100px;
+      margin-top: 0px;
+      display: inline;
+      float: left;
+  }
+  .id {
+      display: inline-block;
+      float: left;
+      font-size: 16px;
+      text-transform: uppercase;
+      color: #fff;
+      text-align: center;
+      margin-left: 60px;
+  }
+  .b-border {
+      height: 2px;
+      display: block;
+      background-color: #012970;
+      margin-top: 1px;
+  }
+  .card-detail {
+      width: 100%;
+      display: block;
+      padding: 10px;
+      box-sizing: border-box;
+  }
+  
+  
+  
+  .stu-qr {
+      /*position: absolute;
+      bottom: 20px;*/
+      /*right: 0;*/
+      margin-top: 12%;
+      float: left;
+      width: 100px;
+  }
+  
+  .stu-qr img {
+      width: 80%;
+      border: 1px solid #4154f1;
+      border-radius: 5px;
+  }
+  
+  .stu-photo {
+      float: left;
+      width: 100px;
+  }
+  .stu-photo img {
+      width: 100%;
+      border: 1px solid #4154f1;
+      border-radius: 5px;
+  }
+  .stu-info {
+      float: left;
+      width: calc(100% - 200px);
+      padding: 0 10px;
+      box-sizing: border-box;
+      text-align: left;
+      text-transform: capitalize;
+  }
+  .stu-info h3 {
+      font-size: 15px;
+      margin: 0 0 10px 0;
+      padding: 5px 15px;
+      background-color: #4154f1;
+      border-radius: 70px;
+      text-align: center;
+      color: #fff;
+      border: 1px solid #4154f1;
+  }
+  .stu-info p {
+      font-size: 12px;
+      margin: 0 0 3px 0;
+      font-weight: 300;
+  }
+  .stu-info p span {
+      font-weight: 600;
+      text-transform: uppercase;
+  }
+  .id-card-footer {
+      padding: 5px 0;
+      border-top: 1px solid #000000;
+  }
+  .id-card-footer p {
+      font-size: 10px;
+      margin: 0 0 2px 0;
+  }

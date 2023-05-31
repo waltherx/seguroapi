@@ -21,10 +21,27 @@ class OperacionModel:
             raise Exception(ex)
 
     @classmethod
+    def view_operacion(self, id):
+        try:
+            sQuery = f"SELECT idop, tipo, fecha, descripcion, paciente_id FROM public.operacion where = idop{id};"
+            connection = get_connection()
+            operacion = None
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                row = cursor.fetchall()
+                if row:
+                    operacion = Operacion(row[0], row[1], row[2], row[3], row[4])
+                    operacion = operacion.to_JSON()
+            connection.close()
+            return operacion
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
     def add_operacion(self, operacion):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.operacion (tipo, fecha, descripcion, ci_persona) VALUES('{operacion.tipo}','{operacion.fecha}','{operacion.descripcion}',{operacion.ci})"
+            sQuery = f"INSERT INTO public.operacion (tipo, fecha, descripcion, paciente_id) VALUES('{operacion.tipo}', '{operacion.fecha}', '{operacion.descripcion}', {operacion.paciente_id});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -38,7 +55,7 @@ class OperacionModel:
     def update_operacion(self, operacion):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE vacuna SET nombre='{operacion.nombre}', direccion='{operacion.direccion}', lat={operacion.lat}, longi={operacion.long} WHERE idh = {operacion.id}"
+            sQuery = f"UPDATE public.operacion SET tipo='{operacion.tipo}', fecha='{operacion.fecha}', descripcion='{operacion.descripcion}' WHERE idop={operacion.id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -53,13 +70,11 @@ class OperacionModel:
     def delete_operacion(self, operacion):
         try:
             connection = get_connection()
-            sQuery = f"DELETE FROM vacuna WHERE idh = {operacion.id}"
-
+            sQuery = f"DELETE FROM public.operacion WHERE idop= {operacion.id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
                 connection.commit()
-
             connection.close()
             return affected_rows
         except Exception as ex:

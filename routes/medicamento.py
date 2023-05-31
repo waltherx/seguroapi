@@ -19,8 +19,7 @@ def get_medicamento(ci):
             return jsonify({"msg": "az"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
-
-
+    
 @MedicamentoApi.route("/add", methods=["POST"])
 def add_hospital():
     try:
@@ -38,6 +37,18 @@ def add_hospital():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+@MedicamentoApi.route("/view/<id>", methods=["GET"])
+def view_medicam(id):
+    try:
+        if request.method == "GET":
+            medicam = MedicamentoModel.view_medicamentos(id)
+            if medicam is not None:
+                return jsonify(medicam), 200
+            else:
+                return jsonify({"message": "no se encontro Medicamento!"}), 404
+        return jsonify({"message": "Metodo no valido!"}), 405
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
 
 @MedicamentoApi.route("/update/<id>", methods=["PUT"])
 def update_hospital(id):
@@ -46,8 +57,8 @@ def update_hospital(id):
         direccion = request.json["direccion"]
         lat = request.json["lat"]
         long = request.json["long"]
-        alergia = Medicamento(id, nombre, direccion, lat, long)
-        affected_rows = MedicamentoModel.update_medicamento(alergia)
+        medicam = Medicamento(id, nombre, direccion, lat, long)
+        affected_rows = MedicamentoModel.update_medicamento(medicam)
         if affected_rows == 1:
             return jsonify({"message": "medicamento updated"})
         else:
@@ -59,11 +70,12 @@ def update_hospital(id):
 @MedicamentoApi.route("/delete/<id>", methods=["DELETE"])
 def delete_hospital(id):
     try:
-        hospital = Medicamento(id)
-        affected_rows = MedicamentoModel.delete_hospital(hospital)
-        if affected_rows == 1:
-            return jsonify(hospital.id)
-        else:
-            return jsonify({"message": "No medicamento deleted"}), 404
+        if request.method=="DELETE":
+            affected_rows = MedicamentoModel.delete_medicamento(id)
+            if affected_rows == 1:
+                return jsonify({"message": "Medicamento Eliminado!"}), 404
+            else:
+                return jsonify({"message": "Medicamento no Eliminado!"}), 404
+        return jsonify({"message": "Metodo no valido!"}), 405
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

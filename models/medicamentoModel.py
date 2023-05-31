@@ -5,21 +5,20 @@ from .entities.Medicamento import Medicamento
 class MedicamentoModel:
 
     @classmethod
-    def get_medicamentos(self):
+    def view_medicamentos(self, id):
         try:
             connection = get_connection()
-            medicamentos = []
+            medicamento=None
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM medicamento")
-                resultset = cursor.fetchall()
-                for row in resultset:
+                cursor.execute(f"SELECT * FROM medicamento where idme={id}:")
+                row = cursor.fetchone()
+                if row :
                     medicamento = Medicamento(
                         row[0], row[1], row[2], row[3], row[4], row[5]
                     )
-                    medicamentos.append(medicamento.to_JSON())
-
+                    medicamento =medicamento.to_JSON()
             connection.close()
-            return medicamentos
+            return medicamento
         except Exception as ex:
             raise Exception(ex)
 
@@ -48,7 +47,7 @@ class MedicamentoModel:
     def add_medicamento(self, medicamento):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.medicamento(nombre, descripcion, cantidad, unidad_medida, ci_persona) VALUES ('{medicamento.nombre}','{medicamento.descripcion}',{medicamento.cantidad},{medicamento.unidad}, {medicamento.ci})"
+            sQuery = f"INSERT INTO public.medicamento (nombre, descripcion, cantidad, unidad_medida, paciente_id) VALUES('{medicamento.nombre}', '{medicamento.descripcion}', {medicamento.cantidad}, '{medicamento.unidad}', {medicamento.paciente_id});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -62,8 +61,7 @@ class MedicamentoModel:
     def update_medicamento(self, medicamento):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE medicamento SET nombre='{medicamento.nombre}', direccion='{medicamento.direccion}', lat={medicamento.lat}, longi={medicamento.long} WHERE idh = {medicamento.id}"
-
+            sQuery = f"UPDATE public.medicamento SET nombre='{medicamento.nombre}', descripcion='{medicamento.descripcion}', cantidad={medicamento.cantidad}, unidad_medida='{medicamento.unidad}' WHERE idme= {medicamento.id}"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -74,11 +72,10 @@ class MedicamentoModel:
             raise Exception(ex)
 
     @classmethod
-    def delete_medicamento(self, medicamento):
+    def delete_medicamento(self, id):
         try:
             connection = get_connection()
-            sQuery = f"DELETE FROM medicamento WHERE idh = {medicamento.id}"
-
+            sQuery = f"DELETE FROM public.medicamento WHERE idme={id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

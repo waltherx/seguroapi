@@ -35,6 +35,7 @@ from routes import vacuna
 from routes import medicamento
 
 
+
 from models.entities.User import User
 
 from controllers.AlergiaController import alergiaweb
@@ -154,6 +155,7 @@ app.register_blueprint(persona.PersonaApi, url_prefix="/api/person")
 app.register_blueprint(operacion.OperacionApi, url_prefix="/api/operacion")
 app.register_blueprint(vacuna.VacunaApi, url_prefix="/api/vacuna")
 app.register_blueprint(medicamento.MedicamentoApi, url_prefix="/api/medicamento")
+
 
 # Error handlers
 app.register_error_handler(401, page_not_authorized)

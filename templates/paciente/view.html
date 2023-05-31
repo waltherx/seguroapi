@@ -1,4 +1,5 @@
 {% extends 'layout.html' %} {% block style %}
+<link href="{{ url_for('static', filename='css/carnet.css') }}" rel="stylesheet" />
 <style>
   .hidden {
     display: none;
@@ -136,6 +137,23 @@
             </div>
           </fieldset>
 
+
+          <fieldset>
+            <div class="row">
+              <div class="col">
+                <legend class="legend-txt">Carnet</legend>
+              </div> 
+              <div class="col">
+                <button id="btnCarnet" onclick="imprimirPDF()" class="btn btn-sm custom-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Imprimir">
+                  <i class="bi bi-printer"></i>
+              </button>
+            </div>
+            </div>
+            {% include '/paciente/carnet.html' %}  
+          </fieldset>
+
+
+          
           <fieldset>
             <div class="row">
               <div class="col">
@@ -228,8 +246,8 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Nombre</th>
                   <th>Tipo</th>
+                  <th>Documento Clinico</th>
                 </tr>
               </thead>
               <tbody id="tdocumento"></tbody>
@@ -292,6 +310,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="{{ url_for('static', filename='js/paciente/paciente.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/alergias.js') }}"></script>
@@ -301,6 +322,7 @@
   <script src="{{ url_for('static', filename='js/paciente/operaciones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/vacunas.js') }}"></script>
   <script src="{{ url_for('static', filename='js/birdday.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/printpdf.js') }}"></script>
   <script>
 
     const ci = '{{paciente.persona.ci}}';
@@ -398,6 +420,14 @@
         console.log(fechaNacimiento);
         const edad = calcularEdadExacta(fechaNacimiento);
         edadLbl.innerHTML=`<p><b>Edad : </b>${edad.anios} Años ${edad.meses} Meses ${edad.dias} Dias.</p>`;
+
+        const ds =new QRious({
+          element: document.querySelector("#qrious"),
+          value: JSON.stringify({ ci : ci }),
+          size: 100,
+          foreground: "#012970"
+        });
+
   </script>
 
   {% endblock %}

@@ -19,18 +19,6 @@ def get_alergias():
         return jsonify({"message": str(ex)}), 500
 
 
-@AlergiaApi.route("/view/<id>", methods=["GET"])
-def view_alergia(id):
-    try:
-        alergia = AlergiaModel.view_alergia(id)
-        if alergia is not None:
-            return jsonify(alergia), 200
-        else:
-            return jsonify({"message": "no se encontro alergia!"}), 404
-    except Exception as ex:
-        return jsonify({"message": str(ex)}), 500
-
-
 @AlergiaApi.route("/<ci>")
 def get_alergia(ci):
     try:
@@ -80,6 +68,20 @@ def add_alergia():
 
     except Exception as e:
         return jsonify({"message": "Error interno del servidor"}), 500
+
+
+@AlergiaApi.route("/view/<id>", methods=["GET"])
+def view_alergia(id):
+    try:
+        if request.method == "GET":
+            alergia = AlergiaModel.view_alergia(id)
+            if alergia is not None:
+                return jsonify(alergia), 200
+            else:
+                return jsonify({"message": "no se encontro alergia!"}), 404
+        return jsonify({"message": "Metodo no valido!"}), 405
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
 
 
 @AlergiaApi.route("/update/<id>", methods=["PUT"])

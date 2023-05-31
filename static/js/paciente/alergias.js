@@ -4,7 +4,7 @@ async function modalAlergia(ci_person, id_paciente) {
     html: `<div class="form-floating">
             <input id="nombreTxt" type="text" class="form-control">
             <label for="nombreTxt" class="form-label">Nombre:</label>
-          </div>
+          </div>0
         <div class="form-floating">
           <input id="descrTxt" type="text" class="form-control">
           <label for="descrTxt" class="form-label">Descripcion:</label>
@@ -144,7 +144,8 @@ function eliminarAlergia(id, nombre, ci_persona) {
   }).then((result) => {
     if (result.isConfirmed) {
       deleteAlergia(id)
-        .then((result) => {
+
+      .then((result) => {
           Swal.fire("Eliminado!", "Enfermedad fue Eliminado!", "success");
           mostrarAlergias(ci_persona);
         })
