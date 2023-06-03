@@ -31,22 +31,25 @@ def get_alergia(ci):
         return jsonify({"message": str(ex)}), 500
 
 
-def validate_alergia_data(data):
-    required_fields = ["id_paciente", "nombre"]
+def validate_alergia_data(data, is_update: bool):
+    if is_update:
+        required_fields = ["id", "nombre"]
+    else:
+        required_fields = ["id_paciente", "nombre"]
     missing_fields = [field for field in required_fields if field not in data]
 
     if missing_fields:
         raise BadRequest(
             f"Los campos obligatorios {', '.join(missing_fields)} están ausentes"
         )
-
-    id_paciente = data["id_paciente"]
+    id = data.get("id", 0)
+    id_paciente = data.get("id_paciente",0)
     nombre = data["nombre"]
     descripcion = data.get("descripcion", "")
     gravedad = data.get("gravedad", "")
     reaccion = data.get("reaccion", "")
 
-    return Alergia(None, nombre, descripcion, gravedad, reaccion, id_paciente)
+    return Alergia(id, nombre, descripcion, gravedad, reaccion, id_paciente)
 
 
 @AlergiaApi.route("/add", methods=["POST"])
@@ -55,11 +58,11 @@ def add_alergia():
         return jsonify({"message": "La solicitud debe ser de tipo POST"}), 405
     try:
         data = request.get_json()
-        alergia = validate_alergia_data(data)
+        alergia = validate_alergia_data(data, False)
         affected_rows = AlergiaModel.add_alergia(alergia)
 
         if affected_rows == 1:
-            return jsonify({"message": "Alergia Agregada!"}), 201
+            return jsonify({"message": "Alergia Agregada!"}), 200
         else:
             return jsonify({"message": "Error al insertar"}), 500
 
@@ -84,31 +87,25 @@ def view_alergia(id):
         return jsonify({"message": str(ex)}), 500
 
 
-@AlergiaApi.route("/update/<id>", methods=["PUT"])
-def update_alergia(id):
+@AlergiaApi.route("/update", methods=["PUT", "PATCH"])
+def update_alergia():
     try:
-        data = request.json
-        id = data["id"]
-        nombre = data["nombre"]
-        descripcion = data.get("descripcion", "")
-        gravedad = data.get("gravedad", "")
-        reaccion = data.get("reaccion", "")
-        paciente_id = data["paciente_id"]
-
-        alergia = Alergia(id, nombre)
-        affected_rows = AlergiaModel.update_alergia(alergia)
-
-        if affected_rows == 1:
-            return jsonify(alergia.id)
+        if request.method == "PUT" or request.method == "PATCH":
+            data = request.get_json()
+            alergia = validate_alergia_data(data, True)
+            affected_rows = AlergiaModel.update_alergia(alergia)
+            if affected_rows == 1:
+                return jsonify({"message": "Alergia Actualizada!"}), 200
+            else:
+                return jsonify({"message": "Alergia no Actualizada!"}), 404
         else:
-            return jsonify({"message": "No alergia updated"}), 404
-
+            return jsonify({"message": "Metodo no valido"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
 
 @AlergiaApi.route("/delete/<id>", methods=["DELETE"])
-def delete_alergia(id):
+def delete_alergia(id: int):
     try:
         affected_rows = AlergiaModel.delete_alergia(id)
         if affected_rows == 1:

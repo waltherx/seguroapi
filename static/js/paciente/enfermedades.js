@@ -29,6 +29,7 @@ async function modalEnfermedad(ci_person, id_paciente) {
   });
 
   const url = `${window.origin}/api/enfermedad/add`;
+
   if (formValues) {
     const data = {
       nombre: formValues[0],
@@ -41,10 +42,10 @@ async function modalEnfermedad(ci_person, id_paciente) {
     try {
       const response = await axios.post(url, data);
       const msg = response;
-      Swal.fire("Correcto!", msg.data.message, "success");
-      mostarEnfermedades(ci_person);
+      notificacionSwal(msg.data.message, "success");
+      mostrarEnfermedades(ci_person);
     } catch (error) {
-      Swal.fire(JSON.stringify(error, msg.data.message, "error"));
+      notificacionSwal(msg.data.message, "error");
     }
   }
 }
@@ -143,10 +144,11 @@ function eliminarEnfermedad(id, nombre, ci_persona) {
     if (result.isConfirmed) {
       deleteEnfermedad(id)
         .then((result) => {
-          Swal.fire("Eliminado!", "Enfermedad fue Eliminado!", "success");
+          notificacionSwal("Enfermedad fue Eliminada!", "success");
           mostrarEnfermedades(ci_persona);
         })
         .catch((error) => {
+          notificacionSwal("Algo salio mal..", "error");
           console.log("error", error);
         });
     }
@@ -218,10 +220,10 @@ async function update_Enfermedad(id_enfermedad, ci_person) {
     try {
       const url_put = `${window.origin}/api/enfermedad/update`;
       const response = await axios.put(url_put, data);
-      Swal.fire("Correcto!", "Acualizado", "success");
+      notificacionSwal(response.data.message, "success");
       mostrarEnfermedades(ci_person);
     } catch (error) {
-      Swal.fire(JSON.stringify("error", response.data, "error"));
+      notificacionSwal(JSON.stringify(response.data.message), "error");
     }
   }
 }

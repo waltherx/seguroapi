@@ -6,7 +6,7 @@ class OperacionModel:
     @classmethod
     def get_operacion(self, ci):
         try:
-            sQuery = f"SELECT o.idop, o.tipo, o.fecha, o.descripcion, o.paciente_id FROM operacion o, paciente a ,persona p where p.ci = a.ci_persona and o.paciente_id = a.idpac and p.ci = {ci};"
+            sQuery = f"SELECT o.idop, o.tipo, to_char(o.fecha, 'DD/MM/YYYY'), o.descripcion, o.paciente_id FROM operacion o, paciente a ,persona p where p.ci = a.ci_persona and o.paciente_id = a.idpac and p.ci = {ci} order by o.idop asc;"
             connection = get_connection()
             operacions = []
             with connection.cursor() as cursor:
@@ -21,14 +21,14 @@ class OperacionModel:
             raise Exception(ex)
 
     @classmethod
-    def view_operacion(self, id):
+    def view_operacion(self, id: int):
         try:
-            sQuery = f"SELECT idop, tipo, fecha, descripcion, paciente_id FROM public.operacion where = idop{id};"
+            sQuery = f"SELECT idop, tipo, to_char(fecha, 'YYYY-MM-DD'), descripcion, paciente_id FROM public.operacion where idop={id};"
             connection = get_connection()
             operacion = None
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
-                row = cursor.fetchall()
+                row = cursor.fetchone()
                 if row:
                     operacion = Operacion(row[0], row[1], row[2], row[3], row[4])
                     operacion = operacion.to_JSON()
@@ -67,10 +67,10 @@ class OperacionModel:
             raise Exception(ex)
 
     @classmethod
-    def delete_operacion(self, operacion):
+    def delete_operacion(self, id):
         try:
             connection = get_connection()
-            sQuery = f"DELETE FROM public.operacion WHERE idop= {operacion.id};"
+            sQuery = f"DELETE FROM public.operacion WHERE idop= {id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

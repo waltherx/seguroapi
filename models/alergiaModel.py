@@ -26,7 +26,7 @@ class AlergiaModel:
         try:
             connection = get_connection()
             alergias = []
-            sQuery = f"SELECT l.idale, l.nombre, l.descripcion, l.gravedad, l.reaccion, l.paciente_id FROM alergia l, paciente a , persona p where p.ci =a.ci_persona and l.paciente_id =a.idpac and p.ci = {ci}"
+            sQuery = f"SELECT l.idale, l.nombre, l.descripcion, l.gravedad, l.reaccion, l.paciente_id FROM alergia l, paciente a , persona p where p.ci =a.ci_persona and l.paciente_id =a.idpac and p.ci = {ci} order by l.idale asc;;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()
@@ -72,10 +72,10 @@ class AlergiaModel:
             raise Exception(ex)
 
     @classmethod
-    def update_alergia(self, alergia):
+    def update_alergia(self, alergia: Alergia):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE public.alergia SET nombre='{alergia.nombre}', descripcion='{alergia.descripcion}', gravedad='{alergia.gravedad}', reaccion='{alergia.reaccion}' WHERE idale={alergia.id});"
+            sQuery = f"UPDATE public.alergia SET nombre='{alergia.nombre}', descripcion='{alergia.descripcion}', gravedad='{alergia.gravedad}', reaccion='{alergia.reaccion}' WHERE idale={alergia.id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

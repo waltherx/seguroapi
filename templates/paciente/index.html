@@ -4,6 +4,38 @@
   .hidden {
     display: none;
   }
+
+  .my-swal-title {
+    color: #012970;
+  }
+
+
+  #swal2-title{
+    color: #012970;
+  }
+
+  #swal2-html-container {
+    padding: 5%;
+  }
+    
+  .my-swal-container input{
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  .my-swal-container label{
+    text-align: left;
+    color: #012970;
+    font-size: 14px;
+  }
+
+  .my-swal-container select{
+    /*color: #012970;*/
+    font-size: 14px;
+  }
+
+
 </style>
 {% endblock %} {% block body %}
 
@@ -16,12 +48,11 @@
           <button
             type="button"
             class="btn btn-light rounded-pill"
-            data-bs-toggle="modal"
-            data-bs-target="#modalcreate"
+            id="btnAdd"
           >
           <i class="bi bi-plus-lg"></i>Nuevo Paciente
           </button>
-          {% include '/paciente/create.html' %}
+          
         </div>        
         <div class="table-responsive bg-white container pt-2">
           <table class="table datatable table-bordered" id="example">
@@ -75,116 +106,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/paciente/paciente.js') }}"></script>
 <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
-<script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
 <script src="{{ url_for('static', filename='js/codeqr.js') }}"></script>
 <script>
-  const form = document.getElementById("form");
-  const step1 = document.getElementById("step1");
-  const step2 = document.getElementById("step2");
-  const step3 = document.getElementById("step3");
-  const next1 = document.getElementById("next1");
-  const next2 = document.getElementById("next2");
-  const prev1 = document.getElementById("prev1");
-  const prev2 = document.getElementById("prev2");
+  
+  const btnAdd = document.getElementById("btnAdd");
+  btnAdd.addEventListener('click', add_paciente_2);
 
-  next1.addEventListener("click", () => {
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
 
-  prev1.addEventListener("click", () => {
-    step2.classList.add("hidden");
-    step1.classList.remove("hidden");
-  });
-
-  next2.addEventListener("click", () => {
-    step2.classList.add("hidden");
-    step3.classList.remove("hidden");
-  });
-
-  prev2.addEventListener("click", () => {
-    step3.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
-
-  const myModal = new bootstrap.Modal(document.getElementById("modalcreate"));
-
-  const addMedicoForm = document.getElementById("add-medico");
-  addMedicoForm.addEventListener("submit", handleSubmit);
-
-  function handleSubmit() {
-    const ci = document.getElementById("ciTxt").value;
-    const nombre = document.getElementById("nombreTxt").value;
-    const apellido = document.getElementById("apellidoTxt").value;
-    const fecha = document.getElementById("fechaTxt").value;
-    const direccion = document.getElementById("direccionTxt").value;
-    const genero = document.getElementById("generoTxt").value;
-    const estado = document.getElementById("estadocTxt").value;
-
-    const tipo_sangre = document.getElementById("txtSangre").value;
-    const hipertencion = document.getElementById("txtHipertencion").value;
-    const altura = document.getElementById("txtAltura").value;
-    const peso = document.getElementById("txtPeso").value;
-
-    const name_user = document.getElementById("nameuserTxt").value;
-    const password_user = document.getElementById("passwordTxt").value;
-    const email_user = document.getElementById("emailTxt").value;
-
-    const data = {
-      ci_persona: ci,
-      nombres: nombre,
-      apellidos: apellido,
-      fecha_nacimiento: fecha,
-      direccion: direccion,
-      genero: genero,
-      estado_civil: estado,
-      nameuser: name_user,
-      password: password_user,
-      email: email_user,
-      tipo_sangre: tipo_sangre,
-      hipertencion: hipertencion,
-      altura: altura,
-      peso: peso,
-    };
-
-    console.log(data.hipertencion);
-
-    guardarPacienteAxios(data)
-      .then((response) => {
-        /*const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 4000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-
-        Toast.fire({
-          icon: "success",
-          title: "Se Agrego Paciente!",
-        });*/
-        //Swal.fire("Datos Ingresados!", "Se Agrego Paciente!", "success");
-      })
-      .catch((error) => {
-        console.log("Error al obtener y llenar los datos:", error);
-      });
-  }
-
-  async function guardarPacienteAxios(datos) {
-    try {
-      const url = `${window.origin}/api/paciente/add`;
-      const { response } = await axios.post(url, datos);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 </script>
 
 {% endblock %}

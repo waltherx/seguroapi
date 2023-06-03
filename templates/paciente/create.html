@@ -1,122 +1,144 @@
 <div class="modal fade" id="modalcreate">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: #011f4b; color: white">
-          <h4 class="modal-tittle">Nuevo Paciente</h4>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form id="add-medico">
-            <fieldset id="step1">
-              <legend>Datos Personales</legend>
-              <div class="forn-group">
-                <label for="ciTxt">CI:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ciTxt"
-                  name="ciTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="nombreTxt">Nombres:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nombreTxt"
-                  name="nombreTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="apellidoTxt">Apellidos:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="apellidoTxt"
-                  name="apellidoTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="fechaTxt">Fecha de Nacimiento:</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaTxt"
-                  name="fechaTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="direccionTxt">Direccion:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="direccionTxt"
-                  name="direccionTxt"
-                />
-              </div>
-              <div class="form-group">
-                <label for="generoTxt">Genero:</label>
-                <select
-                  class="form-select"
-                  id="generoTxt"
-                  name="generoTxt"
-                  required
-                >
-                  <option value="h">Hombre</option>
-                  <option value="m">Mujer</option>
-                  <option value="nb">No binario</option>
-                  <option value="gf">Género fluido</option>
-                  <option value="tr">Transgénero</option>
-                  <option value="ci">Cisgénero</option>
-                  <option value="ag">Agénero</option>
-                  <option value="bi">Bigénero</option>
-                  <option value="pa">Pangénero</option>
-                  <option value="otro">Otro/No especificado</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="estadocTxt">Estado Civil:</label>
-                <select
-                  class="form-select"
-                  id="estadocTxt"
-                  name="estadocTxt"
-                  required
-                >
-                  <option value="s">Soltero/a</option>
-                  <option value="c">Casado/a</option>
-                  <option value="d">Divorciado/a</option>
-                  <option value="v">Viudo/a</option>
-                  <option value="c">Conviviendo en pareja</option>
-                  <option value="o">Otro/No especificado</option>
-                </select>
-              </div>
-              <div class="modal-footer">
-                <div class="form-group">
-                  <button type="button" class="btn btn-primary" id="next1">
-                    Siguiente
-                  </button>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #011f4b; color: white">
+        <h4 class="modal-tittle">Nuevo Paciente</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="add-paciente" >
+          <fieldset id="step1">
+            <legend>Datos Personales</legend>
+
+            <div class="row">
+              <div class="col">
+                <div class="forn-group">
+                  <label for="ciTxt">CI:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ciTxt"
+                    name="ciTxt"
+                    required
+                  />
                 </div>
               </div>
-            </fieldset>
-  
-            <fieldset id="step2" class="hidden">
-              <legend>Datos Paciente:</legend>
-              <div class="form-group col-md-3">
-                <label for="txtSangre">Sangre</label>                
-                <select class="form-select"
+              <div class="col">
+                <div class="form-group">
+                  <label for="fechaTxt">Fecha de Nacimiento:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="fechaTxt"
+                    name="fechaTxt"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="nombreTxt">Nombres:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombreTxt"
+                name="nombreTxt"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="apellidoTxt">Apellidos:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="apellidoTxt"
+                name="apellidoTxt"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="direccionTxt">Direccion:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="direccionTxt"
+                name="direccionTxt"
+              />
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="generoTxt">Genero:</label>
+                  <select
+                    class="form-select"
+                    id="generoTxt"
+                    name="generoTxt"
+                    required
+                  >
+                    <option value="h">Hombre</option>
+                    <option value="m">Mujer</option>
+                    <option value="nb">No binario</option>
+                    <option value="gf">Género fluido</option>
+                    <option value="tr">Transgénero</option>
+                    <option value="ci">Cisgénero</option>
+                    <option value="ag">Agénero</option>
+                    <option value="bi">Bigénero</option>
+                    <option value="pa">Pangénero</option>
+                    <option value="otro">Otro/No especificado</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="estadocTxt">Estado Civil:</label>
+                  <select
+                    class="form-select"
+                    id="estadocTxt"
+                    name="estadocTxt"
+                    required
+                  >
+                    <option value="s">Soltero/a</option>
+                    <option value="c">Casado/a</option>
+                    <option value="d">Divorciado/a</option>
+                    <option value="v">Viudo/a</option>
+                    <option value="c">Conviviendo en pareja</option>
+                    <option value="o">Otro/No especificado</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary" id="next1">
+                  Siguiente
+                </button>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset id="step2" class="hidden">
+            <legend>Datos Paciente:</legend>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group col-md-3">
+                  <label for="txtSangre">Sangre</label>
+                  <select
+                    class="form-select"
                     id="txtSangre"
                     name="txtSangre"
                     onchange=""
-                    required>
+                    required
+                  >
                     <option value="A+">A positivo (A+)</option>
                     <option value="O+">O positivo (O+)</option>
                     <option value="B+">B positivo (B+)</option>
@@ -128,86 +150,114 @@
                     <option value="Rh+">Rh positivo (Rh+)</option>
                     <option value="Rh-">Rh negativo (Rh-)</option>
                   </select>
-                  
+                </div>
               </div>
-              <div class="form-group col-md-3">
-                <label for="txtHipertencion">Hipertencion</label>
-                <select id="txtHipertencion" name="txtHipertencion" class="form-select" required>
-                  <option selected>Seleccion...</option>
-                  <option>Si</option>
-                  <option>No</option>
-                </select>
+              <div class="col">
+                <div class="form-group col-md-3">
+                  <label for="txtAltura">Altura</label>
+                  <input
+                    type="number"
+                    step="any"
+                    class="form-control"
+                    id="txtAltura"
+                    name="txtAltura"
+                    required
+                  />
+                </div>
               </div>
-              <div class="form-group col-md-3">
-                <label for="txtAltura">Altura</label>
-                <input type="number" step="any" class="form-control" id="txtAltura" name="txtAltura" required/>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group col-md-3">
+                  <label for="txtHipertencion">Hipertencion</label>
+                  <select
+                    id="txtHipertencion"
+                    name="txtHipertencion"
+                    class="form-select"
+                    required
+                  >
+                    <option>Si</option>
+                    <option selected>No</option>
+                  </select>
+                </div>
               </div>
-              <div class="form-group col-md-3">
-                <label for="txtPeso">Peso</label>
-                <input type="number" step="any" class="form-control" id="txtPeso" name="txtPeso" required/>
+              <div class="col">
+                <div class="form-group col-md-3">
+                  <label for="txtPeso">Peso</label>
+                  <input
+                    type="number"
+                    step="any"
+                    class="form-control"
+                    id="txtPeso"
+                    name="txtPeso"
+                    required
+                  />
+                </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="prev1">
-                  Anterior
-                </button>
-                <button type="button" class="btn btn-primary" id="next2">
-                  Siguiente
-                </button>
-              </div>
-            </fieldset>
-  
-            <fieldset id="step3" class="hidden">
-              <legend>Datos de Usuario:</legend>
-              <div class="form-group">
-                <label for="nameuserTxt">Nombre de Usuario:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nameuserTxt"
-                  name="nameuserTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="emailTxt">Email:</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="emailTxt"
-                  name="emailTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="passwordTxt">Contraseña:</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="passwordTxt"
-                  name="passwordTxt"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="passwordConfTxt">Confirmar Contraseña:</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="passwordConfTxt"
-                  name="passwordConfTxt"
-                  required
-                />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="prev2">
-                  Anterior
-                </button>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-              </div>
-            </fieldset>
-          </form>
-        </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" id="prev1">
+                Anterior
+              </button>
+              <button type="button" class="btn btn-primary" id="next2">
+                Siguiente
+              </button>
+            </div>
+          </fieldset>
+
+          <fieldset id="step3" class="hidden">
+            <legend>Datos de Usuario:</legend>
+            <div class="form-group">
+              <label for="nameuserTxt">Nombre de Usuario:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nameuserTxt"
+                name="nameuserTxt"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="emailTxt">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emailTxt"
+                name="emailTxt"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="passwordTxt">Contraseña:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordTxt"
+                name="passwordTxt"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="passwordConfTxt">Confirmar Contraseña:</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordConfTxt"
+                name="passwordConfTxt"
+                required
+              />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" id="prev2">
+                Anterior
+              </button>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </fieldset>
+        </form>
       </div>
     </div>
   </div>
-  
+</div>

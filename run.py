@@ -95,7 +95,6 @@ def login():
             return render_template("/user/login.html")
     return render_template("/user/login.html")
 
-
 @login_manager_app.user_loader
 def load_user(user_id):
     user = UserModel.get_user(user_id)

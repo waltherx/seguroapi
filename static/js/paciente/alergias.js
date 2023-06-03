@@ -4,7 +4,7 @@ async function modalAlergia(ci_person, id_paciente) {
     html: `<div class="form-floating">
             <input id="nombreTxt" type="text" class="form-control">
             <label for="nombreTxt" class="form-label">Nombre:</label>
-          </div>0
+          </div>
         <div class="form-floating">
           <input id="descrTxt" type="text" class="form-control">
           <label for="descrTxt" class="form-label">Descripcion:</label>
@@ -23,7 +23,6 @@ async function modalAlergia(ci_person, id_paciente) {
     confirmButtonColor: "#012970",
   });
 
-  const url = `${window.origin}/api/alergia/add`;
   if (formValues) {
     const data = {
       id_paciente: id_paciente,
@@ -33,14 +32,24 @@ async function modalAlergia(ci_person, id_paciente) {
       reaccion: formValues[3],
     };
 
-    try {
-      const response = await axios.post(url, data);
-      const msg = response;
-      Swal.fire("Correcto!", msg.data.message, "success");
-      mostrarAlergias(ci_person);
-    } catch (error) {
-      Swal.fire(JSON.stringify(error, msg.data.message, "error"));
-    }
+    add_alergia_paciente(data)
+      .then((result) => {
+        notificacionSwal(result.data.message, "success");
+        mostrarAlergias(ci_person);
+      })
+      .catch((error) => {
+        notificacionSwal(result.data.message, "error");
+      });
+  }
+}
+
+async function add_alergia_paciente(datos) {
+  try {
+    const url = `${window.origin}/api/alergia/add`;
+    const response = await axios.post(url, datos);
+    return response;
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -143,29 +152,93 @@ function eliminarAlergia(id, nombre, ci_persona) {
     confirmButtonText: "Eliminar!",
   }).then((result) => {
     if (result.isConfirmed) {
-      deleteAlergia(id)
-
-      .then((result) => {
-          Swal.fire("Eliminado!", "Enfermedad fue Eliminado!", "success");
+      delete_alergia_paciente(id)
+        .then((result) => {
+          notificacionSwal(result.data.message, "success");
           mostrarAlergias(ci_persona);
         })
         .catch((error) => {
-          console.log("error", error);
+          notificacionSwal(result.data.message, "error");
         });
     }
   });
 }
 
-async function deleteAlergia(id) {
+async function delete_alergia_paciente(id) {
   try {
     const url = `${window.origin}/api/alergia/delete/${id}`;
     const response = await axios.delete(url);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
   }
 }
 
-function actualizarAlergia(id_alergia) {
-  console.log(id_alergia);
+function actualizarAlergia(id_alergia, ci_persona) {
+  try {
+    console.log(id_alergia);
+    update_Alergia(id_alergia, ci_persona);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function update_Alergia(id_alergia, ci_person) {
+  const url_get = `${window.origin}/api/alergia/view/${id_alergia}`;
+  const response = await axios.get(url_get);
+  const alergia = response.data;
+  console.log(alergia);
+  const { value: formValues } = await Swal.fire({
+    title: "Actualizar Alergia",
+    html: `<div class="form-floating">
+              <input id="nombreTxt" type="text" value="${alergia.nombre}" class="form-control">
+              <label for="nombreTxt" class="form-label">Nombre:</label>
+            </div>
+          <div class="form-floating">
+            <input id="descrTxt" type="text" value="${alergia.descripcion}" class="form-control">
+            <label for="descrTxt" class="form-label">Descripcion:</label>
+          </div>
+          <div class="form-floating">
+            <input id="gravedadTxt" type="text" value="${alergia.gravedad}" class="form-control">
+            <label for="gravedadTxt" class="form-label">Gravedad:</label>
+          </div>
+          <div class="form-floating">
+            <input id="reaccionTxt" type="text" value="${alergia.reaccion}" class="form-control">
+            <label for="reaccionTxt" class="form-label">Reaccion:</label>
+          </div>`,
+    focusConfirm: false,
+    preConfirm: obtenerValoresAlergia,
+    confirmButtonText: "Aceptar",
+    confirmButtonColor: "#012970",
+  });
+
+  if (formValues) {
+    const data = {
+      id: id_alergia,
+      nombre: formValues[0],
+      descripcion: formValues[1],
+      gravedad: formValues[2],
+      reaccion: formValues[3],
+      id_paciente: alergia.paciente_id,
+    };
+
+    update_alergia_paciente(data)
+      .then((result) => {
+        notificacionSwal(response.data.message, "success");
+        mostrarAlergias(ci_person);
+      })
+      .catch((error) => {
+        notificacionSwal(result.data.message, "error");
+      });
+  }
+}
+
+async function update_alergia_paciente(datos) {
+  try {
+    const url_put = `${window.origin}/api/alergia/update`;
+    const response = await axios.put(url_put, datos);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 }

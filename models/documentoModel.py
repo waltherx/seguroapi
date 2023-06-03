@@ -6,7 +6,7 @@ class DocumentoModel:
     @classmethod
     def get_documentos(self, ci):
         try:
-            sQuery = f"SELECT iddoc,nombre, url,tipo, fecha , paciente_id FROM public.documento, public.paciente, public.persona where paciente.idpac = documento.paciente_id and paciente.ci_persona = persona.ci and persona.ci  = {ci};"
+            sQuery = f"SELECT iddoc,nombre, url,tipo, fecha , paciente_id FROM public.documento, public.paciente, public.persona where paciente.idpac = documento.paciente_id and paciente.ci_persona = persona.ci and persona.ci  = {ci} order by iddoc asc;"
             connection = get_connection()
             documentos = []
             with connection.cursor() as cursor:

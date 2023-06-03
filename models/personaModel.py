@@ -66,6 +66,33 @@ class PersonaModel:
             return persona
         except Exception as ex:
             raise Exception(ex)
+        
+    @classmethod
+    def view_persona(self, ci):
+        try:
+            connection = get_connection()
+            sQuery = f"SELECT ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona where ci={ci};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                row = cursor.fetchone()
+                persona = None
+                if row != None:
+                    persona = Persona(
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8]
+                    )
+                    persona = persona.to_JSON()
+            connection.close()
+            return persona
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def add_persona(self, persona):

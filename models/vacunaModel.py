@@ -6,7 +6,7 @@ class VacunaModel:
     @classmethod
     def get_vacuna(self, ci):
         try:
-            sQuery = f"SELECT v.idvac, v.nombre, v.dosis_requeridas, v.paciente_id FROM persona p ,vacuna v, paciente a where p.ci=a.ci_persona  and v.paciente_id = a.idpac and p.ci =  {ci};"
+            sQuery = f"SELECT v.idvac, v.nombre, v.dosis_requeridas, v.paciente_id FROM persona p ,vacuna v, paciente a where p.ci=a.ci_persona  and v.paciente_id = a.idpac and p.ci =  {ci}  order by v.idvac asc;"
             connection = get_connection()
             vacunas = []
             with connection.cursor() as cursor:
@@ -21,7 +21,7 @@ class VacunaModel:
             raise Exception(ex)
 
     @classmethod
-    def view_vacuna(self, ci):
+    def view_vacuna(self, ci: int):
         try:
             sQuery = f"SELECT idvac, nombre, dosis_requeridas, paciente_id FROM public.vacuna where idvac={ci};"
             connection = get_connection()
@@ -41,7 +41,7 @@ class VacunaModel:
     def add_vacuna(self, vacuna):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.vacuna(nombre, dosis_requeridas, ci_persona) VALUES('{vacuna.nombre}','{vacuna.dosis}',{vacuna.ci})"
+            sQuery = f"INSERT INTO public.vacuna (nombre, dosis_requeridas, paciente_id) VALUES('{vacuna.nombre}', {vacuna.dosis}, {vacuna.paciente_id})";
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
@@ -55,7 +55,7 @@ class VacunaModel:
     def update_vacuna(self, vacuna):
         try:
             connection = get_connection()
-            sQuery = f"UPDATE public.vacuna SET nombre='{vacuna.nombre}', dosis_requeridas={vacuna.dosis_requeridas} WHERE idvac={vacuna.id};"
+            sQuery = f"UPDATE public.vacuna SET nombre='{vacuna.nombre}', dosis_requeridas={vacuna.dosis} WHERE idvac={vacuna.id};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

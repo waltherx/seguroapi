@@ -255,8 +255,16 @@
           </div>
           </fieldset>
           <fieldset>
-            
-            <legend class="legend-txt">Operaciones</legend>
+            <div class="row">
+              <div class="col">
+                <legend class="legend-txt">Operaciones</legend>
+              </div>
+              <div class="col">
+                <button id="btnOperacion" class="btn btn-sm custom-btn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Operacion">
+                  <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </div>
             <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
@@ -271,7 +279,17 @@
           </div>
           </fieldset>
           <fieldset>
-            <legend class="legend-txt">Medicamentos</legend>
+            
+            <div class="row">
+              <div class="col">
+                <legend class="legend-txt">Medicamentos</legend>
+              </div>
+              <div class="col">
+                <button id="btnMedicamento" class="btn btn-sm custom-btn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Medicamento">
+                  <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </div>
             <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
@@ -287,7 +305,17 @@
           </div>
           </fieldset>
           <fieldset>
-            <legend class="legend-txt">Vacunas</legend>
+            
+            <div class="row">
+              <div class="col">
+                <legend class="legend-txt">Vacunas</legend>
+              </div>
+              <div class="col">
+                <button id="btnVacuna" class="btn btn-sm custom-btn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar Vacuna">
+                  <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </div>
             <div class="table-responsive bg-white container pt-2">
             <table class="table table-striped">
               <thead>
@@ -314,6 +342,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="{{ url_for('static', filename='js/paciente/paciente.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/notificacionSwal.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/phones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/alergias.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/enfermedades.js') }}"></script>
@@ -371,6 +400,15 @@
     const btnDoc = document.getElementById('btnDoc');
     btnDoc.addEventListener('click', function(){modalDocumento(ci,id_paciente)} ,false);
 
+    const btnOperacion = document.getElementById('btnOperacion');
+    btnOperacion.addEventListener('click', ()=>{modalOperacion(ci,id_paciente)} ,false);
+
+    const btnVacuna = document.getElementById('btnVacuna');
+    btnVacuna.addEventListener('click', ()=>{modalVacuna(ci,id_paciente)} ,false);
+    
+    const btnMedicamento = document.getElementById('btnMedicamento');
+    btnMedicamento.addEventListener('click', ()=>{modalMedicamento(ci,id_paciente)} ,false);
+
     obtenerPhones(ci)
       .then((datos) => {
         llenarTabla(datos);
@@ -391,29 +429,11 @@
           console.log("Error al obtener y llenar los datos:", error);
         });
 
-      obtenerMedicamentos(ci)
-        .then((datos)=>{
-          llenarTablaMedicamentos(datos);
-        })
-        .catch((error) => {
-          console.log("Error al obtener y llenar los datos:", error);
-        });
+        mostrarMedicamentos(ci);
 
-      obtenerOperaciones(ci)
-        .then((datos)=>{
-          llenarTablaOperaciones(datos);
-        })
-        .catch((error) => {
-          console.log("Error al obtener y llenar los datos:", error);
-        });
+        mostrarOperacions(ci);
 
-      obtenerVacunas(ci)
-        .then((datos)=>{
-        llenarTablaVacuna(datos);
-        })
-        .catch((error) => {
-          console.log("Error al obtener y llenar los datos:", error);
-        });
+        mostrarVacunas(ci);
         
         const edadLbl = document.getElementById('edadLbl');        
         const fechaNacimiento = "{{paciente.persona.fecha_nacimiento}}";

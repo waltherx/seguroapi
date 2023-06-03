@@ -23,10 +23,10 @@ async function modalPhone(ci_person) {
     try {
       const response = await axios.post(url, data);
       const msg = response;
-      Swal.fire("Correcto!", msg.data.message, "success");
+      notificacionSwal(msg.data.message,"success");
       mostarPhones(ci_person);
     } catch (error) {
-      Swal.fire(JSON.stringify(error, msg.data.message, "error"));
+      notificacionSwal(msg.data.message,"error");
     }
   }
 }
@@ -142,11 +142,12 @@ function eliminarTelefono(id, referencia, ci_persona) {
       deletePhone(id)
         .then((result) => {
           console.log(result);
-          Swal.fire("Eliminado!", "Telefono fue Eliminado!", "success");
+          notificacionSwal("Telefono fue Eliminado!","success");
+          //Swal.fire("Eliminado!", "Telefono fue Eliminado!", "success");
           mostarPhones(ci_persona);
         })
         .catch((error) => {
-          console.log("error", error);
+          notificacionSwal("Alguio salio mal!","error");
         });
     }
   });
@@ -165,7 +166,6 @@ async function deletePhone(id, ci_persona) {
 
 function actualizarTelefono(id, ci_persona) {
   try {
-    console.log("Actualizar teléfono con ID:", id);
     update_phone(id, ci_persona);
   } catch (error) {
     console.log(error);
@@ -199,10 +199,10 @@ async function update_phone(id_telefono, ci_person) {
     try {
       const url_put = `${window.origin}/api/phone/update`;
       const response = await axios.put(url_put, data);
-      Swal.fire("Correcto!", "Acualizado", "success");
+      notificacionSwal(response.data.message,"success");
       mostarPhones(ci_person);
     } catch (error) {
-      Swal.fire(JSON.stringify("error", response.data, "error"));
+      notificacionSwal(response.data.message,"error");
     }
   }
 }

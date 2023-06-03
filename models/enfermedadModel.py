@@ -26,7 +26,7 @@ class EnfermedadModel:
         try:
             enfermedads = []
             connection = get_connection()
-            sQuery = f"SELECT e.idenf, e.nombre, e.descripcion, e.causa, e.sintoma, e.diagnostico, e.paciente_id FROM enfermedad e, persona p ,paciente w where e.paciente_id = w.idpac and p.ci =w.ci_persona and p.ci = {ci} ;"
+            sQuery = f"SELECT e.idenf, e.nombre, e.descripcion, e.causa, e.sintoma, e.diagnostico, e.paciente_id FROM enfermedad e, persona p ,paciente w where e.paciente_id = w.idpac and p.ci =w.ci_persona and p.ci = {ci} order by e.idenf asc;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 resultset = cursor.fetchall()

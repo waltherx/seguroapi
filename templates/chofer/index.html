@@ -1,28 +1,20 @@
-{% extends 'layout.html' %}
-{% block style %}
+{% extends 'layout.html' %} {% block style %}
 <style>
   .hidden {
     display: none;
   }
 </style>
-{% block body %}
+{% endblock %}{% block body %}
 
 <div class="container">
-  
   <div class="row justify-content-center">
     <h2>Administrar Chofer</h2>
   </div>
   <div class="card mx-auto shadow">
     <div class="card-header" style="background-color: #012970">
-      <button
-        type="button"
-        class="btn btn-light rounded-pill"
-        data-bs-toggle="modal"
-        data-bs-target="#modalcreate"
-      >
-        <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Chofer
+      <button type="button" class="btn btn-light rounded-pill">
+        <i class="bi-plus-square-fill"></i>Nuevo Chofer
       </button>
-      {% include '/chofer/create.html' %}
     </div>
     <div class="table-responsive bg-white container pt-2">
       <table class="table datatable">
@@ -46,159 +38,19 @@
             <td>{{chofer.categoria}}</td>
             <td>{{chofer.estado}}</td>
             <td>
-              <button
-                type="button"
-                class="btn btn-warning btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaledit{{chofer.id}}"
-              >
+              <button class="btn btn-warning btn-sm">
                 <i class="bi bi-gear"></i>
               </button>
-
-              <div
-                class="modal fade"
-                id="modaledit{{chofer.id}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modaledit{{chofer.id}}"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">Editar chofer</h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <br />
-                    <div class="modal-body">
-                      <form
-                        method="POST"
-                        action="#"
-                      >                        
-                        <div class="mb-3">
-                          <label for="txtNombre" class="col-form-label"
-                            >Licencia:</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="txtNombre"
-                            name="txtNombre"
-                            value="{{chofer.licencia}}"
-                            required
-                          />
-                        </div>
-                        <div class="mb-3">
-                            <label for="txtNombre" class="col-form-label"
-                              >Categoria Licencia:</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="txtNombre"
-                              name="txtNombre"
-                              value="{{chofer.categoria_licencia}}"
-                              required
-                            />
-                          </div>
-                          <div class="mb-3">
-                            <label for="txtNombre" class="col-form-label"
-                              >Estado:</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="txtNombre"
-                              name="txtNombre"
-                              value="{{chofer.estado}}"
-                              required
-                            />
-                          </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-default"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
-                          <button type="submit" class="btn btn-success">
-                            Actualizar
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              |
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaldelete{{chofer.id}}"
-              >
-                <i class="bi bi-trash"></i>
+              <button type="button" 
+                      class="btn btn-secondary btn-sm" 
+                      data-bs-toggle="tooltip" 
+                      data-bs-placement="top" 
+                      data-bs-title="Asignar Ambulancia">
+                <i class="bi bi-shield-plus"></i>
               </button>
-              <div
-                class="modal fade"
-                id="modaldelete{{chofer.id}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="basicModal"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">Eliminar Chofer</h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <br />
-                    <form action="#" method="post">                  
-                      <div class="modal-body">
-                        <div class="form-group row">
-                          <label class="col-sm-12 col-form-label"
-                            >Esta seguro de eliminar
-                            <span style="font-weight: bold; color: red"
-                              >{{chofer.id}}</span
-                            >
-                            ?</label
-                          >
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-default"
-                          data-bs-dismiss="modal"
-                        >
-                          Cerrar
-                        </button>
-                        <button type="submit" class="btn btn-danger">
-                          Eliminar
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+              <button class="btn btn-danger btn-sm">
+                <i class="bi bi-trash"></i>
+              </buttone=>
             </td>
           </tr>
           {% endfor %}
@@ -209,58 +61,7 @@
   <br />
   <br />
 </div>
-{% endblock %}
-{% block js %}
-<script>
-  const form = document.getElementById("form");
-  const step1 = document.getElementById("step1");
-  const step2 = document.getElementById("step2");
-  const step3 = document.getElementById("step3");
-  const next1 = document.getElementById("next1");
-  const next2 = document.getElementById("next2");
-  const prev1 = document.getElementById("prev1");
-  const prev2 = document.getElementById("prev2");
+{% endblock %} {% block js %}
 
-  next1.addEventListener("click", () => {
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
-
-  prev1.addEventListener("click", () => {
-    step2.classList.add("hidden");
-    step1.classList.remove("hidden");
-  });
-
-  next2.addEventListener("click", () => {
-    step2.classList.add("hidden");
-    step3.classList.remove("hidden");
-  });
-
-  prev2.addEventListener("click", () => {
-    step3.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
-
-  const addMedicoForm = document.querySelector("#add-medico");
-  addMedicoForm.addEventListener("submit", function (event) {
-  console.log(event.target.ci.value);
-    fetch(`${window.origin}/api/person/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ci: `${event.target.ci.value}`,
-        nombres: `${event.target.nombreTxt.value}`,
-        apellidos: `${event.target.apellidoTxt.value}`,
-        fecha_nacimiento: `${event.target.fechaTxt.value}`,
-        direccion: `${event.target.direccion.value}`,
-        genero: `${event.target.genero.value}`,
-        estado_civil: `${event.target.estado_civil.value}`,
-      }),
-    })
-      .then((resp) => resp.json())
-      .then(console.log("medico agregado",resp.json()));
-  });
-</script>
+<script></script>
 {% endblock %}
