@@ -76,15 +76,18 @@ def update_location():
         return jsonify({"message": str(ex)}), 500
 
 
-def validate_alergia_data(data):
-    required_fields = ["id", "modelo", "marca", "placa"]
+def validate_alergia_data(data, is_update: bool) -> Ambulancia:
+    if is_update:
+        required_fields = ["id", "modelo", "marca", "placa"]
+    else:
+        required_fields = ["modelo", "marca", "placa"]
     missing_fields = [field for field in required_fields if field not in data]
 
     if missing_fields:
         raise BadRequest(
             f"Los campos obligatorios {', '.join(missing_fields)} están ausentes"
         )
-    id = data["id"]
+    id = data.get("id", 0)
     modelo = data["modelo"]
     marca = data.get("marca", "")
     anio = data.get("anio", 0)
@@ -100,8 +103,8 @@ def validate_alergia_data(data):
 def add_ambulancia():
     try:
         if request.method == "POST":
-            data = request.json
-            ambu = validate_alergia_data(data)
+            data = request.get_json()
+            ambu = validate_alergia_data(data,False)
             if AmbulanciaModel.add_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Agregada!"}), 200
             else:
@@ -116,8 +119,8 @@ def add_ambulancia():
 def update_ambulancia():
     try:
         if request.method == "PUT" or request.method == "PATCH":
-            data = request.json
-            ambu = validate_alergia_data(data)
+            data = request.get_json()
+            ambu = validate_alergia_data(data, True)
             if AmbulanciaModel.update_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Actualizada!"}), 200
             else:

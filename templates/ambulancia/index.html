@@ -4,9 +4,36 @@
       rel="stylesheet"
     />
 <style>
+  
   .hidden {
     display: none;
   }
+
+  .my-swal-title {
+    color: #012970;
+  }
+
+
+  #swal2-title{
+    color: #012970;
+  }
+
+  #swal2-html-container {
+    padding: 5%;
+  }
+    
+  .my-swal-container input{
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 16px;
+  }
+
+  .my-swal-container label{
+    text-align: left;
+    color: #012970;
+    font-size: 16px;
+  }
+
 
 </style>
 {% endblock %} {% block body %}
@@ -19,6 +46,7 @@
         <div class="card-header" style="background-color: #012970">
           <button
             type="button"
+            id="btnAmbulancia"
             class="btn btn-light rounded-pill"
           >
             <i class="bi bi-plus-lg"></i>&nbsp;Nueva Ambulancia
@@ -39,7 +67,7 @@
             </tr>
           </thead>
   
-          <tbody>
+          <tbody id="tambulancia">
             {% for ambulacia in ambulancias %}
             <tr>
               <td class="text-center">{{ambulacia.id}}</td>
@@ -72,6 +100,7 @@
             {% endfor %}
           </tbody>
         </table>
+    
       </div>
       </div>
     </div>
@@ -82,24 +111,13 @@
 {% endblock %} {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/notificacionSwal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ambulancia/ambulancia.js') }}"></script>
 <script>
   
+const btnAmbulancia = document.getElementById('btnAmbulancia');
+btnAmbulancia.addEventListener('click',()=>{ modalAmbulancia() });
 
-  async function viewMedico(id_medico) {
-    if (typeof id_medico !== 'string' || id_medico.trim() === '') {
-      console.log("El parámetro 'id_medico' es inválido o está vacío");
-      return;
-    }
-    try {
-      const url = `${window.origin}/api/medico/view/${id_medico}`;
-      console.log(url);
-      const response = await axios.get(url);
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 </script>
 
 {% endblock %}
