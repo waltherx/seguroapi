@@ -32,10 +32,10 @@ async function modalAmbulancia() {
     confirmButtonText: "Aceptar",
     confirmButtonColor: "#012970",
     customClass: {
-        title: "my-swal-title",
-        htmlContainer: "my-swal-container",
-        content: "my-swal-modal",
-      },
+      title: "my-swal-title",
+      htmlContainer: "my-swal-container",
+      content: "my-swal-modal",
+    },
   });
 
   if (formValues) {
@@ -52,7 +52,7 @@ async function modalAmbulancia() {
       .then((result) => {
         notificacionSwal(result.data.message, "success");
         //mostrarAmbulancias();
-        location.href='/ambulancia'
+        location.href = "/ambulancia";
       })
       .catch((error) => {
         notificacionSwal(result.data.message, "error");
@@ -78,8 +78,9 @@ function obtenerValoresAmbulancia() {
 }
 
 function llenarTablaAmbulancia(datos) {
-  const tablaBody = document.getElementById("tambulancia2");
+  const tablaBody = document.getElementById("tambulancias");
   tablaBody.innerHTML = "";
+  let count = 1;
   datos.forEach((ambulancia) => {
     const tr = document.createElement("tr");
     const td1 = document.createElement("td");
@@ -87,11 +88,16 @@ function llenarTablaAmbulancia(datos) {
     const td3 = document.createElement("td");
     const td4 = document.createElement("td");
     const td5 = document.createElement("td");
+    const td6 = document.createElement("td");
+    const td7 = document.createElement("td");
 
-    td1.textContent = ambulancia.nombre;
-    td2.textContent = ambulancia.descripcion;
-    td3.textContent = ambulancia.unidad;
-    td4.textContent = ambulancia.cantidad;
+    td1.textContent = count;
+    td2.textContent = ambulancia.modelo;
+    td3.textContent = ambulancia.marca;
+    td4.textContent = ambulancia.anio;
+    td5.textContent = ambulancia.placa;
+    td6.textContent = ambulancia.capacidad;
+    count++;
 
     const btnEliminar = crearBotonAmbulancia(true, () =>
       eliminarAmbulancia(ambulancia.id, ambulancia.nombre)
@@ -104,13 +110,15 @@ function llenarTablaAmbulancia(datos) {
     contenedorBotones.classList.add("d-flex", "justify-content-end", "gap-2");
     contenedorBotones.appendChild(btnActualizar);
     contenedorBotones.appendChild(btnEliminar);
-    td5.appendChild(contenedorBotones);
+    td7.appendChild(contenedorBotones);
 
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
     tr.appendChild(td5);
+    tr.appendChild(td6);
+    tr.appendChild(td7);
     tablaBody.appendChild(tr);
   });
 }
@@ -119,8 +127,8 @@ function crearBotonAmbulancia(isDelete, onClick) {
   const boton = document.createElement("button");
   boton.textContent = "";
   if (isDelete) {
-    boton.innerHTML = `<i class="bi bi-trash"></i>`;
-    boton.classList.add("btn", "btn-danger", "btn-sm");
+    boton.innerHTML = `<i class=" bi bi-trash"></i>`;
+    boton.classList.add("hidden", "btn", "btn-danger", "btn-sm");
   } else {
     boton.innerHTML = `<i class="bi bi-gear-fill"></i>`;
     boton.classList.add("btn", "btn-success", "btn-sm");
@@ -180,20 +188,24 @@ async function update_Ambulancia(id_ambulancia) {
   const { value: formValues } = await Swal.fire({
     title: "Actualizar Ambulancia",
     html: `<div class="form-floating">
-              <input id="nombreTxt" type="text" value="${ambulancia.nombre}" class="form-control">
-              <label for="nombreTxt" class="form-label">Nombre:</label>
+              <input id="modeloTxt" type="text" value="${ambulancia.modelo}" class="form-control">
+              <label for="modeloTxt" class="form-label">Modelo:</label>
             </div>
             <div class="form-floating">
-              <input id="descripTxt" type="text" value="${ambulancia.descripcion}" class="form-control">
-              <label for="descripTxt" class="form-label">Descripcion:</label>
+              <input id="marcaTxt" type="text" value="${ambulancia.marca}" class="form-control">
+              <label for="marcaTxt" class="form-label">Marca:</label>
             </div>
             <div class="form-floating">
-              <input id="cantidadTxt" type="number" value="${ambulancia.cantidad}" class="form-control">
-              <label for="cantidadTxt" class="form-label">Cantidad:</label>
+              <input id="placaTxt" type="number" value="${ambulancia.anio}" class="form-control">
+              <label for="placaTxt" class="form-label">Año:</label>
             </div>
           <div class="form-floating">
-            <input id="unidadTxt" type="text" value="${ambulancia.unidad}" class="form-control">
-            <label for="unidadTxt" class="form-label">Unidad de Medida:</label>
+            <input id="anioTxt" type="text" value="${ambulancia.placa}" class="form-control">
+            <label for="anioTxt" class="form-label">Placa:</label>
+          </div>
+          <div class="form-floating">
+            <input id="capacidadTxt" type="number" value="${ambulancia.capacidad}" class="form-control">
+            <label for="capacidadTxt" class="form-label">Capacidad:</label>
           </div>`,
     focusConfirm: false,
     preConfirm: obtenerValoresAmbulancia,
@@ -204,12 +216,12 @@ async function update_Ambulancia(id_ambulancia) {
   if (formValues) {
     const data = {
       id: id_ambulancia,
-      nombre: formValues[0],
-      descripcion: formValues[1],
-      cantidad: parseInt(formValues[2]),
-      unidad: formValues[3],
+      modelo: formValues[0],
+      marca: formValues[1],
+      anio: parseInt(formValues[2]),
+      placa: formValues[3],
+      capacidad: parseInt(formValues[4]),
     };
-
     update_ambulancia(data)
       .then((result) => {
         notificacionSwal(result.data.message, "success");

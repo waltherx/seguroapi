@@ -1,6 +1,7 @@
 from database.db import get_connection
 from .entities.Ambulancia import Ambulancia
 
+
 class AmbulanciaModel:
     @classmethod
     def get_ambulancia(self):
@@ -12,16 +13,24 @@ class AmbulanciaModel:
                 resultset = cursor.fetchall()
                 for row in resultset:
                     ambulancia = Ambulancia(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
                     )
                     ambulancias.append(ambulancia.to_JSON())
             connection.close()
             return ambulancias
         except Exception as ex:
             raise Exception(ex)
-    
+
     @classmethod
-    def get_ambulanciaId(self, id):
+    def get_ambulanciaId(self, id: int):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
@@ -30,14 +39,22 @@ class AmbulanciaModel:
                 ambulancia = None
                 if row != None:
                     ambulancia = Ambulancia(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8]
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
                     )
                     ambulancia = ambulancia.to_JSON()
             connection.close()
             return ambulancia
         except Exception as ex:
             raise Exception(ex)
-    
+
     @classmethod
     def get_ambulanciaIdchofer(self, id):
         try:
@@ -49,16 +66,24 @@ class AmbulanciaModel:
                 ambulancia = None
                 if row != None:
                     ambulancia = Ambulancia(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8]
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
                     )
                     ambulancia = ambulancia.to_JSON()
             connection.close()
             return ambulancia
         except Exception as ex:
-            raise Exception(ex)      
-  
+            raise Exception(ex)
+
     @classmethod
-    def add_ambulancia(self,ambulancia):
+    def add_ambulancia(self, ambulancia):
         try:
             connection = get_connection()
             sQuery = f"INSERT INTO public.ambulancia (modelo, marca, anio, placa, capcidad) VALUES('{ambulancia.modelo}', '{ambulancia.marca}', {ambulancia.anio}, '{ambulancia.placa}', {ambulancia.capacidad});"
@@ -70,9 +95,9 @@ class AmbulanciaModel:
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
-        
+
     @classmethod
-    def update_ambulancia(self,ambulancia):
+    def update_ambulancia(self, ambulancia):
         try:
             connection = get_connection()
             sQuery = f"UPDATE public.ambulancia SET modelo='{ambulancia.modelo}', marca='{ambulancia.marca}', anio={ambulancia.anio}, placa='{ambulancia.placa}', capcidad={ambulancia.capacidad} WHERE idam={ambulancia.id};"
@@ -83,10 +108,10 @@ class AmbulanciaModel:
             connection.close()
             return affected_rows
         except Exception as ex:
-            raise Exception(ex)    
-  
+            raise Exception(ex)
+
     @classmethod
-    def update_location(self,ambulancia):
+    def update_location(self, ambulancia):
         try:
             connection = get_connection()
             sQuery = f"UPDATE ambulancia SET lat = {ambulancia.lat}, longi = {ambulancia.long} WHERE idam = {ambulancia.id}"

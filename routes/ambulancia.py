@@ -99,12 +99,27 @@ def validate_alergia_data(data, is_update: bool) -> Ambulancia:
     return Ambulancia(id, modelo, marca, anio, placa, capacidad, lat, long, estado)
 
 
+@AmbulanciaApi.route("/view/<id>", methods=["GET"])
+def view_ambulancia(id: int):
+    try:
+        if request.method == "GET":
+            ambu = AmbulanciaModel.get_ambulanciaId(id)
+            if ambu:
+                return jsonify(ambu), 200
+            else:
+                return jsonify({"message": "Ambulnacia no Encontrada!"}), 404
+        else:
+            return jsonify({"message": "Metodo no valido"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
 @AmbulanciaApi.route("/add", methods=["POST"])
 def add_ambulancia():
     try:
         if request.method == "POST":
             data = request.get_json()
-            ambu = validate_alergia_data(data,False)
+            ambu = validate_alergia_data(data, False)
             if AmbulanciaModel.add_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Agregada!"}), 200
             else:

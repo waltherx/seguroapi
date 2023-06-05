@@ -57,7 +57,7 @@
         <table class="table table-sm table-bordered" id="example">
           <thead>
             <tr>
-              <th class="text-center">ID</th>
+              <th class="text-center">#</th>
               <th>Placa</th> 
               <th>Modelo</th>
               <th>Marca</th>
@@ -67,37 +67,8 @@
             </tr>
           </thead>
   
-          <tbody id="tambulancia">
-            {% for ambulacia in ambulancias %}
-            <tr>
-              <td class="text-center">{{ambulacia.id}}</td>
-              <td>{{ambulacia.placa}}</td>
-              <td>{{ambulacia.modelo}}</td>
-              <td>{{ambulacia.marca}}</td>
-              <td>{{ambulacia.anio}}</td>
-              <td>{{ambulacia.capacidad}}</td>
-              <td class="btn-options">
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm"
-                >
-                  <i class="bi bi-eye"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                >
-                  <i class="bi bi-gear"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
+          <tbody id="tambulancias">
+
           </tbody>
         </table>
     
@@ -114,6 +85,9 @@
 <script src="{{ url_for('static', filename='js/notificacionSwal.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ambulancia/ambulancia.js') }}"></script>
 <script>
+
+  //import ss from '/';
+  mostrarAmbulancias();
   
 const btnAmbulancia = document.getElementById('btnAmbulancia');
 btnAmbulancia.addEventListener('click',()=>{ modalAmbulancia() });

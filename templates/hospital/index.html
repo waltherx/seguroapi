@@ -29,186 +29,70 @@
 </style>
 {% endblock %} {% block body %}
 
-<div class="container">
-  <div class="row justify-content-center">
-    <h2>Administrar Hospital</h2>
-  </div>
+<div class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Administrar Hospital</h2>
+        <div class="card mx-auto shadow">
+          <div class="card-header" style="background-color: #011f4b">
+            <!--<button
+              type="button"
+              class="btn btn-primary btn-sm"
+            >
+              <i class="bi-plus-square-fill"></i>Nuevo Hospital
+            </button>-->
+            </div>
+        <div id="map" style="width: 100%; height: 400px"></div>
+        
+        <div class="table-responsive bg-white container pt-2">
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th>Nombre</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
 
-  <div class="border border-dark p-0">
-    <div id="map" style="width: 100%; height: 500px"></div>
-    <div class="card-header" style="background-color: #011f4b">
-      <button
-        type="button"
-        class="btn btn-primary btn-sm"
-        data-bs-toggle="modal"
-        data-bs-target="#modalcreate"
-      >
-        <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Hospital
-      </button>
-      {% include '/hospital/create.html' %}
-    </div>
-    <div class="table-responsive bg-white container pt-2">
-      <table class="table table-sm table-bordered" id="example">
-        <thead>
-          <tr>
-            <th class="text-center">#</th>
-            <th>Nombre</th>
-            <th class="text-center">Acciones</th>
-          </tr>
-        </thead>
+          <tbody>
+            {% for hospital in hospitals %}
+            <tr>
+              <td class="text-center">{{loop.index0 + 1}}</td>
 
-        <tbody>
-          {% for hospital in hospitals %}
-          <tr>
-            <td class="text-center">{{loop.index0 + 1}}</td>
+              <td>{{hospital.nombre}}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-warning btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaledit{{hospital.id}}"
+                >
+                  <i class="bi bi-gear"></i>
+                </button>
 
-            <td>{{hospital.nombre}}</td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-warning btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaledit{{hospital.id}}"
-              >
-                <i class="bi bi-gear"></i>
-              </button>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
 
-              <div
-                class="modal fade"
-                id="modaledit{{hospital.id}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modaledit{{hospital.id}}"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">Editar Hospital</h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <br />
-                    <div class="modal-body">
-                      <form
-                        method="POST"
-                        action="/hospital/update/{{hospital.id}}"
-                      >
-                        <div class="mb-3">
-                          <label for="txtNombre" class="col-form-label"
-                            >Nombre:</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="txtNombre"
-                            name="txtNombre"
-                            value="{{hospital.nombre}}"
-                            required
-                          />
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-default"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
-                          <button type="submit" class="btn btn-success">
-                            Actualizar
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              |
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#modaldelete{{hospital.id}}"
-              >
-                <i class="bi bi-trash"></i>
-              </button>
-              <div
-                class="modal fade"
-                id="modaldelete{{hospital.id}}"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="basicModal"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div
-                      class="modal-header"
-                      style="background-color: #011f4b; color: white"
-                    >
-                      <h4 class="modal-title">Eliminar Hospital</h4>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <br />
-                    <form
-                      action="/hospital/delete/{{hospital.id}}"
-                      method="post"
-                    >
-                      <div class="modal-body">
-                        <div class="form-group row">
-                          <label class="col-sm-12 col-form-label"
-                            >Esta seguro de eliminar
-                            <span style="font-weight: bold; color: red"
-                              >{{hospital.nombre}}</span
-                            >
-                            ?</label
-                          >
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-default"
-                          data-bs-dismiss="modal"
-                        >
-                          Cerrar
-                        </button>
-                        <button type="submit" class="btn btn-danger">
-                          Eliminar
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
     </div>
   </div>
+</div>
   <br />
   <br />
 </div>
 {% endblock %} {% block js %}
 
 <script>
-  
-
   fetch(`${window.origin}/api/hospital/geojson`)
     .then((response) => {
       if (!response.ok) console.log("malche");
@@ -217,7 +101,7 @@
     .then((result) => {
       mapboxgl.accessToken = "{{ ACCESS_KEY }}";
       const map = new mapboxgl.Map({
-        container: "map",        
+        container: "map",
         style: "mapbox://styles/mapbox/streets-v12",
         center: [-63.180813, -17.778941],
         zoom: 13,
@@ -229,13 +113,12 @@
       for (const feature of geojson.features) {
         const el = document.createElement("div");
         el.className = "marker";
-        new mapboxgl.Marker(el)        
+        new mapboxgl.Marker(el)
           .setLngLat(feature.geometry.coordinates)
           .setPopup(
-            new mapboxgl.Popup({ offset: 25 })
-              .setHTML(
-                `<h3>${feature.properties.name}</h3><p>${feature.properties.description}</p>`
-              )
+            new mapboxgl.Popup({ offset: 25 }).setHTML(
+              `<h3>${feature.properties.name}</h3><p>${feature.properties.description}</p>`
+            )
           )
           .addTo(map);
       }
