@@ -97,18 +97,18 @@
             </div>
             <div class="row">
               <div class="col">
-                <p><b>CI : </b>{{paciente.persona.ci}}</p>
-                <p><b>Nombre : </b>{{paciente.persona.nombres}}</p>
-                <p><b>Apellido : </b>{{paciente.persona.apellidos}}</p>
-                <p>
+                <p id="cilbl" ><b>CI : </b>{{paciente.persona.ci}}</p>
+                <p id="nombreLbl"><b>Nombre : </b>{{paciente.persona.nombres}}</p>
+                <p id="apellidoLbl"><b>Apellido : </b>{{paciente.persona.apellidos}}</p>
+                <p id="fechaLbl">
                   <b>Fecha Nacimiento : </b
                   >{{paciente.persona.fecha_nacimiento}}
                 </p>
               </div>
               <div class="col">
-                <p><b>Direccion : </b>{{paciente.persona.direccion}}</p>
-                <p><b>Estado Civil : </b>{{paciente.persona.estado_civil}}</p>
-                <p><b>Genero : </b>{{paciente.persona.genero}}</p>
+                <p id="dirLbl"><b>Direccion : </b>{{paciente.persona.direccion}}</p>
+                <p id="estadoLbl"><b>Estado Civil : </b></p>
+                <p id="generoLbl"><b>Genero : </b></p>
                 <p id="edadLbl"><b>Edad : </b></p>
               </div>
             </div>
@@ -350,7 +350,7 @@
   <script src="{{ url_for('static', filename='js/paciente/medicamentos.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/operaciones.js') }}"></script>
   <script src="{{ url_for('static', filename='js/paciente/vacunas.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/birdday.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/myHelper.js') }}"></script>
   <script src="{{ url_for('static', filename='js/printpdf.js') }}"></script>
   <script>
 
@@ -384,6 +384,9 @@
       console.error(error);
       });
     }
+
+    const btnPersona = document.getElementById('btnPersona');
+    btnPersona.addEventListener('click', ()=>{update_persona_paciente(ci)} ,false);
 
     const btnPaciente = document.getElementById('btnPaciente');
     btnPaciente.addEventListener('click', function(){update_paciente(id_paciente)} ,false);
@@ -435,12 +438,22 @@
 
         mostrarVacunas(ci);
         
-        const edadLbl = document.getElementById('edadLbl');        
-        const fechaNacimiento = "{{paciente.persona.fecha_nacimiento}}";
-        console.log(fechaNacimiento);
-        const edad = calcularEdadExacta(fechaNacimiento);
-        edadLbl.innerHTML=`<p><b>Edad : </b>${edad.anios} Años ${edad.meses} Meses ${edad.dias} Dias.</p>`;
+        function load_age_persona(){
+          const edadLbl = document.getElementById('edadLbl');        
+          const fechaNacimiento = "{{paciente.persona.fecha_nacimiento}}";
+          const edad = calcularEdadExacta(fechaNacimiento);
+          edadLbl.innerHTML=`<p><b>Edad : </b>${edad.anios} Años ${edad.meses} Meses ${edad.dias} Dias.</p>`;
 
+          const estadoLbl = document.getElementById('estadoLbl');        
+          const generoLbl = document.getElementById('generoLbl');        
+          const estado = estado_civil_persona("{{paciente.persona.estado_civil}}");
+          const genero= genero_persona("{{paciente.persona.genero}}");
+          estadoLbl.innerHTML=`<p><b>Estado Civil : </b>${estado}</p>`;
+          generoLbl.innerHTML=`<p><b>Genero : </b>${genero}</p>`;
+        }
+
+        load_age_persona();
+        
         const ds =new QRious({
           element: document.querySelector("#qrious"),
           value: JSON.stringify({ ci : ci }),

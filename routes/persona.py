@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import BadRequest
 import datetime
 import random
 import string
@@ -19,11 +20,57 @@ PersonaApi = Blueprint("prna_blueprint", __name__)
 
 
 @PersonaApi.route("/view/<ci>", methods=["GET"])
-def view_persona(ci):
+def view_persona(ci: int):
     try:
         if request.method == "GET":
             person = PersonaModel.view_persona(ci)
             return jsonify(person), 200
+        return jsonify({"message": "Metodo http incorrecto"}), 405
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+def validate_persona(data):
+    required_fields = ["ci", "nombres", "apellidos"]
+    missing_fields = [field for field in required_fields if field not in data]
+
+    if missing_fields:
+        raise BadRequest(
+            f"Los campos obligatorios {', '.join(missing_fields)} están ausentes"
+        )
+    ci = data["ci"]
+    nombres = data.get("nombres", "")
+    apellidos = data.get("apellidos", "")
+    fecha_nacimiento = data.get("fecha_nacimiento", "")
+    direccion = data.get("direccion", "")
+    genero = data.get("genero")
+    estado_civil = data.get("estado_civil")
+
+    return Persona(
+        ci,
+        nombres,
+        apellidos,
+        fecha_nacimiento,
+        None,
+        None,
+        direccion,
+        genero,
+        estado_civil,
+    )
+
+
+@PersonaApi.route("/update", methods=["PUT", "PATCH"])
+def update_persona():
+    try:
+        if request.method == "PUT" or request.method == "PACTH":
+            data = request.get_json()
+            person = validate_persona(data)
+            affected_row = PersonaModel.update_persona(person)
+            if affected_row == 1:
+                person = PersonaModel.view_persona(person.ci)
+                return jsonify(person), 200
+            else:
+                return jsonify({"message": "Persona no Actualizada"}), 404
         return jsonify({"message": "Metodo http incorrecto"}), 405
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

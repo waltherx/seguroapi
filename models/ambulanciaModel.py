@@ -9,7 +9,7 @@ class AmbulanciaModel:
             connection = get_connection()
             ambulancias = []
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM ambulancia;")
+                cursor.execute("SELECT * FROM ambulancia order by idam asc;")
                 resultset = cursor.fetchall()
                 for row in resultset:
                     ambulancia = Ambulancia(
@@ -30,11 +30,12 @@ class AmbulanciaModel:
             raise Exception(ex)
 
     @classmethod
-    def get_ambulanciaId(self, id: int):
+    def get_ambulanciaId(self, id: int)-> Ambulancia:
         try:
             connection = get_connection()
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM ambulancia WHERE idam = %s", (id))
+            sQuery = f"SELECT * FROM ambulancia WHERE idam = {id};"
+            with connection.cursor() as cursor:                
+                cursor.execute(sQuery)
                 row = cursor.fetchone()
                 ambulancia = None
                 if row != None:

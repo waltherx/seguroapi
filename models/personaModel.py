@@ -71,7 +71,7 @@ class PersonaModel:
     def view_persona(self, ci):
         try:
             connection = get_connection()
-            sQuery = f"SELECT ci, nombres, apellidos, to_char(fecha_nacimiento,'DD-MM-YYYY'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona where ci={ci};"
+            sQuery = f"SELECT ci, nombres, apellidos, to_char(fecha_nacimiento, 'YYYY-MM-DD'), foto_url, foto_name, direccion, genero, estado_civil FROM public.persona where ci={ci};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()
@@ -89,7 +89,8 @@ class PersonaModel:
                         row[8]
                     )
                     persona = persona.to_JSON()
-            connection.close()
+            connection.close() 
+            
             return persona
         except Exception as ex:
             raise Exception(ex)
@@ -112,11 +113,10 @@ class PersonaModel:
             raise Exception(ex)
 
     @classmethod
-    def update_persona(self, persona):
+    def update_persona(self, persona:Persona)-> int:
         try:
             connection = get_connection()
-            sQuery = f"UPDATE persona SET nombres='{persona.nombres}', apellidos='{persona.apellidos}', fechanac='{persona.fechaNac}', licvehicular={persona.licVehicular}, foto='{persona.foto}', tipoSangre='{persona.tipoSangre}', hipertencion='{persona.hipertencion}', altura='{persona.altura}', peso='{persona.peso}', direccion='{persona.direccion}' WHERE ci = {persona.ci}"
-
+            sQuery = f"UPDATE persona SET  nombres='{persona.nombres}', apellidos='{persona.apellidos}', fecha_nacimiento='{persona.fecha_nacimiento}', direccion='{persona.direccion}', genero='{persona.genero}', estado_civil='{persona.estado_civil}' WHERE ci = {persona.ci};"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

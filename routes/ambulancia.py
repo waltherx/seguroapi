@@ -2,8 +2,6 @@ from flask import Blueprint, jsonify, request
 from werkzeug.exceptions import BadRequest
 
 # Entities
-from models.entities.Chofer import Chofer
-from models.entities.Paramedico import Paramedico
 from models.entities.Ambulancia import Ambulancia
 
 # Models
@@ -76,7 +74,7 @@ def update_location():
         return jsonify({"message": str(ex)}), 500
 
 
-def validate_alergia_data(data, is_update: bool) -> Ambulancia:
+def validate_amvulancia_data(data, is_update: bool) -> Ambulancia:
     if is_update:
         required_fields = ["id", "modelo", "marca", "placa"]
     else:
@@ -104,6 +102,7 @@ def view_ambulancia(id: int):
     try:
         if request.method == "GET":
             ambu = AmbulanciaModel.get_ambulanciaId(id)
+            print(ambu)
             if ambu:
                 return jsonify(ambu), 200
             else:
@@ -119,7 +118,7 @@ def add_ambulancia():
     try:
         if request.method == "POST":
             data = request.get_json()
-            ambu = validate_alergia_data(data, False)
+            ambu = validate_amvulancia_data(data, False)
             if AmbulanciaModel.add_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Agregada!"}), 200
             else:
@@ -135,7 +134,8 @@ def update_ambulancia():
     try:
         if request.method == "PUT" or request.method == "PATCH":
             data = request.get_json()
-            ambu = validate_alergia_data(data, True)
+            ambu = validate_amvulancia_data(data, True)
+            print(ambu.to_JSON())
             if AmbulanciaModel.update_ambulancia(ambu):
                 return jsonify({"message": "Ambulnacia Actualizada!"}), 200
             else:

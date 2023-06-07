@@ -1,6 +1,9 @@
 async function update_paciente(id_paciente) {
+  const url_get = `${window.origin}/api/paciente/view/${id_paciente}`;
+  const response = await axios.get(url_get);
+  const pacient = response.data;
   const { value: formValues } = await Swal.fire({
-    title: "Actualizar Informacion Personal",
+    title: "Actualizar Informacion Paciente.",
     html: `<div class="row row-padding mx-auto w-70">
             <div class="col">
             <div class="form-floating">
@@ -23,7 +26,7 @@ async function update_paciente(id_paciente) {
         </div>
         <div class="col">
           <div class="form-floating">
-            <input id="alturaTxt" type="number" class="form-control" />
+            <input id="alturaTxt" type="number" value="${pacient.altura}" class="form-control" />
             <label for="alturaTxt" class="form-label">Altura:</label>
           </div>
         </div>
@@ -40,14 +43,20 @@ async function update_paciente(id_paciente) {
         </div>
         <div class="col">
           <div class="form-floating">
-            <input id="pesoTxt" type="number" class="form-control" />
+            <input id="pesoTxt" type="number" value="${pacient.peso}" class="form-control" />
             <label for="pesoTxt" class="form-label">Peso:</label>
           </div>
         </div>
       </div>`,
+    didOpen: () => {
+      const input1 = document.getElementById("sangreTxt");
+      const input2 = document.getElementById("hipertencionTxt");
+      input1.value = pacient.tipo_sangre;
+      input2.value = pacient.hipertencion;
+    },
     focusConfirm: false,
     preConfirm: obtenerValoresPaciente_update, //ojo
-    confirmButtonText: "Aceptar",
+    confirmButtonText: "Actualizar",
     confirmButtonColor: "#012970",
   });
 
@@ -63,9 +72,7 @@ async function update_paciente(id_paciente) {
     console.log(data);
     try {
       const response = await axios.put(url, data);
-      const msg = response;
-      Swal.fire("Correcto!", msg.data.message, "success");
-      console.log(msg.statusText);
+      notificacionSwal(response.data.message, "success");
       mostrarPaciente(
         data.tiposangre,
         data.hipertencion,
@@ -77,6 +84,7 @@ async function update_paciente(id_paciente) {
     }
   }
 }
+
 function obtenerValoresPaciente_update() {
   const input1 = document.getElementById("sangreTxt").value;
   const input2 = document.getElementById("hipertencionTxt").value;
@@ -94,17 +102,6 @@ function obtenerValoresPaciente_update() {
     console.log("Ambos campos tienen valores válidos.");
     return [input1, input2, input3, input4];
   }
-}
-
-function mostrarPaciente(tiposangre, hiper, altura, peso) {
-  let sangreLbl = document.getElementById("sangreLbl");
-  let hiperLbl = document.getElementById("hiperLbl");
-  let alturaLbl = document.getElementById("alturaLbl");
-  let pesoLbl = document.getElementById("pesoLbl");
-  sangreLbl.innerHTML = `<b>Tipo Sangre : </b>${tiposangre}`;
-  hiperLbl.innerHTML = `<b>Hipertencion : </b>${hiper}`;
-  alturaLbl.innerHTML = `<b>Altura : </b>${altura}`;
-  pesoLbl.innerHTML = `<b>Peso : </b>${peso}`;
 }
 
 async function add_paciente_2() {
@@ -223,7 +220,7 @@ async function add_paciente_2() {
               <option value="c">Casado/a</option>
               <option value="d">Divorciado/a</option>
               <option value="v">Viudo/a</option>
-              <option value="c">Conviviendo en pareja</option>
+              <option value="p">Conviviendo en pareja</option>
               <option value="o">Otro/No especificado</option>
             </select>
             <label for="estadocTxt">Estado Civil:</label>
@@ -538,10 +535,210 @@ function obtenerValoresPersona() {
 async function guardarPacienteAxios(datos) {
   try {
     const url = `${window.origin}/api/paciente/add`;
-
     const response = await axios.post(url, datos);
-
     return response;
+  } catch (error) {
+    console.log(error.response);
+  }
+}
+
+async function update_persona_paciente(ci_persona) {
+  const url_get = `${window.origin}/api/person/view/${ci_persona}`;
+  const response = await axios.get(url_get);
+  console.log(JSON.stringify(response.data));
+  const persona = response.data;
+  const { value: formValues } = await Swal.fire({
+    title: "Actualizar Informacion Personal.",
+    html: `<div class="row">
+          <div class="col">
+            <div class="form-floating">
+              <input
+                type="number"
+                class="form-control"
+                id="ciTxt"
+                value="${persona.ci}"
+                disabled
+              />
+              <label for="ciTxt">CI:</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating">
+              <input
+                type="date"
+                class="form-control"
+                id="fechaTxt"
+                name="fechaTxt"
+                value="${persona.fecha_nacimiento}"
+              />
+              <label for="fechaTxt">Fecha de Nacimiento:</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="nombreTxt"
+            name="nombreTxt"
+            value="${persona.nombres}"
+            required
+          />
+          <label for="nombreTxt">Nombres:</label>
+        </div>
+        <div class="form-floating">
+          
+          <input
+            type="text"
+            class="form-control"
+            id="apellidoTxt"
+            name="apellidoTxt"
+            value="${persona.apellidos}"
+            required
+          />
+          <label for="apellidoTxt">Apellidos:</label>
+        </div>
+
+        <div class="form-floating">
+          
+          <input
+            type="text"
+            class="form-control"
+            id="direccionTxt"
+            value="${persona.direccion}"
+            name="direccionTxt"
+          />
+          <label for="direccionTxt">Direccion:</label>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-floating">
+              
+              <select
+                class="form-select"
+                id="generoTxt"
+                name="generoTxt"
+                required
+              >
+                <option value="h">Hombre</option>
+                <option value="m">Mujer</option>
+                <option value="nb">No binario</option>
+                <option value="gf">Género fluido</option>
+                <option value="tr">Transgénero</option>
+                <option value="ci">Cisgénero</option>
+                <option value="ag">Agénero</option>
+                <option value="bi">Bigénero</option>
+                <option value="pa">Pangénero</option>
+                <option value="otro">Otro/No especificado</option>
+              </select>
+              <label for="generoTxt">Genero:</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating">
+              
+              <select
+                class="form-select"
+                id="estadocTxt"
+                name="estadocTxt"
+                required
+              >
+                <option value="s">Soltero/a</option>
+                <option value="c">Casado/a</option>
+                <option value="d">Divorciado/a</option>
+                <option value="v">Viudo/a</option>
+                <option value="p">Conviviendo en pareja</option>
+                <option value="o">Otro/No especificado</option>
+              </select>
+              <label for="estadocTxt">Estado Civil:</label>
+            </div>
+          </div>
+        </div>`,
+    didOpen: () => {
+      const input1 = document.getElementById("generoTxt");
+      const input2 = document.getElementById("estadocTxt");
+      input1.value = persona.genero;
+      input2.value = persona.estado_civil;
+    },
+    focusConfirm: false,
+    preConfirm: obtenerValoresPersona,
+    confirmButtonText: "Actualizar",
+    confirmButtonColor: "#012970",
+    customClass: {
+      /*title: "my-swal-title",*/
+      htmlContainer: "my-swal-container",
+      content: "my-swal-modal",
+    },
+  });
+
+  const url_put = `${window.origin}/api/person/update`;
+  if (formValues) {
+    console.log(formValues);
+    const data = {
+      ci: formValues[0],
+      nombres: formValues[1],
+      apellidos: formValues[2],
+      fecha_nacimiento: formValues[3],
+      direccion: formValues[4],
+      genero: formValues[5],
+      estado_civil: formValues[6],
+    };
+    try {
+      const response = await axios.put(url_put, data);
+      const result = response.data;
+      notificacionSwal("Datos Actualizados Correctamente!", "success");
+      mostrar_paciente_persona(result);
+    } catch (error) {
+      notificacionSwal(response.data.message, "error");
+    }
+  }
+}
+
+async function actualizar_Persona_Panciente(datos) {
+  try {
+    const url = `${window.origin}/api/person/update`;
+    const response = await axios.put(url, datos);
+    return response;
+  } catch (error) {
+    console.log(error.response);
+  }
+}
+
+function mostrarPaciente(tiposangre, hiper, altura, peso) {
+  let sangreLbl = document.getElementById("sangreLbl");
+  let hiperLbl = document.getElementById("hiperLbl");
+  let alturaLbl = document.getElementById("alturaLbl");
+  let pesoLbl = document.getElementById("pesoLbl");
+  sangreLbl.innerHTML = `<b>Tipo Sangre : </b>${tiposangre}`;
+  hiperLbl.innerHTML = `<b>Hipertencion : </b>${hiper}`;
+  alturaLbl.innerHTML = `<b>Altura : </b>${altura}`;
+  pesoLbl.innerHTML = `<b>Peso : </b>${peso}`;
+}
+
+function mostrar_paciente_persona(persona) {
+  try {
+    const nombreLbl = document.getElementById("nombreLbl");
+    const apellidoLbl = document.getElementById("apellidoLbl");
+    const fechaLbl = document.getElementById("fechaLbl");
+    const dirLbl = document.getElementById("dirLbl");
+    const estadoLbl = document.getElementById("estadoLbl");
+    const generoLbl = document.getElementById("generoLbl");
+    const edadLbl = document.getElementById("edadLbl");
+
+    const fecha = persona.fecha_nacimiento;
+    nombreLbl.innerHTML = `<p><b>Nombre : </b>${persona.nombres}</p>`;
+    apellidoLbl.innerHTML = `<p><b>Apellido : </b>${persona.apellidos}</p>`;
+    fechaLbl.innerHTML = `<p><b>Fecha Nacimiento : </b>${fecha}</p>`;
+    dirLbl.innerHTML = `<p><b>Direccion : </b>${persona.direccion}</p>`;
+    estadoLbl.innerHTML = `<p><b>Estado Civil : </b>${estado_civil_persona(
+      persona.estado_civil
+    )}</p>`;
+    generoLbl.innerHTML = `<p><b>Genero : </b>${genero_persona(
+      persona.genero
+    )}</p>`;
+    const edad = calcularEdadExacta(fecha);
+    edadLbl.innerHTML = `<p><b>Edad : </b>${edad.anios} Años ${edad.meses} Meses ${edad.dias} Dias.</p>`;
   } catch (error) {
     console.log(error);
   }

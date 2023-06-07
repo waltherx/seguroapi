@@ -116,6 +116,7 @@ def add_paciente():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+
 @PacienteApi.route("/delete/<id>", methods=["DELETE"])
 def delete_persona(ci):
     try:
@@ -146,5 +147,16 @@ def update_paciente():
             return jsonify({"message": "Actualizado"})
         else:
             return jsonify({"message": "no Actualizado"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
+@PacienteApi.route("/view/<id>", methods=["GET"])
+def view_paciente(id: int):
+    try:
+        if id:
+            paciente = PacienteModel.view_paciente(id)
+            return jsonify(paciente), 200
+        return jsonify({"message": "falta el valor ID Paciente"}), 500
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
