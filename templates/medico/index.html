@@ -1,7 +1,18 @@
 {% extends 'layout.html' %} {% block style %}
+<link
+  href="{{ url_for('static', filename='css/swalnotif.css') }}"
+  rel="stylesheet"
+/>
 <style>
   .hidden {
     display: none;
+  }
+
+  .opciones {
+    display: flex;
+    align-content: center;
+    justify-content: space-evenly;
+    gap: 100px 100px;
   }
 </style>
 {% endblock %} {% block body %}
@@ -12,17 +23,10 @@
       <h2>Administrar Medico</h2>
       <div class="card mx-auto shadow">
         <div class="card-header" style="background-color: #012970">
-          <button
-            type="button"
-            class="btn btn-light rounded-pill"
-            data-bs-toggle="modal"
-            data-bs-target="#modalcreate"
-          >
-            <span class="bi-plus-square-fill"></span>&nbsp;Nuevo Medico
+          <button id="btnAdd" class="btn btn-light rounded-pill">
+            <i class="bi bi-plus-lg"></i>Nuevo Medico
           </button>
-          {% include '/medico/create.html' %}
         </div>
-
         <table class="table datatable">
           <thead>
             <tr>
@@ -41,134 +45,13 @@
               <td>{{medico.id_medico}}</td>
               <td>{{medico.nombres + " "+medico.apellidos}}</td>
               <td>{{medico.especialidad}}</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-warning btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaledit{{medico.id}}"
-                >
+              <td class="opciones">
+                <button type="button" class="btn btn-warning btn-sm">
                   <i class="bi bi-gear"></i>
                 </button>
-
-                <div
-                  class="modal fade"
-                  id="modaledit{{medico.id}}"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-labelledby="modaledit{{medico.id}}"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div
-                        class="modal-header"
-                        style="background-color: #011f4b; color: white"
-                      >
-                        <h4 class="modal-title">Editar Medico</h4>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <br />
-                      <div class="modal-body">
-                        <form method="POST" action="#">
-                          <div class="mb-3">
-                            <label
-                              for="txtNombre{{loop.index}}"
-                              class="col-form-label"
-                              >Especialidad:</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="txtNombre{{loop.index}}"
-                              name="txtNombre{{loop.index}}"
-                              value="{{medico.especialidad}}"
-                              required
-                            />
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-default"
-                              data-bs-dismiss="modal"
-                            >
-                              Cerrar
-                            </button>
-                            <button type="submit" class="btn btn-success">
-                              Actualizar
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                |
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaldelete{{medico.id}}"
-                >
+                <button type="button" class="btn btn-danger btn-sm hidden">
                   <i class="bi bi-trash"></i>
                 </button>
-                <div
-                  class="modal fade"
-                  id="modaldelete{{medico.id}}"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-labelledby="basicModal"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div
-                        class="modal-header"
-                        style="background-color: #011f4b; color: white"
-                      >
-                        <h4 class="modal-title">Eliminar Medico</h4>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <br />
-                      <form action="#" method="post">
-                        <div class="modal-body">
-                          <div class="form-group row">
-                            <label class="col-sm-12 col-form-label"
-                              >Esta seguro de eliminar
-                              <span style="font-weight: bold; color: red"
-                                >{{medico.id}}</span
-                              >
-                              ?</label
-                            >
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-default"
-                            data-bs-dismiss="modal"
-                          >
-                            Cerrar
-                          </button>
-                          <button type="submit" class="btn btn-danger">
-                            Eliminar
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                |
                 <button
                   type="button"
                   class="btn btn-sm btn-success"
@@ -190,135 +73,14 @@
 {% endblock %} {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/notificacionSwal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/myHelper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/paciente/persona.js') }}"></script>
+<script src="{{ url_for('static', filename='js/hospital/medico.js') }}"></script>
 <script>
-  const form = document.getElementById("form");
-  const step1 = document.getElementById("step1");
-  const step2 = document.getElementById("step2");
-  const step3 = document.getElementById("step3");
-  const next1 = document.getElementById("next1");
-  const next2 = document.getElementById("next2");
-  const prev1 = document.getElementById("prev1");
-  const prev2 = document.getElementById("prev2");
-
-  next1.addEventListener("click", () => {
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
-
-  prev1.addEventListener("click", () => {
-    step2.classList.add("hidden");
-    step1.classList.remove("hidden");
-  });
-
-  next2.addEventListener("click", () => {
-    step2.classList.add("hidden");
-    step3.classList.remove("hidden");
-  });
-
-  prev2.addEventListener("click", () => {
-    step3.classList.add("hidden");
-    step2.classList.remove("hidden");
-  });
-
-  const myModal = new bootstrap.Modal(document.getElementById("modalcreate"));
-
-  const addMedicoForm = document.getElementById("add-medico");
-  addMedicoForm.addEventListener("submit", handleSubmit);
-
-  function handleSubmit() {
-    const ci = document.getElementById("ciTxt").value;
-    const nombre = document.getElementById("nombreTxt").value;
-    const apellido = document.getElementById("apellidoTxt").value;
-    const fecha = document.getElementById("fechaTxt").value;
-    const direccion = document.getElementById("direccionTxt").value;
-    const genero = document.getElementById("generoTxt").value;
-    const estado = document.getElementById("estadocTxt").value;
-
-    const especialidad = document.getElementById("especialidadTxt").value;
-    const hospital = document.getElementById("hospitalTxt").value;
-
-    const name_user = document.getElementById("nameuserTxt").value;
-    const password_user = document.getElementById("passwordTxt").value;
-    const email_user = document.getElementById("emailTxt").value;
-
-    const data = {
-      ci_persona: ci,
-      nombres: nombre,
-      apellidos: apellido,
-      fecha_nacimiento: fecha,
-      direccion: direccion,
-      genero: genero,
-      estado_civil: estado,
-      nameuser: name_user,
-      password: password_user,
-      email: email_user,
-      especialidad: especialidad,
-      hospital_id: hospital,
-    };
-
-    console.log(data);
-
-    fetch(`${window.origin}/api/medico/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) throw Error("Error en fetch ", response.statusText);
-        return response.json();
-      })
-      .then((result) => {
-        myModal.hide();
-        Swal.fire("Medico Agreado");
-      })
-      .catch((error) => {
-        Swal.fire("ah ocurrido un error", error);
-      });
-  }
-
-  function viewRow(button) {
-    const row = button.parentNode.parentNode;
-    const cells = row.getElementsByTagName("td");
-    const id_medico = cells[1].innerText;
-    viewMedico(id_medico)
-      .then((result) => {
-        console.log(result.medico.apellidos);
-
-        Swal.fire({
-          title: "<strong>Informacion Medico</strong>",
-          imageUrl: `${result.medico.foto_url}`,
-          imageWidth: 100,
-          imageHeight: 100,
-          html: `<p><b class='fw-semibold'>ID: </b>${result.medico.id_medico}</p>
-          <p><b clcass='fw-semibold'>CI: </b>${result.medico.ci_persona}</p>
-          <p><b class='fw-semibold'>Nombres: </b>${result.medico.nombres}</p>
-          <p><b class='fw-semibold'>Apellidos: </b>${result.medico.apellidos}</p>
-          <p><b class='fw-semibold'>Especialidad: </b>${result.medico.especialidad}</p>
-          <p><b class='fw-semibold'>Hospital: </b>${result.medico.hospital_name}</p>`,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  async function viewMedico(id_medico) {
-    if (typeof id_medico !== 'string' || id_medico.trim() === '') {
-      console.log("El parámetro 'id_medico' es inválido o está vacío");
-      return;
-    }
-    try {
-      const url = `${window.origin}/api/medico/view/${id_medico}`;
-      console.log(url);
-      const response = await axios.get(url);
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //ojo
+  const btnAdd = document.getElementById("btnAdd");
+  btnAdd.addEventListener("click", add_medico_2);
 </script>
 
 {% endblock %}

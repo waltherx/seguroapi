@@ -1,8 +1,8 @@
 function calcularEdadExacta(fechaNacimiento) {
   const partesFecha = fechaNacimiento.split("-");
-  const diaNacimiento = parseInt(partesFecha[0]);
+  const anioNacimiento = parseInt(partesFecha[0]);
   const mesNacimiento = parseInt(partesFecha[1]) - 1; // Restamos 1 para obtener el mes correcto (0-11)
-  const anioNacimiento = parseInt(partesFecha[2]);
+  const diaNacimiento = parseInt(partesFecha[2]);
 
   const fechaNac = new Date(anioNacimiento, mesNacimiento, diaNacimiento);
   const hoy = new Date();

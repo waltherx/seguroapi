@@ -24,7 +24,10 @@ def view_persona(ci: int):
     try:
         if request.method == "GET":
             person = PersonaModel.view_persona(ci)
-            return jsonify(person), 200
+            if person:
+                return jsonify(person), 200
+            else:
+               return jsonify({"message": "no encontrado"}), 404
         return jsonify({"message": "Metodo http incorrecto"}), 405
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

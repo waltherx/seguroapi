@@ -30,6 +30,28 @@ def get_medicos():
         return jsonify({"message": str(ex)}), 500
 
 
+"""@MedicoApi.route("/view/<id>")
+def view_medico(id :int):
+    pass"""
+
+
+@MedicoApi.route("/update",methods = ["PUT","PATCH"])
+def update_medico():
+    try:
+        data = request.get_json()
+        id = data.get("id")
+        especialidad = data.get("especialidad", "")
+        hospital_id = data.get("hospital_id")
+        ci_persona = data.get("ci_persona")
+        medico = Medico(id, especialidad, hospital_id, ci_persona)
+        if MedicoModel.update_medico(medico):
+            return jsonify({"message": "Medico Actualizado!"}), 200
+        else:
+            return jsonify({"message": "Medico no Actualizado!"}), 404
+    except Exception as xx:
+        return jsonify({"message": str(xx)}), 500
+
+
 # medicos por hospital
 @MedicoApi.route("/h/<id>")
 def get_medicosxhos(id):
@@ -80,7 +102,9 @@ def add_medico():
                 _estado_civil,
             )
             new_medico = Medico(None, _especialidad, _hospital_id, _ci_persona)
-            new_user = User(None, _nameuser, _password, _email, None, None, 2, _ci_persona)
+            new_user = User(
+                None, _nameuser, _password, _email, None, None, 2, _ci_persona
+            )
 
             PersonaModel.add_persona(new_persona)
             MedicoModel.add_medico(new_medico)
@@ -92,24 +116,9 @@ def add_medico():
         return jsonify({"message": str(ex)}), 500
 
 
-"""
-@MedicoApi.route("/add", methods=["POST"])
-def add_medico():
-    try:
-        _ci = request.json["ci_persona"]
-        _especialidad = request.json["especialidad"]
-        _hospital_id = request.json["hospital_id"]
-        _medico = Medico(None,_especialidad, _hospital_id, _ci)
-        MedicoModel.add_medico(_medico)
-        return jsonify({"message": "medico agregado"}), 200
-    except Exception as ex:
-        return jsonify({"message": str(ex)}), 500
-"""
-
-
 # medico por id
 @MedicoApi.route("/view/<id>")
-def get_medico_x_Id(id):
+def get_medico_x_Id(id: int):
     try:
         if id:
             medico = MedicoModel.get_medico(id)

@@ -115,10 +115,10 @@ class PacienteModel:
             raise Exception(ex)
 
     @classmethod
-    def get_paciente_X_ci(self, ci):
+    def get_paciente_X_ci(self, ci :int):
         try:
             connection = get_connection()
-            sQuery = f"select p.ci, p.nombres, p.apellidos, to_char(p.fecha_nacimiento,'DD-MM-YYYY'), p.foto_url, p.foto_name, p.direccion, p.genero, p.estado_civil, c.idpac, c.tiposangre, c.hipertencion, c.altura, c.peso, c.ci_persona FROM public.persona p, public.paciente c where p.ci = c.ci_persona and p.ci = {ci} ;"
+            sQuery = f"select p.ci, p.nombres, p.apellidos, to_char(p.fecha_nacimiento,'YYYY-MM-DD'), p.foto_url, p.foto_name, p.direccion, p.genero, p.estado_civil, c.idpac, c.tiposangre, c.hipertencion, c.altura, c.peso, c.ci_persona FROM public.persona p, public.paciente c where p.ci = c.ci_persona and p.ci = {ci} ;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 row = cursor.fetchone()

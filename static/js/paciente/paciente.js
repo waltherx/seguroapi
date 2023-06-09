@@ -545,7 +545,6 @@ async function guardarPacienteAxios(datos) {
 async function update_persona_paciente(ci_persona) {
   const url_get = `${window.origin}/api/person/view/${ci_persona}`;
   const response = await axios.get(url_get);
-  console.log(JSON.stringify(response.data));
   const persona = response.data;
   const { value: formValues } = await Swal.fire({
     title: "Actualizar Informacion Personal.",

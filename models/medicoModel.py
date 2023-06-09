@@ -86,6 +86,20 @@ class MedicoModel:
             raise Exception(ex)
 
     @classmethod
+    def update_medico(self, medico: Medico):
+        try:
+            connection = get_connection()
+            sQuery = f"UPDATE public.medico SET especialidad='{medico.especialidad}', hospital_id={medico.hospital_id} WHERE idmed={medico.id};"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return 1 if affected_rows == 1 else 0
+        except Exception as xx:
+            raise Exception(xx)
+
+    @classmethod
     def get_medicos_persons(self):
         try:
             sQuery = f"SELECT  p.ci, m.idmed, p.nombres, p.apellidos, to_char(p.fecha_nacimiento,'DD-MM-YYYY'), p.foto_url, p.foto_name, p.direccion, p.genero, p.estado_civil, m.especialidad, m.hospital_id  FROM persona p, medico m where p.ci = m.ci_persona ORDER BY ci ASC;"

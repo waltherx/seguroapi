@@ -28,7 +28,7 @@ def get_personas():
 
 
 @PacienteApi.route("/<ci>")
-def get_persona56(ci):
+def get_persona56(ci:int):
     try:
         if ci:
             persona = PersonaModel.get_persona(ci)
@@ -55,7 +55,7 @@ def get_persona56(ci):
 
 
 @PacienteApi.route("/p/<ci>", methods=["GET"])
-def get_paramed_xci(ci):
+def get_paramed_xci(ci:int):
     try:
         if ci:
             paciente = PacienteModel.get_paciente_X_ci(ci)

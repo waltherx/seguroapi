@@ -1,40 +1,11 @@
 {% extends 'layout.html' %} {% block style %}
 <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet" />
+<link href="{{ url_for('static', filename='css/swalnotif.css') }}" rel="stylesheet" />
+
 <style>
   .hidden {
     display: none;
   }
-
-  .my-swal-title {
-    color: #012970;
-  }
-
-
-  #swal2-title{
-    color: #012970;
-  }
-
-  #swal2-html-container {
-    padding: 5%;
-  }
-    
-  .my-swal-container input{
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    font-size: 16px;
-  }
-
-  .my-swal-container label{
-    text-align: left;
-    color: #012970;
-    font-size: 14px;
-  }
-
-  .my-swal-container select{
-    /*color: #012970;*/
-    font-size: 16px;
-  }
-
 
 </style>
 {% endblock %} {% block body %}
@@ -113,7 +84,6 @@
   
   const btnAdd = document.getElementById("btnAdd");
   btnAdd.addEventListener('click', add_paciente_2);
-
 
 </script>
 
