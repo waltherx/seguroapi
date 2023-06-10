@@ -7,7 +7,7 @@ class NotificacionModel:
     def add_notif(self, notif):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.notificacion (titulo, descripcion, fecha_creacion, fecha_envio, user_destino, user_remitente, leido) VALUES('{notif.titulo}', '{notif.descripcion}', NOW(), null, {notif.user_destino}, {notif.user_remitente}, false);"
+            sQuery = f"INSERT INTO public.notificacion (titulo, descripcion, fecha_creacion, fecha_envio, user_destino, user_remitente, leido) VALUES('{notif.titulo}', '{notif.descripcion}', now() AT TIME ZONE 'America/La_Paz', null, {notif.user_destino}, {notif.user_remitente}, false);"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount

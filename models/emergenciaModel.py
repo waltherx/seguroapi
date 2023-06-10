@@ -61,7 +61,7 @@ class EmergenciaModel:
     def add_emergencia(self, emergencia):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.emergencia (fecha, descripcion, id_ambulancia, id_hospital, estado) VALUES(NOW(), '{emergencia.descripcion}', {emergencia.ambulancia_id}, {emergencia.hospital_id}, '{emergencia.estado}');"
+            sQuery = f"INSERT INTO public.emergencia (fecha, descripcion, id_ambulancia, id_hospital, estado) VALUES(now() AT TIME ZONE 'America/La_Paz', '{emergencia.descripcion}', {emergencia.ambulancia_id}, {emergencia.hospital_id}, '{emergencia.estado}');"
             print(sQuery)
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)

@@ -24,7 +24,7 @@ class TokenModel:
     def add_token(self, token):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.tokens (user_id, token, created_at, updated_at) VALUES({token.user_id}, '{token.token}', now(), null) RETURNING idt;"
+            sQuery = f"INSERT INTO public.tokens (user_id, token, created_at, updated_at) VALUES({token.user_id}, '{token.token}', now() AT TIME ZONE 'America/La_Paz', null) RETURNING idt;"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)                
                 row = cursor.fetchone()

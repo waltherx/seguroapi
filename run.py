@@ -33,6 +33,8 @@ from routes import emergencia
 from routes import operacion
 from routes import vacuna
 from routes import medicamento
+from routes import dispositivo
+from routes import ubicacion
 
 
 
@@ -154,6 +156,8 @@ app.register_blueprint(persona.PersonaApi, url_prefix="/api/person")
 app.register_blueprint(operacion.OperacionApi, url_prefix="/api/operacion")
 app.register_blueprint(vacuna.VacunaApi, url_prefix="/api/vacuna")
 app.register_blueprint(medicamento.MedicamentoApi, url_prefix="/api/medicamento")
+app.register_blueprint(dispositivo.DispositivoApi, url_prefix="/api/dispo")
+app.register_blueprint(ubicacion.UbicacionApi, url_prefix="/api/ubicacion")
 
 
 # Error handlers

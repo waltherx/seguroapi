@@ -43,7 +43,7 @@ class DocumentoModel:
     def add_documento(self, documento):
         try:
             connection = get_connection()
-            sQuery = f"INSERT INTO public.documento (tipo, url, fecha, nombre, paciente_id) VALUES('{documento.tipo}', '{documento.url}', NOW(), '{documento.nombre}', {documento.paciente_id});"
+            sQuery = f"INSERT INTO public.documento (tipo, url, fecha, nombre, paciente_id) VALUES('{documento.tipo}', '{documento.url}', now() AT TIME ZONE 'America/La_Paz', '{documento.nombre}', {documento.paciente_id});"
             with connection.cursor() as cursor:
                 cursor.execute(sQuery)
                 affected_rows = cursor.rowcount
