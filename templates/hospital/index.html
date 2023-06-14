@@ -89,13 +89,13 @@
 </div>
   <br />
   <br />
-</div>
+
 {% endblock %} {% block js %}
 
 <script>
   fetch(`${window.origin}/api/hospital/geojson`)
     .then((response) => {
-      if (!response.ok) console.log("malche");
+      if (!response.ok) console.log("falta datos!");
       return response.json();
     })
     .then((result) => {
