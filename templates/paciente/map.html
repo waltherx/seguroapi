@@ -22,6 +22,8 @@
       <h2>Ubicacion Paciente</h2>
       <div class="card mx-auto shadow">
         <div id="map" style="width: 100%; height: 400px"></div>
+        <hr />
+        <button id="btnPunto">Punto</button>
       </div>
     </div>
   </div>
@@ -35,6 +37,7 @@
 <script src="{{ url_for('static', filename='js/paciente/paciente.js') }}"></script>
 <script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
 <script src="{{ url_for('static', filename='js/codeqr.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.2/socket.io.min.js"></script>
 
 <script>
   mapboxgl.accessToken = "{{ ACCESS_KEY }}";
@@ -46,6 +49,47 @@
   });
 
   map.addControl(new mapboxgl.NavigationControl());
+
+  let marker = new mapboxgl.Marker()
+    .setLngLat([-63.180813, -17.778941])
+    .addTo(map);
+
+  function actualizarMarcador(lng, lat) {
+    marker.setLngLat([lng, lat]);
+    map.setCenter([lng, lat]);
+  }
+
+  /*------------------------------
+* Socket.io
+------------------------------*/
+  const socket = io("https://seguroscz-socket.onrender.com/");
+
+  const btnPunto = document.querySelector("#btnPunto");
+  btnPunto.addEventListener("click", () => {
+    const datos = {
+      longitud: -63.180813,
+      latitud: -17.778941, 
+      dispositivo_id: 1,
+      persona_ci: 24,
+    };
+    socket.emit("ubicacion", datos);
+  });
+
+  /*const enviar = () => {
+    const datos = {
+      longitud: -5656.545,
+      latitud: -4545.4654,
+      dispositivo_id: 1,
+      persona_ci: 455,
+    };
+    socket.emit("ubicacion", datos);
+  };*/
+
+  socket.on("ubicacion", (data) => {
+    console.log("me conecte :v");
+    console.log(JSON.stringify(data));
+    actualizarMarcador(data.longitud, data.latitud);
+  });
 </script>
 
 {% endblock %}
