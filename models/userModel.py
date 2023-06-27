@@ -1,5 +1,5 @@
 from database.db import get_connection
-from .entities.User import User
+from .entities.User import User, UserLogged
 from .entities.Rol import Rol
 from werkzeug.security import generate_password_hash
 
@@ -29,30 +29,57 @@ class UserModel:
             raise Exception(ex)
 
     @classmethod
-    def login(self, user):
+    def login(self, user: User):
         try:
             cursor = get_connection().cursor()
-            sQuery = f"SELECT p.idu, p.nameuser, p.password, p.email, p.estado, p.token, idrol, p.ci_persona FROM public.usuario p WHERE p.nameuser = '{user.nameuser}'"
+            sQuery = f"SELECT u.idu ,u.nameuser ,u.email ,u.password  ,p.ci ,p.nombres ,p.apellidos ,p.foto_url, u.idrol from persona p , usuario u where p.ci = u.ci_persona and u.nameuser  = '{user.nameuser}' limit 1;"
             cursor.execute(sQuery)
-            data = cursor.fetchone()
-            if data != None:
-                coincide = User.verificar_password(data[2], user.password)
+            row = cursor.fetchone()
+            if row != None:
+                coincide = User.verificar_password(row[3], user.password)
                 if coincide:
-                    usuario_logeado = User(
-                        data[0],
-                        data[1],
-                        data[2],
-                        data[3],
-                        data[4],
-                        data[5],
-                        data[6],
-                        data[7],
+                    usuario_logeado = UserLogged(
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
                     )
                     return usuario_logeado
                 else:
                     return None
             else:
                 return None
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def view_user(self, id: int) -> dict:
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                sQuey = f"SELECT u.idu ,u.nameuser ,u.email ,u.password  ,p.ci , p.nombres , p.apellidos , p.foto_url, u.idrol from persona p , usuario u where p.ci = u.ci_persona and u.idu  = {id} limit 1;"
+                cursor.execute(sQuey)
+                row = cursor.fetchone()
+                user_logged = None
+                if row != None:
+                    user_logged = UserLogged(
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
+                    )
+            connection.close()
+            return user_logged
         except Exception as ex:
             raise Exception(ex)
 

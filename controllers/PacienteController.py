@@ -19,6 +19,7 @@ def main():
 @login_required
 def view(ci:int):
     _paciente = PacienteModel.get_paciente_X_ci(ci)
+    print(_paciente)
     return render_template("/paciente/view.html", paciente=_paciente)
 
 @pacienteweb.route("/ubicacion", methods=["GET", "POST"])

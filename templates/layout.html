@@ -2,7 +2,7 @@
   {% block style %}  {% endblock %} 
   </head>
 
-  <body>
+  <body class="bg-white">
     
     {% include 'logo.html' %}
 
@@ -22,7 +22,8 @@
     <!-- End #main -->
     {% include 'credits.html'   %}
     
-    {% include 'footer.html'   %}
+    
     {% block js %} {% endblock %}
+    {% include 'footer.html'   %}
   </body>
   </html>

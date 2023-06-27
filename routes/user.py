@@ -19,6 +19,17 @@ def get_users():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+@UserApi.route("/view/<id>", methods=["GET"])
+def view_user(id):
+    try:
+        _user = UserModel.get_user_id(id)
+        if _user:
+            return jsonify({"data": _user}), 200
+        else:
+            return jsonify({"message1": "Usuario no encontrado"}), 404
+    except Exception as ex:
+        return jsonify({"message1": str(ex)}), 500
+
 
 @UserApi.route("/<id>", methods=["GET"])
 def get_user(id):

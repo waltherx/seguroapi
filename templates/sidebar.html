@@ -1,7 +1,7 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
-    {% if current_user.idrol==1 %}
+    {% if current_user.rol==1 %}
     <li class="nav-item">
       <a class="nav-link" href="/paciente">
         <i class="bi bi-person-square"></i>
@@ -97,7 +97,7 @@
         </li>-->
       </ul>
     </li>
-    {% elif current_user.idrol == 2 or current_user.idrol == 4 %}
+    {% elif current_user.rol == 2 or current_user.rol == 4 %}
     <li class="nav-item">
       <a class="nav-link" href="/paciente">
         <i class="bi bi-person-square"></i>

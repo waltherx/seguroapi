@@ -61,7 +61,6 @@ class PersonaModel:
                         row[7],
                     )
                     persona = persona.to_JSON()
-
             connection.close()
             return persona
         except Exception as ex:

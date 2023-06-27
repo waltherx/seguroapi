@@ -34,9 +34,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ url_for('static', filename='js/paciente/paciente.js') }}"></script>
-<script src="https://unpkg.com/qrious@4.0.2/dist/qrious.js"></script>
-<script src="{{ url_for('static', filename='js/codeqr.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.2/socket.io.min.js"></script>
 
 <script>
@@ -74,16 +71,6 @@
     };
     socket.emit("ubicacion", datos);
   });
-
-  /*const enviar = () => {
-    const datos = {
-      longitud: -5656.545,
-      latitud: -4545.4654,
-      dispositivo_id: 1,
-      persona_ci: 455,
-    };
-    socket.emit("ubicacion", datos);
-  };*/
 
   socket.on("ubicacion", (data) => {
     console.log("me conecte :v");

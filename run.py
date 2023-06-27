@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from decouple import config
-from flask_qrcode import QRcode
 from flask_cors import CORS
 
 from flask_login import (
@@ -40,7 +39,7 @@ from routes import ubicacion
 
 from models.entities.User import User
 
-from controllers.AlergiaController import alergiaweb
+
 from controllers.EnfermedadController import enfermedadweb
 from controllers.PersonaController import personaweb
 from controllers.UserController import usersweb
@@ -53,12 +52,8 @@ from controllers.HospitalController import hospitalweb
 
 from controllers.PacienteController import pacienteweb
 
-
-
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
-
-qrcode = QRcode(app)
 
 login_manager_app = LoginManager(app)
 
@@ -68,7 +63,7 @@ CORS(app, resources={"*": {"origins": "*"}})
 @login_required
 def logout():
     logout_user()
-    flash("Usuario Salio", "success")
+ #   flash("Usuario Salio", "success")
     return redirect("/login")
 
 
@@ -99,7 +94,7 @@ def login():
 
 @login_manager_app.user_loader
 def load_user(user_id):
-    user = UserModel.get_user(user_id)
+    user = UserModel.view_user(user_id)
     return user
 
 
@@ -124,7 +119,7 @@ def page_not_authorized(error):
 
 
 # Blueprints App Web
-app.register_blueprint(alergiaweb, url_prefix="/alergia")
+#app.register_blueprint(alergiaweb, url_prefix="/alergia")
 app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
 app.register_blueprint(personaweb, url_prefix="/persona")
 app.register_blueprint(chofersweb, url_prefix="/chofer")

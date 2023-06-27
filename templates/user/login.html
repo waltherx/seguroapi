@@ -10,7 +10,10 @@
 
     <!-- Favicons -->
     <link href="static/img/favicon.png" rel="icon" />
-    <link href="{{ url_for('static', filename='img/logo.png') }}" rel="apple-touch-icon" />
+    <link
+      href="{{ url_for('static', filename='img/logo.png') }}"
+      rel="apple-touch-icon"
+    />
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect" />
@@ -95,7 +98,7 @@
                         Ingrese su Cuenta
                       </h5>
                       <p class="text-center small"></p>
-                    </div>                    
+                    </div>
                     <form
                       class="row g-3 needs-validation"
                       action="{{ url_for('login')}}"
@@ -103,12 +106,12 @@
                     >
                       <div class="col-12">
                         <label for="txtNombre" class="form-label"
-                          >Username</label
+                          >Nombre de usuario</label
                         >
                         <div class="input-group has-validation">
-                          <span class="input-group-text" id="inputGroupPrepend"
-                            >@</span
-                          >
+                          <span class="input-group-text"
+                            ><i class="bi bi-person-circle"></i
+                          ></span>
                           <input
                             type="text"
                             name="txtNombre"
@@ -124,17 +127,32 @@
 
                       <div class="col-12">
                         <label for="txtPassword" class="form-label"
-                          >Password</label
+                          >Contraseña</label
                         >
-                        <input
-                          type="password"
-                          name="txtPassword"
-                          class="form-control"
-                          id="yourPassword"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          Please enter your password!
+                        <div class="input-group has-validation">
+                          <span class="input-group-text">
+                            <i class="bi bi-key"></i>
+                          </span>
+                          <input
+                            type="password"
+                            name="txtPassword"
+                            class="form-control"
+                            id="yourPassword"
+                            required
+                          />
+
+                          <span>
+                            <i
+                              class="bi bi-eye"
+                              aria-hidden="true"
+                              type="button"
+                              id="eye"
+                            ></i>
+                          </span>
+
+                          <div class="invalid-feedback">
+                            Please enter your password!
+                          </div>
                         </div>
                       </div>
 
@@ -143,11 +161,11 @@
                           Login
                         </button>
                       </div>
-                    </form>                    
+                    </form>
                   </div>
                 </div>
 
-                <div class="credits">Designed by <a href="">PL</a></div>
+                <div class="credits">Diseñado por <a href="">PL</a></div>
               </div>
             </div>
           </div>
@@ -162,15 +180,39 @@
       ><i class="bi bi-arrow-up-short"></i
     ></a>
 
-    <!-- Vendor JS Files -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
-    <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
-    <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
-    <!-- Template Main JS File -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+      "use strict";
+      function show() {
+        let passwordTxt = document.getElementById("yourPassword");
+        passwordTxt.setAttribute("type", "text");
+      }
+
+      function hide() {
+        let passwordTxt = document.getElementById("yourPassword");
+        passwordTxt.setAttribute("type", "password");
+      }
+
+      let pwShown = 0;
+
+      document.getElementById("eye").addEventListener(
+        "click",
+        () => {
+          if (pwShown == 0) {
+            pwShown = 1;
+            show();
+          } else {
+            pwShown = 0;
+            hide();
+          }
+        },
+        false
+      );
+    </script>
   </body>
 </html>

@@ -1,33 +1,73 @@
-{% extends 'layout.html' %} {% block body %}
+{% extends 'layout.html' %} {% block style %}
+<link
+  href="{{ url_for('static', filename='css/swalnotif.css') }}"
+  rel="stylesheet"
+/>
+<link
+  href="{{ url_for('static', filename='css/uploadPhoto.css') }}"
+  rel="stylesheet"
+/>
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .custom-btn {
+    background-color: #012970;
+    color: white;
+  }
+
+  .custom-btn:hover {
+    background-color: #012970;
+    color: white;
+  }
+
+  .legend-txt {
+    /*font-weight: bold;*/
+    color: #012970;
+  }
+</style>
+{% endblock %} {% block body %}
 
 <div class="container">
-<div class="card mx-auto shadow" style="max-width: 24rem;">
-  <div class="card-header text-white" style="background-color: #012970">
-    <b>Informacion de Usuario</b>
-    <br>
-  </div>
-  <img src="{{persona.foto_url}}"  alt="perfil" class="card-img-top mx-auto d-block p-2" style="width: 150px; height: 150px; border-radius: 50%;">
-  <div class="card-body">
-    <h5 class="card-title"></b>{{current_user.nameuser}}</h5>  
-    <p class="card-text"><b>CI : </b>{{current_user.ci_persona}}</p>
-    <p class="card-text"><b>ID User : </b>{{current_user.id}}</p>        
-    <p class="card-text"><b>Nombre : </b>{{persona.nombres}}</p>
-    <p class="card-text"><b>Apellidos : </b>{{persona.apellidos}}</p>
-    <p class="card-text"><b>Direccion : </b>{{persona.direccion}}</p>
-    {% if persona.genero =='m' %}
-    <p class="card-text"><b>Genero : </b><i class="bi bi-gender-male"></i></p>  
-    {% elif persona.genero =='f' %}
-    <p class="card-text"><b>Genero : </b><i class="bi bi-gender-female"></i></p>
-    {% else %}
-    <p class="card-text"><b>Genero : </b><i class="bi bi-gender-ambiguous"></i></p>
-    {% endif %}
-    <p class="card-text"><b>Edad : </b>{{edad_user}}, Años</p>
-    <p class="card-text"><b>Email : </b>{{current_user.email}}</p>
-    <p class="card-text"><b>Rol : </b>{{current_user.idrol}}</p>
-    <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+  <div class="card mx-auto shadow" style="max-width: 24rem">
+    <div class="card-header text-white" style="background-color: #012970">
+      <b>Informacion de Usuario</b>
+      <br />
+    </div>
+    <img
+      src="{{persona.foto_url}}"
+      alt="perfil"
+      class="card-img-top mx-auto d-block p-2"
+      style="width: 150px; height: 150px; border-radius: 50%"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{current_user.nameuser}}</h5>
+      <p class="card-text"><b>CI : </b>{{current_user.ci_persona}}</p>
+      <p class="card-text"><b>ID User : </b>{{current_user.id}}</p>
+      <p class="card-text"><b>Nombre : </b>{{persona.nombres}}</p>
+      <p class="card-text"><b>Apellidos : </b>{{persona.apellidos}}</p>
+      <p class="card-text"><b>Direccion : </b>{{persona.direccion}}</p>
+      {% if persona.genero =='m' %}
+      <p class="card-text"><b>Genero : </b><i class="bi bi-gender-male"></i></p>
+      {% elif persona.genero =='f' %}
+      <p class="card-text">
+        <b>Genero : </b><i class="bi bi-gender-female"></i>
+      </p>
+      {% else %}
+      <p class="card-text">
+        <b>Genero : </b><i class="bi bi-gender-ambiguous"></i>
+      </p>
+      {% endif %}
+      <p class="card-text"><b>Edad : </b>{{edad_user}}, Años</p>
+      <p class="card-text"><b>Email : </b>{{current_user.email}}</p>
+    </div>
   </div>
 </div>
-</div>
+{% endblock %} {% block js %}
+<script>
+  "use strict"
+  const ci_perona = "{{current_user.ci_persona}}"
+  console.log(ci_perona);
+</script>
 {% endblock %}
-
-
