@@ -6,6 +6,11 @@ window.addEventListener("load", function () {
     initTheme();
     darkSwitch.addEventListener("change", function () {
       resetTheme();
+      if (this.checked) {
+        this.nextElementSibling.innerHTML = "☀️";
+      } else {
+        this.nextElementSibling.innerHTML = "🌑";
+      }
     });
   }
 });
