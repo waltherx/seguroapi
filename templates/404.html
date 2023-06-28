@@ -55,14 +55,17 @@
         >
           <h1>404</h1>
           <h2>La pagina no existe...</h2>
-          <div class="credits">            
-            Designed by <a href="#">PL</a>
-          </div>
+          <button class="btn-Red" onclick="goHome()">Volver &#128554;</button>
+          <hr />
+          <div class="credits">Designed by <a href="#">PL</a></div>
         </section>
       </div>
     </main>
-
-    <!-- Vendor JS Files -->
-    <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>        
+    <script>
+      
+      goHome = () => {
+        window.location.href = `${window.origin}/home`;
+      };
+    </script>
   </body>
 </html>

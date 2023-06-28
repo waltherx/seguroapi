@@ -69,7 +69,7 @@
                       src="{{ url_for('static', filename='img/logo.png') }}"
                       alt=""
                     />
-                    <span class="d-none d-lg-block">Seguro Scz</span>
+                    <span style="color: #d90429;">Seguro Scz</span>
                   </a>
                 </div>
                 <!-- End Logo -->
@@ -94,11 +94,13 @@
                         ></button>
                       </div>
                       {% endfor %} {% endif %} {% endwith %}
-                      <h5 class="card-title text-center pb-0 fs-4">
+                  
+                      <div class=" text-center pb-0 fs-4">
                         Ingrese su Cuenta
-                      </h5>
+                      <hr>
                       <p class="text-center small"></p>
                     </div>
+                  
                     <form
                       class="row g-3 needs-validation"
                       action="{{ url_for('login')}}"
@@ -157,8 +159,8 @@
                       </div>
 
                       <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">
-                          Login
+                        <button class="btn-Red w-100" type="submit">
+                          Inicia sesion
                         </button>
                       </div>
                     </form>

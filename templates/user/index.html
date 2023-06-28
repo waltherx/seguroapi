@@ -1,4 +1,9 @@
-{% extends 'layout.html' %} {% block body %}
+{% extends 'layout.html' %} {% block style %}
+<link
+  href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+  rel="stylesheet"
+/>
+{% endblock %} {% block body %}
 
 <div class="container">
   <div class="row justify-content-center">
@@ -6,53 +11,20 @@
   </div>
   <div class="card mx-auto shadow">
     <div class="card-header">
-      
+      <div class="card-title">Usuarios</div>
     </div>
-    <div class="table-responsive bg-white container pt-2">
-      <table class="table datatable">
-        <thead>
-          <tr>
-            <th class="text-center">ID</th>
-            <th>CI</th>
-            <th>Usuario</th>
-            <th>Nombre</th>
-            <th>Rol</th>
-            <th class="text-center">Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for user in users %}
-          <tr>
-            <td class="text-center">{{user.id_user}}</td>
-            <td>{{user.ci_persona}}</td>
-            <td>{{user.name_user}}</td>
-            <td>{{user.nombre_completo}}</td>
-            <td>{{user.rol}}</td>
-            <td>
-                <button
-                  type="button"
-                  class="btn btn-warning btn-sm"
-                >
-                  <i class="bi bi-gear"></i>
-                </button>
-  
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-   
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <br />
-    <br />
+    <div id="table"></div>
   </div>
-  {% endblock %}
+  <hr>
   
+</div>
+{% endblock %} {% block js %}
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/paciente/user.js') }}"></script>
+<script>
+  console.log("comenzamo...");
+</script>
+{% endblock %}

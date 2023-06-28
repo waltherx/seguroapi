@@ -7,33 +7,13 @@
   href="{{ url_for('static', filename='css/uploadPhoto.css') }}"
   rel="stylesheet"
 />
-<style>
-  .hidden {
-    display: none;
-  }
 
-  .custom-btn {
-    background-color: #012970;
-    color: white;
-  }
-
-  .custom-btn:hover {
-    background-color: #012970;
-    color: white;
-  }
-
-  .legend-txt {
-    /*font-weight: bold;*/
-    color: #012970;
-  }
-</style>
 {% endblock %} {% block body %}
 
 <div class="container">
-  <div class="card mx-auto shadow" style="max-width: 24rem">
-    <div class="card-header text-white" style="background-color: #012970">
-      <b>Informacion de Usuario</b>
-      <br />
+  <div class="card mx-auto shadow">
+    <div class="card-header">
+      <div class="card-title">Informacion de Usuario</div>
     </div>
     <img
       src="{{persona.foto_url}}"

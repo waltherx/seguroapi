@@ -13,7 +13,7 @@ from flask_login import (
 # from flask_session import Session
 
 from models.userModel import UserModel
-
+  
 from routes import phone
 from routes import enfermedad
 from routes import alergia
@@ -35,12 +35,8 @@ from routes import medicamento
 from routes import dispositivo
 from routes import ubicacion
 
-
-
 from models.entities.User import User
 
-
-from controllers.EnfermedadController import enfermedadweb
 from controllers.PersonaController import personaweb
 from controllers.UserController import usersweb
 from controllers.ParamedicoController import paramedicoweb
@@ -119,8 +115,6 @@ def page_not_authorized(error):
 
 
 # Blueprints App Web
-#app.register_blueprint(alergiaweb, url_prefix="/alergia")
-app.register_blueprint(enfermedadweb, url_prefix="/enfermedad")
 app.register_blueprint(personaweb, url_prefix="/persona")
 app.register_blueprint(chofersweb, url_prefix="/chofer")
 app.register_blueprint(paramedicoweb, url_prefix="/paramedico")

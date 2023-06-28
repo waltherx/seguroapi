@@ -11,11 +11,11 @@
 --------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
-  --color-rojo: #D90429;
-  --color-rosado: #EF233C;
-  --color-blanco: #EDF2F4;
-  --color-plomo: #8D99AE;
-  --color-negro: #2B2D42;
+  --color-rojo: #d90429;
+  --color-rosado: #ef233c;
+  --color-blanco: #edf2f4;
+  --color-plomo: #8d99ae;
+  --color-negro: #2b2d42;
 }
 
 body {
@@ -46,6 +46,11 @@ h5,
 h6 {
   font-family: "Nunito", sans-serif;
 }
+
+.svg-color{
+  fill: var(--color-rosado);
+}
+
 
 /*--------------------------------------------------------------
 # Main
@@ -100,7 +105,7 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: #6776f4;
+  background: var(--color-rosado);
   color: #fff;
 }
 
@@ -225,6 +230,47 @@ h6 {
   border-color: #d3d3d4;
 }
 
+/* Buttons*/
+
+.btn-Red {
+  font-size: 17px;
+  font-weight: bold;
+  position: relative;
+  width: 130px;
+  height: 50px;
+  background: var(--color-rosado);
+  margin: 0 auto;
+  margin-top: 40px;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+  transition: color 0.3s;
+  text-align: center;
+  color: #fff;
+  border: 0;
+  -webkit-border-bottom-right-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.btn-Red:after {
+  position: absolute;
+  top: 90%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-rojo);
+  content: "";
+  z-index: -2;
+  transition: transform 0.3s;
+}
+.btn-Red:hover::after {
+  transform: translateY(-80%);
+  transition: transform 0.3s;
+}
+
 /* Card */
 .card {
   margin-bottom: 30px;
@@ -237,7 +283,7 @@ h6 {
 .card-footer {
   border-color: var(--color-blanco);
   background-color: var(--color-rojo);
-  color: #798eb3;
+  color: var(--color-rosado);
   padding: 15px;
 }
 
@@ -245,12 +291,12 @@ h6 {
   padding: 20px 0 15px 0;
   font-size: 18px;
   font-weight: 500;
-  color: var(--color-rojo);
+  color: var(--color-blanco);
   font-family: "Poppins", sans-serif;
 }
 
 .card-title span {
-  color: #899bbd;
+  color: #f7f7f7;
   font-size: 14px;
   font-weight: 400;
 }
@@ -292,7 +338,7 @@ h6 {
 
 .accordion-button:not(.collapsed) {
   color: var(--color-rojo);
-  background-color: #f6f9ff;
+  background-color: var(--color-blanco);
 }
 
 .accordion-flush .accordion-button {
@@ -470,7 +516,7 @@ h6 {
   list-style: none;
 }
 
-.header-nav>ul {
+.header-nav > ul {
   margin: 0;
   padding: 0;
 }
@@ -619,7 +665,7 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color: var(--color-blanco);
+  background-color: var(--color-plomo);
 }
 
 @media (max-width: 1199px) {
@@ -639,7 +685,6 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-
   #main,
   #footer {
     margin-left: 300px;
@@ -653,7 +698,6 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-
   .toggle-sidebar #main,
   .toggle-sidebar #footer {
     margin-left: 0;
@@ -695,7 +739,7 @@ h6 {
   font-weight: 600;
   color: var(--color-rosado);
   transition: 0.3;
-  background:var(--color-blanco);
+  background: var(--color-blanco);
   padding: 10px 15px;
   border-radius: 4px;
 }
@@ -759,11 +803,11 @@ h6 {
 
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
-  color: #4154f1;
+  color: var(--color-negro);
 }
 
 .sidebar-nav .nav-content a.active i {
-  background-color: #4154f1;
+  background-color: var(--color-negro);
 }
 
 /*--------------------------------------------------------------
@@ -892,7 +936,7 @@ h6 {
 }
 
 /* News & Updates */
-.dashboard .news .post-item+.post-item {
+.dashboard .news .post-item + .post-item {
   margin-top: 15px;
 }
 
@@ -1094,7 +1138,7 @@ h6 {
 .error-404 h1 {
   font-size: 180px;
   font-weight: 700;
-  color: #4154f1;
+  color: var(--color-negro);
   margin-bottom: 0;
   line-height: 150px;
 }
@@ -1102,18 +1146,8 @@ h6 {
 .error-404 h2 {
   font-size: 24px;
   font-weight: 700;
-  color: var(--color-rojo);
+  color: var(--color-rosado);
   margin-bottom: 30px;
-}
-
-.error-404 .btn {
-  background: #51678f;
-  color: #fff;
-  padding: 8px 30px;
-}
-
-.error-404 .btn:hover {
-  background: #3e4f6f;
 }
 
 @media (min-width: 992px) {
@@ -1130,18 +1164,15 @@ h6 {
   font-size: 14px;
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
-  
 }
 .footer .copyright {
   text-align: center;
   color: var(--color-negro);
-  
 }
 
-.footer .credits {  
+.footer .credits {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
   color: var(--color-negro);
-  
 }
