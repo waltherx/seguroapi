@@ -64,7 +64,7 @@ def add_alergia():
         if affected_rows == 1:
             return jsonify({"message": "Alergia Agregada!"}), 200
         else:
-            return jsonify({"message": "Error al insertar"}), 500
+            return jsonify({"message": "Error al insertar"}), 404
 
     except BadRequest as e:
         return jsonify({"message": str(e)}), 400

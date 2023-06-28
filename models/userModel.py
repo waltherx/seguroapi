@@ -58,6 +58,23 @@ class UserModel:
             raise Exception(ex)
 
     @classmethod
+    def change_password(id: int, pwd_new: str) -> int:
+        try:
+            connection = get_connection()
+            sQuery = f"{pwd_new}={id}"
+            with connection.cursor() as cursor:
+                cursor.execute(sQuery)
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            if affected_rows == 1:
+                return 1
+            else:
+                return 0
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
     def view_user(self, id: int) -> dict:
         try:
             connection = get_connection()

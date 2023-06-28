@@ -2,7 +2,10 @@
 
 const url = `${window.origin}/api/user/`;
 
-console.log(url);
+
+
+
+
 
 async function get_users() {
   try {
@@ -24,8 +27,7 @@ new gridjs.Grid({
         return gridjs.h(
           "button",
           {
-            className:
-              "btn btn-success",
+            className: "btn btn-success",
             onClick: () =>
               alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`),
           },
@@ -48,19 +50,6 @@ new gridjs.Grid({
   },
   resizable: true,
   sort: true,
-  /*name: "Actions",
-      formatter: (cell, row) => {
-        return h(
-          "button",
-          {
-            className:
-              "py-2 mb-4 px-4 border rounded-md text-white bg-blue-600",
-            onClick: () =>
-              alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`),
-          },
-          "Edit"
-        );
-      },*/
   language: {
     pagination: {
       previous: "Anterior",

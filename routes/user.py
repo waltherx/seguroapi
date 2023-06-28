@@ -19,6 +19,7 @@ def get_users():
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
+
 @UserApi.route("/view/<id>", methods=["GET"])
 def view_user(id):
     try:
@@ -58,6 +59,30 @@ def add_user():
         return jsonify({"message": str(ex)}), 500
 
 
+@UserApi.route("/passwprd", methods=["PUT"])
+def change_password():
+    try:
+        data = request.get_json()
+        id = data["id"]
+        pwd = data["password"]
+        pwd2 = data["password2"]
+
+        pwd_lower = pwd.lower()
+        pwd2_lower = pwd2.lower()
+
+        if len(pwd_lower) == len(pwd2_lower) and pwd_lower == pwd2_lower:
+            affected_rows = UserModel.change_password(id, pwd, pwd2)
+            if affected_rows:
+                return {"message": "Contraseña cambiada correctamente."}
+            else:
+                return {"message": "Contraseña no cambiada!"}
+        else:
+            return {"message": "Las contraseñas no son iguales."}
+
+    except Exception as ex:
+        return None
+
+
 @UserApi.route("/update", methods=["PUT"])
 def update_user():
     try:
@@ -69,9 +94,11 @@ def update_user():
         _token = request.json["token"]
         _idrol = request.json["idrol"]
         _user = User(_id, _nameuser, _password, _email, _estado, _token, _idrol)
-        # if _user.id != None:
-        ok = UserModel.update_user(_user)
-        return jsonify({"message": "usuario actualisado"}), 200
+        affected_rows = UserModel.update_user(_user)
+        if affected_rows:
+            return jsonify({"message": "Usuario actualisado"}), 200
+        else:
+            return jsonify({"message": "Usuario no actualisado"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 
@@ -83,8 +110,11 @@ def update_user_token():
         _token = request.json["token"]
         _user = User(_id, None, None, None, None, _token, None)
         # if _user.id != None:
-        ok = UserModel.update_user_token(_user)
-        return jsonify({"message": "usuario token actualisado"}), 200
+        affected_rows = UserModel.update_user_token(_user)
+        if affected_rows:
+            return jsonify({"message": "usuario token actualisado"}), 200
+        else:
+            return jsonify({"message": "usuario token no fue actualisado"}), 404
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500
 

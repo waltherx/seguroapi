@@ -36,6 +36,10 @@ class User:
         }
 
     @classmethod
+    def encrypt_password(self, pwd: str):
+        return generate_password_hash(pwd)
+
+    @classmethod
     def verificar_password(self, encriptado, password):
         return check_password_hash(encriptado, password)
 
