@@ -15,12 +15,23 @@
     <div class="card-header">
       <div class="card-title">Informacion de Usuario</div>
     </div>
-    <img
+    {#<img
+      id="output"
       src="{{persona.foto_url}}"
       alt="perfil"
       class="card-img-top mx-auto d-block p-2"
       style="width: 150px; height: 150px; border-radius: 50%"
-    />
+    />#}
+
+    <div class="profile-pic">
+      <label class="-label" for="file">
+        <span class="glyphicon glyphicon-camera"></span>
+        <span>Cambiar Perfil</span>
+      </label>
+      <input id="file" type="file" accept="image/png,image/jpeg" onchange="loadFile(event)"/>
+      <img src="{{persona.foto_url}}" id="output" width="200" />
+    </div>
+
     <div class="card-body">
       <h5 class="card-title">{{current_user.nameuser}}</h5>
       <p class="card-text"><b>CI : </b>{{current_user.ci_persona}}</p>
@@ -45,9 +56,34 @@
   </div>
 </div>
 {% endblock %} {% block js %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/notificacionSwal.js') }}"></script>
 <script>
-  "use strict"
-  const ci_perona = "{{current_user.ci_persona}}"
+  "use strict";
+  const ci_perona = "{{current_user.ci_persona}}";
   console.log(ci_perona);
+
+  function loadFile(event) {
+    const image = document.getElementById("output");
+    const file = event.target.files[0];
+    image.src = URL.createObjectURL(file);
+    const formData = new FormData();
+    formData.append("photo", file);
+    const url = `${window.origin}/api/person/upload/{{current_user.ci_persona}}`;
+
+    axios
+      .post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        notificacionSwal("Cambio de perfil!", "success");
+      })
+      .catch((error) => {
+        notificacionSwal(error, "error");
+      });
+  }
 </script>
 {% endblock %}

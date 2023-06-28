@@ -14,17 +14,36 @@ async function get_users() {
 }
 
 new gridjs.Grid({
-  columns: ["CI", "id_user", "Nombre usuario", "nombre_completo", "rol"],
+  columns: [
+    { name: "id_user" },
+    { name: "Nombre usuario" },
+    { name: "nombre_completo" },
+    {
+      name: "Actions",
+      formatter: (cell, row) => {
+        return gridjs.h(
+          "button",
+          {
+            className:
+              "btn btn-success",
+            onClick: () =>
+              alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`),
+          },
+          "Edit"
+        );
+      },
+    },
+  ],
+  search: true,
   pagination: true,
   server: {
     url: url,
     then: (data) =>
       data.map((user) => [
-        user.ci_persona,
         user.id_user,
         user.name_user,
         user.nombre_completo,
-        user.rol,
+        null,
       ]),
   },
   resizable: true,
@@ -54,10 +73,12 @@ new gridjs.Grid({
       results: "resultados",
     },
     loading: "Cargando...",
+    search: "Buscar",
   },
   style: {
     table: {
       border: "3px solid #ccc",
+      overflow: "hidden",
     },
     th: {
       "background-color": "rgba(0, 0, 0, 0.1)",
