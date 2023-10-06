@@ -11,11 +11,20 @@
 --------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
-  --color-rojo: #d90429;
-  --color-rosado: #ef233c;
-  --color-blanco: #edf2f4;
-  --color-plomo: #8d99ae;
-  --color-negro: #2b2d42;
+  --color-rojo: #2b6cb0;
+  --color-rosado: #215387;
+  --color-blanco: #f7fafc;
+  --color-plomo: #4a5568;
+  --color-negro: #2d3748;
+  --color-amarillo: #ff8300;
+
+  --global-palette3: #1a202c;
+  --global-palette4: #2d3748;
+  --global-palette5: #4a5568;
+  --global-palette6: #718096;
+  --global-palette7: #edf2f7;
+  --global-palette8: #f7fafc;
+  --global-palette9: #ffffff;
 }
 
 body {
@@ -47,10 +56,9 @@ h6 {
   font-family: "Nunito", sans-serif;
 }
 
-.svg-color{
+.svg-color {
   fill: var(--color-rosado);
 }
-
 
 /*--------------------------------------------------------------
 # Main
@@ -665,7 +673,7 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color: var(--color-plomo);
+  background-color: var(--color-blanco);
 }
 
 @media (max-width: 1199px) {
@@ -727,7 +735,7 @@ h6 {
 .sidebar-nav .nav-heading {
   font-size: 11px;
   text-transform: uppercase;
-  color: var(--color-rosado);
+  color: var(--color-amarillo);
   font-weight: 600;
   margin: 10px 0 5px 15px;
 }
@@ -747,7 +755,7 @@ h6 {
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;
-  color: #4154f1;
+  color: var(--color-rojo);
 }
 
 .sidebar-nav .nav-link.collapsed {
@@ -760,12 +768,12 @@ h6 {
 }
 
 .sidebar-nav .nav-link:hover {
-  color: #4154f1;
-  background: #f6f9ff;
+  color: var(--color-blanco);
+  background: var(--color-rojo);
 }
 
 .sidebar-nav .nav-link:hover i {
-  color: #4154f1;
+  color:var(--color-blanco);
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -803,11 +811,12 @@ h6 {
 
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
-  color: var(--color-negro);
+  color: var(--color-blanco);
+  background: var(--color-rojo);
 }
 
 .sidebar-nav .nav-content a.active i {
-  background-color: var(--color-negro);
+  background-color: var(--color-rojo);
 }
 
 /*--------------------------------------------------------------

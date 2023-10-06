@@ -1,9 +1,9 @@
 .my-swal-title {
-  color: #012970;
+  color: var(--color-rojo);
 }
 
 #swal2-title {
-  color: #012970;
+  color: var(--color-rojo);;
 }
 
 #swal2-html-container {
@@ -17,13 +17,13 @@
   font-size: 16px;
 }
 
-.my-swal-container label{
+.my-swal-container label {
   text-align: left;
   color: #012970;
   font-size: 14px;
 }
 
-.my-swal-container b{
+.my-swal-container b {
   color: #012970;
   font-size: 16px;
 }

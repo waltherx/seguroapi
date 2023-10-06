@@ -27,7 +27,7 @@
 }
 .card-header {
   padding: 10px;
-  background-color: #012970;
+  background-color: var(--color-rojo);
 }
 .card-header img {
   width: 100px;
@@ -47,7 +47,7 @@
 .b-border {
   height: 2px;
   display: block;
-  background-color: #012970;
+  background-color: var(--color-rojo);
   margin-top: 1px;
 }
 .card-detail {

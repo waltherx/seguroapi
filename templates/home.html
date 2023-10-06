@@ -1,6 +1,21 @@
-{% extends 'layout.html' %} {% block title %}Home{% endblock %} {% block body %}
-<h1>  
-  {% if current_user.is_authenticated %} Bienvenido  {{ current_user.nameuser
-  }}! {% endif %}
+{% extends 'layout.html' %} {% block title %}Home{% endblock %} {% block style
+%}
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+></script>
+{% endblock %} {% block body %}
+<h1>
+  {% if current_user.is_authenticated %} Bienvenido {{ current_user.nameuser }}!
+  {% endif %}
 </h1>
+<div>
+  <div x-data="{ count: 0 }">
+    <button class="btn btn-primary" x-on:click="count+=5">Increment</button>
+
+    <span x-text="count"></span>
+  </div> 
+</div>
+
 {% endblock %}

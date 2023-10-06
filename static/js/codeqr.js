@@ -34,7 +34,7 @@ function mostrarQR(texto) {
   const qr = new QRious({
     value: texto,
     size: 200,
-    foreground: "#012970",
+    //foreground: "#012970",
   });
 
   const imagenQR = qr.toDataURL();

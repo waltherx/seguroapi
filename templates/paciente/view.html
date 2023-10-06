@@ -8,18 +8,18 @@
   }
 
   .custom-btn {
-    background-color: #012970;
+    background-color: var(--color-amarillo);
     color: white;
   }
 
   .custom-btn:hover {
-    background-color: #012970;
+    background-color: var(--color-amarillo);
     color:white;
   }
 
   .legend-txt {
     /*font-weight: bold;*/
-    color: #012970;
+    color: var(--color-palette3);
   }
 
 </style>
@@ -29,7 +29,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card mx-auto shadow">
-        <div class="card-header" style="background-color: #012970">
+        <div class="card-header">
           <h2 style="color: white;">Administrar Paciente</h2>
         </div>
         <div class="card-body">
@@ -413,7 +413,7 @@
           element: document.querySelector("#qrious"),
           value: JSON.stringify({ ci : ci }),
           size: 100,
-          foreground: "#012970"
+          //foreground: "#012970"
         });
 
   </script>
