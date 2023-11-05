@@ -69,7 +69,9 @@
                         src="{{ url_for('static', filename='img/logoam.png') }}"
                         alt=""
                       />
-                      <span style="color: #2b2d42">Clínica de las Américas</span>
+                      <span style="color: #2b2d42"
+                        >Clínica de las Américas</span
+                      >
                     </a>
                   </div>
                   <div class="card-body">
@@ -77,9 +79,12 @@
                       <div class="text-center pb-0 fs-4">
                         Ingrese su Cuenta
                         <hr />
-                        <p class="text-center small"></p>
                       </div>
-
+                      {% if error %}
+                      <div class="alert alert-danger" role="alert">
+                        {{error}}
+                      </div>
+                      {% endif %}
                       <form
                         class="row g-3 needs-validation"
                         action="{{ url_for('login')}}"
@@ -97,7 +102,7 @@
                               type="text"
                               name="txtNombre"
                               class="form-control"
-                              id="yourUsername"
+                              id="txtNombre"
                               required
                             />
                             <div class="invalid-feedback">
@@ -118,7 +123,7 @@
                               type="password"
                               name="txtPassword"
                               class="form-control"
-                              id="yourPassword"
+                              id="txtPassword"
                               required
                             />
 
@@ -170,6 +175,7 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
       "use strict";
+
       function show() {
         let passwordTxt = document.getElementById("yourPassword");
         passwordTxt.setAttribute("type", "text");

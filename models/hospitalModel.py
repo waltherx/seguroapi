@@ -22,19 +22,16 @@ class HospitalModel:
             raise Exception(ex)
 
     @classmethod
-    def get_hospital(self, id):
+    def get_hospital(self, id: int):
         try:
             connection = get_connection()
-
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM hospital WHERE idh = %s", (id))
+                cursor.execute(f"SELECT * FROM hospital WHERE idh = {id}")
                 row = cursor.fetchone()
-
                 hospital = None
                 if row != None:
                     hospital = Hospital(row[0], row[1], row[2], row[3], row[4])
                     hospital = hospital.to_JSON()
-
             connection.close()
             return hospital
         except Exception as ex:

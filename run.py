@@ -1,52 +1,52 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from decouple import config
+from flask import Flask, redirect, render_template, request, url_for
 from flask_cors import CORS
-
 from flask_login import (
     LoginManager,
+    current_user,
+    login_required,
     login_user,
     logout_user,
-    login_required,
-    current_user,
+)
+
+from controllers.AmbulanciaController import ambulanciaweb
+from controllers.ChoferControlller import chofersweb
+from controllers.DocumentoController import documentoWeb
+from controllers.HospitalController import hospitalweb
+from controllers.MedicoController import medicosweb
+from controllers.PacienteController import pacienteweb
+from controllers.ParamedicoController import paramedicoweb
+from controllers.PersonaController import personaweb
+from controllers.UserController import usersweb
+from models.emergenciaModel import EmergenciaModel
+from models.entities.Emergencia import Emergencia
+from models.entities.User import User
+from models.userModel import UserModel
+from routes import (
+    alergia,
+    ambulancia,
+    chofer,
+    dispositivo,
+    documento,
+    emergencia,
+    enfermedad,
+    hospital,
+    medicamento,
+    medico,
+    notificacion,
+    operacion,
+    paciente,
+    paramedico,
+    persona,
+    phone,
+    token,
+    ubicacion,
+    user,
+    vacuna,
 )
 
 # from flask_session import Session
 
-from models.userModel import UserModel
-  
-from routes import phone
-from routes import enfermedad
-from routes import alergia
-from routes import persona
-from routes import paciente
-from routes import hospital
-from routes import ambulancia
-from routes import chofer
-from routes import user
-from routes import documento
-from routes import token
-from routes import notificacion
-from routes import paramedico
-from routes import medico
-from routes import emergencia
-from routes import operacion
-from routes import vacuna
-from routes import medicamento
-from routes import dispositivo
-from routes import ubicacion
-
-from models.entities.User import User
-
-from controllers.PersonaController import personaweb
-from controllers.UserController import usersweb
-from controllers.ParamedicoController import paramedicoweb
-from controllers.ChoferControlller import chofersweb
-from controllers.MedicoController import medicosweb
-from controllers.AmbulanciaController import ambulanciaweb
-from controllers.DocumentoController import documentoWeb
-from controllers.HospitalController import hospitalweb
-
-from controllers.PacienteController import pacienteweb
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = config("SECRET_KEY")
@@ -55,16 +55,18 @@ login_manager_app = LoginManager(app)
 
 CORS(app, resources={"*": {"origins": "*"}})
 
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
- #   flash("Usuario Salio", "success")
+    #   flash("Usuario Salio", "success")
     return redirect("/login")
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    Error = None
     if current_user.is_authenticated:
         return render_template("/home.html")
     else:
@@ -77,16 +79,17 @@ def login():
                     user_loged = UserModel.login(_user)
                     if user_loged != None:
                         login_user(user_loged)
-                        flash("bienvenido", "success")
-                        return render_template("/home.html")
+                        # flash("bienvenido", "success")
+                        return redirect(url_for("home1"))
                     else:
-                        flash("Nombre de Usuario o contrasenia no coincide")
-                        return render_template("/user/login.html")
-                flash("datos vacios")
-                return render_template("/user/login.html")
-            flash("usuario no regristrado")
-            return render_template("/user/login.html")
-    return render_template("/user/login.html")
+                        Error = "Nombre de Usuario o contrasenia no coincide"
+                        return render_template("/user/login.html", error=Error)
+                Error = "Ingrese datos por favor"
+                return render_template("/user/login.html", error=Error)
+            Error = "usuario no regristrado"
+            return render_template("/user/login.html", error=Error)
+    return render_template("/user/login.html", error=Error)
+
 
 @login_manager_app.user_loader
 def load_user(user_id):
@@ -106,6 +109,18 @@ def home1():
     return render_template("/home.html")
 
 
+"""
+@app.errorhandler(403)
+def page_forbidden(e):
+    return render_template('403.html'), 403
+"""
+
+
+@app.errorhandler(410)
+def page_gone(e):
+    return render_template("410.html"), 410
+
+
 def page_not_found(error):
     return render_template("404.html"), 404
 
@@ -123,7 +138,6 @@ app.register_blueprint(usersweb, url_prefix="/user")
 app.register_blueprint(documentoWeb, url_prefix="/documento")
 app.register_blueprint(hospitalweb, url_prefix="/hospital")
 app.register_blueprint(medicosweb, url_prefix="/medico")
-
 app.register_blueprint(pacienteweb, url_prefix="/paciente")
 
 # Blueprints Api Rest fun
@@ -155,4 +169,4 @@ app.register_error_handler(404, page_not_found)
 # inits
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5000,debug=True)
+    app.run(port=5000, debug=True)

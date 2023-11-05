@@ -299,7 +299,7 @@ h6 {
   padding: 20px 0 15px 0;
   font-size: 18px;
   font-weight: 500;
-  color: var(--color-blanco);
+  color: var(--color-rojo);
   font-family: "Poppins", sans-serif;
 }
 
@@ -665,7 +665,7 @@ h6 {
   top: 60px;
   left: 0;
   bottom: 0;
-  width: 300px;
+  width: 200px;
   z-index: 996;
   transition: all 0.3s;
   padding: 20px;
@@ -678,7 +678,7 @@ h6 {
 
 @media (max-width: 1199px) {
   .sidebar {
-    left: -300px;
+    left: -200px;
   }
 }
 
@@ -695,7 +695,7 @@ h6 {
 @media (min-width: 1200px) {
   #main,
   #footer {
-    margin-left: 300px;
+    margin-left: 200px;
   }
 }
 
@@ -712,7 +712,7 @@ h6 {
   }
 
   .toggle-sidebar .sidebar {
-    left: -300px;
+    left: -200px;
   }
 }
 
@@ -1185,3 +1185,5 @@ h6 {
   font-size: 13px;
   color: var(--color-negro);
 }
+
+

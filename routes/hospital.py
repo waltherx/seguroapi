@@ -36,6 +36,21 @@ def get_hospital(id):
         return jsonify({"message": str(ex)}), 500
 
 
+@HospitalApi.route("/n/<id>")
+def get_hospital_new(id: int):
+    try:
+        hospital = HospitalModel.get_hospital(id)
+        if hospital != None:
+            return (
+                jsonify(hospital),
+                200,
+            )
+        else:
+            return jsonify({"message": "No se encontro hospital"}), 404
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
+
+
 @HospitalApi.route("/add", methods=["POST"])
 def add_hospital():
     try:
@@ -49,9 +64,9 @@ def add_hospital():
         affected_rows = HospitalModel.add_hospital(hospital)
 
         if affected_rows == 1:
-            return jsonify({"message": "insert hospital"})
+            return jsonify({"message": "se guardo hospital"}), 201
         else:
-            return jsonify({"message": "Error on insert hospital"}), 500
+            return jsonify({"message": "Error a guardar hospital"}), 500
 
     except Exception as ex:
         return jsonify({"message": str(ex)}), 500

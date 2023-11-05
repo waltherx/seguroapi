@@ -128,7 +128,7 @@ def login():
         if _user:
             if _nameuser and _password:
                 if check_password_hash(_user["password"], _password):
-                    return jsonify(_user)
+                    return jsonify(_user), 200
                 else:
                     return jsonify(
                         {"message": "Nombre de Usuario o contrasenia no coincide"}

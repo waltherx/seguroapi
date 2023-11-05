@@ -16,3 +16,6 @@ class Hospital:
             "lat": self.lat,
             "long": self.long,
         }
+
+    def __str__(self) -> str:
+        return self.nombre

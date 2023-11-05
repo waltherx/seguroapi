@@ -3,17 +3,18 @@
   <ul class="sidebar-nav" id="sidebar-nav">
     {% if current_user.rol==1 %}
     <li class="nav-item">
+      <a class="nav-link" href="/">
+        <i class="bi bi-geo-alt"></i>
+        <span>Inicio</span>
+      </a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="/paciente">
         <i class="bi bi-person-square"></i>
         <span>Paciente</span>
       </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/paciente/ubicacion">
-        <i class="bi bi-geo-alt"></i>
-        <span>Ubicacion Paciente</span>
-      </a>
-    </li>
+    
 
     <li class="nav-item">
       <a

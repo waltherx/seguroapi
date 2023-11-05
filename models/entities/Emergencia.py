@@ -24,3 +24,7 @@ class Emergencia:
             "ambulancia_id": self.ambulancia_id,
             "hospital_id": self.hospital_id,
         }
+        
+    def __str__(self):
+        return f"{self.fecha}, {self.descripcion}"
+    

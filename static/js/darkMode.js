@@ -16,7 +16,7 @@ window.addEventListener("load", function () {
 });
 
 function initTheme() {
-  var darkThemeSelected =
+  let darkThemeSelected =
     localStorage.getItem("darkSwitch") !== null &&
     localStorage.getItem("darkSwitch") === "dark";
   darkSwitch.checked = darkThemeSelected;

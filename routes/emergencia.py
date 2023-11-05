@@ -8,6 +8,19 @@ from models.emergenciaModel import EmergenciaModel
 
 EmergenciaApi = Blueprint("emergencia_blueprint", __name__)
 
+@EmergenciaApi.route("/")
+def get_all_emgergencias():
+    try:
+        emergencias = EmergenciaModel.get_emergencias()
+        if emergencias != None:
+            return jsonify(emergencias), 200
+        else:
+            return (
+                jsonify({"message": "nose encontro emergencias"}),
+                404,
+            )
+    except Exception as ex:
+        return jsonify({"message": str(ex)}), 500
 
 @EmergenciaApi.route("/<id>")
 def get_emgergencias(id):

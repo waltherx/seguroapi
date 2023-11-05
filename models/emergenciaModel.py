@@ -4,6 +4,25 @@ from .entities.Emergencia import Emergencia
 
 class EmergenciaModel:
     @classmethod
+    def get_emergencias(self):
+        try:
+            connection = get_connection()
+            emergencias = []
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"SELECT idem, fecha, descripcion, estado, id_ambulancia, id_hospital FROM public.emergencia order by fecha desc")
+                resultset = cursor.fetchall()
+                for row in resultset:
+                    emergencia = Emergencia(
+                        row[0], row[1], row[2], row[3], row[4], row[5]
+                    )
+                    emergencias.append(emergencia.to_JSON())
+            connection.close()
+            return emergencias
+        except Exception as ex:
+            raise Exception(ex)
+    
+    @classmethod
     def get_emergencia(self, id):
         try:
             connection = get_connection()
@@ -23,6 +42,7 @@ class EmergenciaModel:
             return emergencia
         except Exception as ex:
             raise Exception(ex)
+        
 
     @classmethod
     def get_emergencias_x_ambulancia(self, id):

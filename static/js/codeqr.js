@@ -1,3 +1,4 @@
+"use strict";
 async function generateQr(button) {
   console.log("desdeqr");
   const row = button.parentNode.parentNode;
@@ -12,7 +13,7 @@ async function generateQr(button) {
         foto_url: paciente.foto_url,
         fecha_nacimiento: paciente.fecha_nacimiento,
       };
-      console.log(JSON.stringify(data));      
+      console.log(JSON.stringify(data));
       mostrarQR(JSON.stringify(data));
     })
     .catch((error) => {
@@ -51,10 +52,10 @@ function mostrarQR(texto) {
     cancelButtonText: 'Cerrar',
     showCloseButton: true,
     preConfirm: () => {
-        let linkQr = document.createElement('a');
-        linkQr.href = imagenQR;
-        linkQr.download = 'Codigo_Qr_paciente.png';
-        linkQr.click();
-      }
+      let linkQr = document.createElement('a');
+      linkQr.href = imagenQR;
+      linkQr.download = 'Codigo_Qr_paciente.png';
+      linkQr.click();
+    }
   });
 }

@@ -5,18 +5,28 @@
 />
 {% endblock %} {% block body %}
 
-<div class="container">
-  <div class="row justify-content-center">
-    <h2>Administrar Usuarios</h2>
-  </div>
-  <div class="card mx-auto shadow">
-    <div class="card-header">
-      <div class="card-title">Usuarios</div>
+<div class="pagetitle">
+  <h1>Administar Usuarios</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">home</a></li>
+      <li class="breadcrumb-item active">Usuarios</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="section">
+  <div class="row">
+    <div class="col-lg-10">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="card-title">Usuarios</div>
+        </div>
+        <div id="table"></div>
+      </div>
+      <hr>
     </div>
-    <div id="table"></div>
   </div>
-  <hr>
-  
 </div>
 {% endblock %} {% block js %}
 

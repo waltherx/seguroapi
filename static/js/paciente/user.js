@@ -2,11 +2,6 @@
 
 const url = `${window.origin}/api/user/`;
 
-
-
-
-
-
 async function get_users() {
   try {
     const response = await axios.get(url);
@@ -18,11 +13,11 @@ async function get_users() {
 
 new gridjs.Grid({
   columns: [
-    { name: "id_user" },
+    { name: "Id user" },
     { name: "Nombre usuario" },
-    { name: "nombre_completo" },
+    { name: "Nombre completo" },
     {
-      name: "Actions",
+      name: "Acciones",
       formatter: (cell, row) => {
         return gridjs.h(
           "button",
@@ -31,7 +26,7 @@ new gridjs.Grid({
             onClick: () =>
               alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`),
           },
-          "Edit"
+          "Editar"
         );
       },
     },
@@ -72,7 +67,7 @@ new gridjs.Grid({
     th: {
       "background-color": "rgba(0, 0, 0, 0.1)",
       color: "#000",
-      "border-bottom": "3px solid #ccc",
+      //"border-bottom": "3px solid #ccc",
       "text-align": "center",
     },
     td: {
